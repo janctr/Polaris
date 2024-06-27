@@ -1,0 +1,93 @@
+:root {
+    --purple: #69359c;
+}
+
+.page {
+    margin: 0;
+}
+
+.header {
+    height: 56px;
+    width: 100%;
+    background-color: var(--purple);
+}
+
+/* .polaris {
+    position: absolute;
+    display: inline-block;
+    left: 50%;
+    height: 100%;
+    text-align: center;
+    transform: translateX(-50%);
+    color: #fff;
+    font-size: 2rem;
+    text-decoration: none;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    letter-spacing: 9px;
+} */
+
+.polaris {
+    display: inline-block;
+    height: 100%;
+    text-align: center;
+    color: #fff;
+    font-size: 2rem;
+    text-decoration: none;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    letter-spacing: 9px;
+}
+
+.polaris:hover {
+    text-decoration: none !important;
+}
+
+.navbar {
+    height: 100%;
+    display: flex;
+    align-items: center;
+
+    padding: 0 2rem;
+}
+
+.navbar > .nav-links {
+    display: flex;
+    flex-direction: row;
+    color: #fff;
+    width: 100%;
+    gap: 1rem;
+    list-style-type: none;
+}
+
+.link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    position: relative;
+    padding-right: 1rem;
+}
+
+.link:after {
+    position: absolute;
+    content: '';
+    right: 0;
+    height: 50%;
+    width: 2px;
+    background-color: #fff;
+    opacity: 0.5;
+}
+
+.link:hover {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.no-underline:hover {
+    text-decoration: none !important;
+}
