@@ -1,13 +1,13 @@
 {
 	"type": "mashup",
 	"name": "PolarisMockup",
-	"description": "Basic responsive mashup template",
+	"description": "Template for J4 POLARIS application.",
 	"version": "1.0.0",
-	"author": "",
+	"author": "Jan Iverson Eligio, J4 Data Team",
 	"homepage": "",
 	"keywords": "qlik-sense, visualization, mashup",
 	"license": "",
-	"repository": "",
+	"repository": "https://github.com/janctr/PolarisMockup",
 	"dependencies": {
 		"qlik-sense": ">=3.0.x"
 	}
