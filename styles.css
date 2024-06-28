@@ -1,15 +1,26 @@
 :root {
     --purple: #69359c;
+    --dark-purple: #452847;
+}
+
+* {
+    box-sizing: border-box;
+    /* outline: 1px solid pink; */
 }
 
 .page {
     margin: 0;
 }
 
+.main {
+    padding: 1rem;
+    height: calc(100vh - 56px);
+}
+
 .header {
     height: 56px;
     width: 100%;
-    background-color: var(--purple);
+    background-color: var(--dark-purple);
 }
 
 /* .polaris {
@@ -71,6 +82,8 @@
     font-weight: bold;
     position: relative;
     padding-right: 1rem;
+
+    transition: color 0.25s ease-in-out;
 }
 
 .link:after {
@@ -84,10 +97,75 @@
 }
 
 .link:hover {
-    text-decoration: underline;
     cursor: pointer;
+    color: #cecece;
 }
 
 .no-underline:hover {
     text-decoration: none !important;
 }
+
+/* Log functions container */
+.log-functions-container {
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    flex-wrap: wrap;
+    row-gap: 1rem;
+    column-gap: 1rem;
+}
+
+.log-function {
+    flex: calc(25% - 1rem);
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.log-function-header {
+    background-color: var(--purple);
+    padding: 0 1rem;
+    color: #fff;
+    width: 100%;
+}
+
+.log-function-header > h2 {
+    margin: 0;
+    font-size: 2.5rem;
+    font-weight: bold;
+    letter-spacing: 4px;
+}
+
+.log-function-body {
+    width: 100%;
+    flex: 1;
+}
+
+.log-function-sources {
+    height: 15%;
+    width: 100%;
+
+    padding: 0.5rem;
+
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.log-function-sources * {
+    outline: 1px solid pink;
+}
+
+.log-function-sources > .sources {
+    width: 100%;
+}
+
+.log-function-sources > .refresh-rate {
+    width: 50%;
+}
+
+.log-function-sources > .quality {
+    width: 50%;
+}
+/***************************/

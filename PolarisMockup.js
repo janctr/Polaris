@@ -40,6 +40,50 @@ require(['js/qlik'], function (qlik) {
 
     console.log('currentPage: ', currentPage);
 
+    const exampleApp = qlik.openApp(
+        '14577065-da6a-4955-9617-bd0cb094b032',
+        config
+    );
+
+    [
+        {
+            elementId: 'QV1',
+            objectId: 'GcZB',
+        },
+        {
+            elementId: 'QV2',
+            objectId: 'frXbuh',
+        },
+        {
+            elementId: 'QV3',
+            objectId: 'fsHmHP',
+        },
+        {
+            elementId: 'QV4',
+            objectId: 'mKw',
+        },
+        {
+            elementId: 'QV5',
+            objectId: 'YJgJM',
+        },
+        {
+            elementId: 'QV6',
+            objectId: 'mKw',
+        },
+        {
+            elementId: 'QV7',
+            objectId: 'fsHmHP',
+        },
+        {
+            elementId: 'QV8',
+            objectId: 'frXbuh',
+        },
+    ].forEach((o) => {
+        exampleApp.getObject(o.elementId, o.objectId, {
+            noInteraction: false,
+        });
+    });
+
     //callbacks -- inserted here --
     //open apps -- inserted here --
     //get objects -- inserted here --
