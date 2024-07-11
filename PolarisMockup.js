@@ -24,68 +24,101 @@ require.config({
 });
 
 require(['js/qlik'], function (qlik) {
-    const Pages = {
-        Home: 'PolarisMockup.html',
-    };
     qlik.setOnError(function (error) {
         console.error('Qlik Error: ', error);
     });
 
+    const isSipr = window.location.href.includes('smil');
     const currentPage = window.location.href.split('/').slice(-1)[0];
 
-    switch (currentPage) {
-        case Pages.Home:
-            break;
+    new Polaris(qlik, isSipr, currentPage);
+});
+
+const logFunctionObjects = [];
+const classOfSupplyObjects = [];
+
+const Pages = {
+    Home: 'PolarisMockup.html',
+    LogFunctions: 'log-functions.html',
+    ClassOfSupply: 'class-of-supply.html',
+    COP: 'cop.html',
+};
+
+class Polaris {
+    constructor(qlik, isSipr, currentPage) {
+        console.log('polaris constructor called');
+        this.qlik = qlik;
+        this.isSipr = isSipr;
+        this.currentPage;
+
+        switch (currentPage) {
+            case Pages.Home:
+                this.Home();
+                break;
+            case Pages.LogFunctions:
+                this.LogFunctions();
+                break;
+            case Pages.ClassOfSupply:
+                this.ClassOfSupply();
+                break;
+            case Pages.COP:
+                this.Cop();
+                break;
+        }
     }
 
-    console.log('currentPage: ', currentPage);
+    Home() {
+        console.log('Home page called');
 
-    const exampleApp = qlik.openApp(
-        '14577065-da6a-4955-9617-bd0cb094b032',
-        config
-    );
+        const appId = this.isSipr ? '' : notionalAppId;
+        const appObjects = this.isSipr
+            ? logFunctionObjects
+            : notionalAppObjects;
 
-    [
-        {
-            elementId: 'QV1',
-            objectId: 'GcZB',
-        },
-        {
-            elementId: 'QV2',
-            objectId: 'frXbuh',
-        },
-        {
-            elementId: 'QV3',
-            objectId: 'fsHmHP',
-        },
-        {
-            elementId: 'QV4',
-            objectId: 'mKw',
-        },
-        {
-            elementId: 'QV5',
-            objectId: 'YJgJM',
-        },
-        {
-            elementId: 'QV6',
-            objectId: 'mKw',
-        },
-        {
-            elementId: 'QV7',
-            objectId: 'fsHmHP',
-        },
-        {
-            elementId: 'QV8',
-            objectId: 'frXbuh',
-        },
-    ].forEach((o) => {
-        exampleApp.getObject(o.elementId, o.objectId, {
-            noInteraction: false,
+        const app = this.qlik.openApp(appId, config);
+
+        appObjects.forEach((appObject) => {
+            app.getObject(appObject.elementId, appObject.objectId, {
+                noInteraction: false,
+            });
         });
-    });
+    }
 
-    //callbacks -- inserted here --
-    //open apps -- inserted here --
-    //get objects -- inserted here --
-    //create cubes and lists -- inserted here --
-});
+    LogFunctions() {}
+}
+
+const notionalAppId = '14577065-da6a-4955-9617-bd0cb094b032';
+const notionalAppObjects = [
+    {
+        elementId: 'QV1',
+        objectId: 'GcZB',
+    },
+    {
+        elementId: 'QV2',
+        objectId: 'frXbuh',
+    },
+    {
+        elementId: 'QV3',
+        objectId: 'fsHmHP',
+    },
+    {
+        elementId: 'QV4',
+        objectId: 'mKw',
+    },
+    {
+        elementId: 'QV5',
+        objectId: 'YJgJM',
+    },
+    {
+        elementId: 'QV6',
+        objectId: 'mKw',
+    },
+    {
+        elementId: 'QV7',
+        objectId: 'fsHmHP',
+    },
+    {
+        elementId: 'QV8',
+        objectId: 'frXbuh',
+    },
+];
