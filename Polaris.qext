@@ -1,0 +1,14 @@
+{
+    "type": "mashup",
+    "name": "Polaris",
+    "description": "J4 POLARIS application.",
+    "version": "1.0.0",
+    "author": "Jan Iverson Eligio, J4 Data Team",
+    "homepage": "",
+    "keywords": "qlik-sense, visualization, mashup",
+    "license": "",
+    "repository": "https://github.com/janctr/PolarisMockup",
+    "dependencies": {
+        "qlik-sense": ">=3.0.x"
+    }
+}

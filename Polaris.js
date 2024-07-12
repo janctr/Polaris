@@ -36,9 +36,10 @@ require(['js/qlik'], function (qlik) {
 
 const logFunctionObjects = [];
 const classOfSupplyObjects = [];
+const copObjects = [];
 
 const Pages = {
-    Home: 'PolarisMockup.html',
+    Home: 'Polaris.html',
     LogFunctions: 'log-functions.html',
     ClassOfSupply: 'class-of-supply.html',
     COP: 'cop.html',
@@ -68,7 +69,11 @@ class Polaris {
     }
 
     Home() {
-        console.log('Home page called');
+        console.log('Home called');
+    }
+
+    LogFunctions() {
+        console.log('LogFunctions called');
 
         const appId = this.isSipr ? '' : notionalAppId;
         const appObjects = this.isSipr
@@ -83,8 +88,6 @@ class Polaris {
             });
         });
     }
-
-    LogFunctions() {}
 }
 
 const notionalAppId = '14577065-da6a-4955-9617-bd0cb094b032';

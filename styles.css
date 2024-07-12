@@ -1,6 +1,9 @@
 :root {
-    --purple: #69359c;
-    --dark-purple: #452847;
+    --purple: #3b2f63;
+    --dark-purple: #3b2f63;
+    --header-height-px: 40px;
+    --full-viewport-height-px: calc(100vh - var(--header-height-px));
+    --hero-height-px: 600px;
 }
 
 * {
@@ -8,19 +11,28 @@
     /* outline: 1px solid pink; */
 }
 
+a,
+button {
+    all: unset;
+}
+
+a:hover {
+    cursor: pointer;
+}
+
 .page {
     margin: 0;
+    font-family: Source Sans Pro, sans-serif !important;
 }
 
 .main {
-    padding: 1rem;
-    height: calc(100vh - 56px);
+    height: var(--full-viewport-height-px);
 }
 
 .header {
-    height: 56px;
+    height: var(--header-height-px);
     width: 100%;
-    background-color: var(--dark-purple);
+    /* background-color: #fff; */
 }
 
 .tile {
@@ -28,28 +40,13 @@
         rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
 }
 
-/* .polaris {
-    position: absolute;
-    display: inline-block;
-    left: 50%;
-    height: 100%;
-    text-align: center;
-    transform: translateX(-50%);
-    color: #fff;
-    font-size: 2rem;
-    text-decoration: none;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    letter-spacing: 9px;
-} */
-
+/**************************************/
+/*********** navbar *************/
 .polaris {
     display: inline-block;
     height: 100%;
     text-align: center;
-    color: #fff;
+    /* color: #fff; */
     font-size: 2rem;
     text-decoration: none;
 
@@ -74,7 +71,7 @@
 .navbar > .nav-links {
     display: flex;
     flex-direction: row;
-    color: #fff;
+    /* color: #fff; */
     width: 100%;
     gap: 1rem;
     list-style-type: none;
@@ -97,7 +94,7 @@
     right: 0;
     height: 50%;
     width: 2px;
-    background-color: #fff;
+    background-color: #efefef;
     opacity: 0.5;
 }
 
@@ -109,6 +106,112 @@
 .no-underline:hover {
     text-decoration: none !important;
 }
+/**************************************/
+
+/**************************************/
+/*********** Polaris.html *************/
+
+#home-page > .hero {
+    width: 100vw;
+    height: var(--hero-height-px);
+
+    background-color: #3b2f63;
+    background-image: radial-gradient(
+            circle at 50% top,
+            rgba(84, 90, 182, 0.6) 0%,
+            rgba(84, 90, 182, 0) 75%
+        ),
+        radial-gradient(
+            circle at right top,
+            #794aa2 0%,
+            rgba(121, 74, 162, 0) 57%
+        );
+    /* background-image: radial-gradient(
+            ellipse at 0% bottom,
+            rgba(118, 72, 160, 0.7) 0%,
+            rgba(118, 72, 160, 0) 60%
+        ),
+        radial-gradient(
+            ellipse at 90% bottom,
+            #523f8c 0%,
+            rgba(82, 63, 140, 0) 40%
+        ); */
+
+    background-repeat: no-repeat;
+    background-size: 100% 1000px;
+}
+
+#home-page .hero {
+    padding: 5rem 10rem;
+}
+
+#home-page .polaris-title {
+    font-size: 4rem;
+    letter-spacing: 9px;
+
+    text-align: center;
+    color: #fff;
+    line-height: 3rem;
+    margin-bottom: 2rem;
+}
+
+#home-page .flex-container-row {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+}
+
+#home-page .card {
+    display: block;
+    padding: 1rem;
+    background-color: #fff;
+    border-radius: 9px;
+    width: 215px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+
+    transition: all 0.25s ease-in-out;
+}
+
+#home-page .card:hover {
+    background-color: #efefef;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px,
+        rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px,
+        rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+}
+
+#home-page .card-header {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+
+#home-page .card-body {
+    font-size: 1.25rem;
+}
+
+#home-page .credits {
+    height: calc(var(--full-viewport-height-px) - var(--hero-height-px));
+
+    padding: 2rem;
+}
+
+#home-page .credits h3 {
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+#home-page .credits ul {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
+#home-page .credits li {
+    list-style-type: none;
+}
+/**************************************/
+
+/**************************************/
+/******** log-functions.html **********/
 
 /* Log functions container */
 .log-functions-container {
@@ -173,4 +276,4 @@
 .log-function-sources > .quality {
     width: 50%;
 }
-/***************************/
+/**************************************/
