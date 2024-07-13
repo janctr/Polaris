@@ -8,16 +8,20 @@
 
 * {
     box-sizing: border-box;
-    /* outline: 1px solid pink; */
 }
 
-a,
-button {
-    all: unset;
+a {
+    color: inherit;
+    text-decoration: none;
 }
 
 a:hover {
     cursor: pointer;
+    color: inherit;
+}
+
+a:visited {
+    color: inherit;
 }
 
 .page {
@@ -53,7 +57,7 @@ a:hover {
     display: flex;
     justify-content: center;
     align-items: center;
-    letter-spacing: 9px;
+    letter-spacing: 9px !important;
 }
 
 .polaris:hover {
@@ -66,6 +70,9 @@ a:hover {
     align-items: center;
 
     padding: 0 2rem;
+
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px,
+        rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
 }
 
 .navbar > .nav-links {
@@ -83,24 +90,26 @@ a:hover {
     justify-content: center;
     font-weight: bold;
     position: relative;
-    padding-right: 1rem;
+
+    color: #000;
 
     transition: color 0.25s ease-in-out;
 }
 
-.link:after {
-    position: absolute;
-    content: '';
-    right: 0;
-    height: 50%;
-    width: 2px;
-    background-color: #efefef;
-    opacity: 0.5;
+.link > a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    letter-spacing: 2px;
+    padding: 0 0.5rem;
+
+    transition: color 0.25s ease-in-out;
 }
 
-.link:hover {
-    cursor: pointer;
-    color: #cecece;
+.link > a:hover {
+    color: var(--purple);
 }
 
 .no-underline:hover {
@@ -213,6 +222,10 @@ a:hover {
 /**************************************/
 /******** log-functions.html **********/
 
+#log-functions-page {
+    padding: 1rem;
+}
+
 /* Log functions container */
 .log-functions-container {
     width: 100%;
@@ -241,9 +254,9 @@ a:hover {
 
 .log-function-header > h2 {
     margin: 0;
-    font-size: 2.5rem;
+    font-size: 2rem;
     font-weight: bold;
-    letter-spacing: 4px;
+    letter-spacing: 2px;
 }
 
 .log-function-body {
@@ -276,4 +289,13 @@ a:hover {
 .log-function-sources > .quality {
     width: 50%;
 }
+/**************************************/
+
+/**************************************/
+/******* class-of-supply.html *********/
+
+#class-of-supply-page .log-function {
+    flex: calc(33% - 1rem);
+}
+
 /**************************************/
