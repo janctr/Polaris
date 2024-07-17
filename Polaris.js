@@ -262,7 +262,7 @@ class Sidebar {
             toggleableElement.open();
         }
 
-        const toggleWrapper = $('<div></div>');
+        const toggleWrapper = $('<div></div>').addClass('polaris-checkbox');
         const inputEl = $(`
             <input 
                 type="checkbox" 

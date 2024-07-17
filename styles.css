@@ -378,4 +378,32 @@ a:visited {
     /* Default state if not open */
     display: none;
 }
+
+.sidebar-body {
+    padding: 0 1rem 1rem;
+}
+
+.sidebar-body .polaris-checkbox {
+    padding: 0.5rem;
+    margin-bottom: 0.25rem;
+    display: flex;
+    gap: 0.25rem;
+    align-items: center;
+}
+
+.sidebar-body .polaris-checkbox > input {
+    width: 25px;
+    height: 25px;
+}
+.sidebar-body .polaris-checkbox > input:hover {
+    cursor: pointer;
+}
+
+.sidebar-body .polaris-checkbox > label {
+    font-size: 1.25rem;
+}
+
+.sidebar-body .polaris-checkbox > label:hover {
+    cursor: pointer;
+}
 /**************************************/
