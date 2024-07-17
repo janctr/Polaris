@@ -37,41 +37,49 @@ require(['js/qlik'], function (qlik) {
 const logFunctionObjects = [
     {
         // Supply
+        label: 'Supply',
         elementId: 'QV1',
         objectId: 'mENkwjC',
     },
     {
         // Logistics Nodes
+        label: 'Logistics Nodes',
         elementId: 'QV2',
         objectId: 'dndvmjp',
     },
     {
         // PDDOC
+        label: 'PDDOC',
         elementId: 'QV3',
         objectId: 'tJAutGe',
     },
     {
         // Readiness Airframes
+        label: 'Readiness - Airframes',
         elementId: 'QV4',
         objectId: 'bWLGCT',
     },
     {
         // Engineering
+        label: 'Engineering',
         elementId: 'QV5',
         objectId: 'jYtzRw',
     },
     {
         // Logistics Services
+        label: 'Logistics Services',
         elementId: 'QV6',
         objectId: 'Vby',
     },
     {
         // Joint Health Services
+        label: 'Joint Health Services',
         elementId: 'QV7',
         objectId: 'dgkMzt',
     },
     {
         // OCS
+        label: 'OCS',
         elementId: 'QV8',
         objectId: 'nPeqdTV',
     },
@@ -156,6 +164,8 @@ class Polaris {
     LogFunctions() {
         console.log('LogFunctions called');
 
+        const sidebar = new Sidebar();
+
         const appId = this.isSipr ? this.polarisAppId : this.notionalAppId;
         const appObjects = this.isSipr
             ? logFunctionObjects
@@ -164,6 +174,11 @@ class Polaris {
         const app = this.qlik.openApp(appId, config);
 
         appObjects.forEach((appObject) => {
+            sidebar.addToggleableElement(
+                appObject.label || 'No label',
+                appObject.elementId
+            );
+
             app.getObject(appObject.elementId, appObject.objectId, {
                 noInteraction: false,
             });
@@ -209,40 +224,173 @@ class Polaris {
     }
 }
 
+class Sidebar {
+    constructor() {
+        console.log('sidebar created');
+        this.isOpen = false;
+        this.sidebar = this.createSidebarEl();
+        this.sidebarBody = this.sidebar.children('.sidebar-body');
+        this.toggleableElements = [];
+
+        this.applyEventHandlerToBurgerIcon();
+        $('body').prepend(this.sidebar);
+    }
+
+    addToggleableElement(label, elementId, isOpen = true) {
+        const toggleableElement = new ToggleableElement(
+            label,
+            elementId,
+            isOpen
+        );
+        this.toggleableElements.push(toggleableElement);
+
+        if (isOpen) {
+            // Have to do this initially because they don't have open class
+            toggleableElement.open();
+        }
+
+        const toggleWrapper = $('<div></div>');
+        const inputEl = $(`
+            <input 
+                type="checkbox" 
+                id="${elementId}-checkbox" 
+                name="${label}" 
+                ${isOpen ? 'checked' : ''}
+            />
+        `).click((e) => {
+            console.log('e: ', e);
+            e.stopPropagation();
+            toggleableElement.toggle();
+        });
+
+        const labelEl = $(
+            `<label for="${elementId}-checkbox">${label}</label>`
+        );
+
+        toggleWrapper.append(inputEl);
+        toggleWrapper.append(labelEl);
+
+        this.sidebarBody.append(toggleWrapper);
+    }
+
+    open() {
+        this.isOpen = true;
+        this.sidebar.addClass('open');
+
+        console.log('opening');
+    }
+
+    close() {
+        this.isOpen = false;
+        this.sidebar.removeClass('open');
+
+        console.log('closing');
+    }
+
+    applyEventHandlerToBurgerIcon() {
+        $('.menu-icon').click(() => {
+            if (this.isOpen) {
+                this.close();
+            } else {
+                this.open();
+            }
+        });
+    }
+
+    createSidebarEl() {
+        const sidebar = $(`
+            <section class="polaris-sidebar"></section>
+        `);
+
+        const closeIconWrapper = $(`
+            <div class="close-icon-wrapper">
+                
+            </div>
+        `);
+
+        const closeIcon = $(`
+            <div class="close-icon">
+                <svg fill="#000000" height="100%" width="100%" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+                viewBox="0 0 512 512" xml:space="preserve">
+                <g>
+                    <g>
+                        <polygon points="512,59.076 452.922,0 256,196.922 59.076,0 0,59.076 196.922,256 0,452.922 59.076,512 256,315.076 452.922,512 
+                            512,452.922 315.076,256 		"/>
+                    </g>
+                </g>
+                </svg>
+            </div>
+        `).click(() => {
+            if (this.isOpen) {
+                this.close();
+            } else {
+                this.open();
+            }
+        });
+
+        const bodyEl = $('<div class="sidebar-body"></div>');
+
+        closeIconWrapper.append(closeIcon);
+        sidebar.append(closeIconWrapper);
+        sidebar.append(bodyEl);
+
+        return sidebar;
+    }
+}
+
+// Only works with how we have the markup right now
+class ToggleableElement {
+    constructor(label, elementId, isOpen) {
+        this.elementId = elementId;
+        this.label = label;
+        this.isOpen = isOpen;
+        this.element = $(`#${elementId}`).parent();
+    }
+
+    toggle() {
+        if (this.isOpen) {
+            this.close();
+        } else {
+            this.open();
+        }
+    }
+    open() {
+        console.log('Showing ', this.label);
+        this.isOpen = true;
+        this.element.addClass('open');
+
+        console.log(this.element);
+    }
+
+    close() {
+        console.log('Hiding ', this.label);
+        this.isOpen = false;
+        this.element.removeClass('open');
+    }
+}
+
 const notionalAppObjects = {
     logFunctions: [
         {
+            label: 'Supply',
             elementId: 'QV1',
             objectId: 'GcZB',
         },
         {
+            label: 'Logistics Nodes',
             elementId: 'QV2',
             objectId: 'frXbuh',
         },
+        { label: 'PDDOC', elementId: 'QV3', objectId: 'fsHmHP' },
+        { label: 'Readiness - Airframes', elementId: 'QV4', objectId: 'mKw' },
+        { label: 'Engineering', elementId: 'QV5', objectId: 'YJgJM' },
+        { label: 'Logistics Services', elementId: 'QV6', objectId: 'mKw' },
         {
-            elementId: 'QV3',
-            objectId: 'fsHmHP',
-        },
-        {
-            elementId: 'QV4',
-            objectId: 'mKw',
-        },
-        {
-            elementId: 'QV5',
-            objectId: 'YJgJM',
-        },
-        {
-            elementId: 'QV6',
-            objectId: 'mKw',
-        },
-        {
+            label: 'Joint Health Services',
             elementId: 'QV7',
             objectId: 'fsHmHP',
         },
-        {
-            elementId: 'QV8',
-            objectId: 'frXbuh',
-        },
+        { label: 'OCS', elementId: 'QV8', objectId: 'frXbuh' },
     ],
     classOfSupply: [
         {
