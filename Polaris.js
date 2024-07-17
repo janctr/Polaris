@@ -108,7 +108,7 @@ const classOfSupplyObjects = [
         objectId: 'WPytt',
     },
 ];
-const copObjects = [];
+const copObjects = [{ elementId: 'map', objectId: 'WPytt' }];
 
 const Pages = {
     Home: 'Polaris.html',
@@ -179,7 +179,18 @@ class Polaris {
         });
     }
 
-    Cop() {}
+    Cop() {
+        const appId = this.isSipr ? this.polarisAppId : this.notionalAppId;
+        const appObjects = this.isSipr ? copObjects : notionalAppObjects.cop;
+
+        const app = this.qlik.openApp(appId, config);
+
+        appObjects.forEach((appObject) => {
+            app.getObject(appObject.elementId, appObject.objectId, {
+                noInteraction: false,
+            });
+        });
+    }
 }
 
 const notionalAppObjects = {
@@ -243,5 +254,5 @@ const notionalAppObjects = {
             objectId: 'mKw',
         },
     ],
-    cop: [],
+    cop: [{ elementId: 'map', objectId: 'GcZB' }],
 };
