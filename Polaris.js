@@ -189,6 +189,9 @@ class Polaris {
             app.getObject(appObject.elementId, appObject.objectId, {
                 noInteraction: false,
             });
+
+            sidebar.resizeTiles();
+            this.qlik.resize();
         });
     }
 
@@ -212,6 +215,9 @@ class Polaris {
             app.getObject(appObject.elementId, appObject.objectId, {
                 noInteraction: false,
             });
+
+            sidebar.resizeTiles();
+            this.qlik.resize();
         });
     }
 
@@ -344,6 +350,16 @@ class Sidebar {
 
         return sidebar;
     }
+
+    resizeTiles() {
+        const numVisibleTiles = this.toggleableElements.filter(
+            (toggleableElement) => toggleableElement.isOpen
+        ).length;
+
+        for (const toggleableElement of this.toggleableElements) {
+            toggleableElement.resize(numVisibleTiles);
+        }
+    }
 }
 
 // Only works with how we have the markup right now
@@ -375,6 +391,36 @@ class ToggleableElement {
         this.isOpen = false;
 
         this.element.addClass('hide');
+    }
+
+    resize(numVisibleTiles) {
+        console.log('numVisibleTiles', numVisibleTiles);
+        const styles = {};
+
+        if (numVisibleTiles % 4 === 0) {
+            styles.flex = '25%';
+        } else if (numVisibleTiles % 3 === 0) {
+            styles.flex = '33%';
+        }
+
+        if (numVisibleTiles === 4) {
+            styles.flex = '50%';
+            styles.height = '50%';
+        } else if (numVisibleTiles < 4) {
+            styles.height = '100%';
+        }
+
+        console.log('styles: ', styles);
+
+        // const styleStr = Object.entries(styles)
+        //     .map(([key, value]) => {
+        //         return `${key}: ${value}`;
+        //     })
+        //     .join(';');
+
+        for (const [property, value] of Object.entries(styles)) {
+            this.element.css(property, `${value} !important`);
+        }
     }
 }
 

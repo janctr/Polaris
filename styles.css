@@ -248,8 +248,8 @@ a:visited {
 
     display: flex;
     flex-wrap: wrap;
-    row-gap: 1rem;
-    column-gap: 1rem;
+    /* row-gap: 1rem;
+    column-gap: 1rem; */
 }
 
 .log-function {
