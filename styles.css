@@ -293,6 +293,10 @@ a:visited {
 /**************************************/
 /******* class-of-supply.html *********/
 
+#class-of-supply-page {
+    padding: 1rem;
+}
+
 #class-of-supply-page .log-function {
     flex: calc(33% - 1rem);
 }
