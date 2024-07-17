@@ -124,7 +124,7 @@ const classOfSupplyObjects = [
     },
 ];
 const copObjects = [
-    { elementId: 'map', objectId: 'cf0bfaac-b1b2-41ba-bc58-f2612a8d1f17' },
+    { elementId: 'map', objectId: 'cf0bfaac-b1b2-416a-bc58-f2612a8d1f17' },
 ];
 
 const Pages = {
@@ -144,7 +144,7 @@ class Polaris {
         this.niprJ4LandingPageLink =
             'https://qlik.advana.data.mil/sense/app/e2f5d8b5-998b-4fcd-b7d7-d8bed97a8695/sheet/dcf05bd5-985e-4bcc-b14e-988f86049a51/state/analysis';
         this.siprJ4LandingPageLink =
-            'https://qlik.advana.data.smil.mil/sense/app/0581ae17-1481-4851-a56c-286205267f92/sheet/546baeed-7818-4bf2-9308-afed26880120/state/analysis';
+            'https://qlik.advana.data.smil.mil/sense/app/7b45d060-eb7d-4764-acc9-240e057176ad/sheet/546baeed-7818-4bf2-9308-afed26880120/state/analysis';
 
         this.applyLandingPageLink();
 
