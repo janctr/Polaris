@@ -87,31 +87,38 @@ const logFunctionObjects = [
 const classOfSupplyObjects = [
     {
         // Class I
+        label: 'Class I',
         elementId: 'QV1',
         objectId: 'ACjABHm',
     },
     {
         // Class III
+        label: 'Class III',
+
         elementId: 'QV2',
         objectId: 'jXhfrmR',
     },
     {
         // Class IV
+        label: 'Class IV',
         elementId: 'QV3',
         objectId: 'uvcy',
     },
     {
         // Class V
+        label: 'Class V',
         elementId: 'QV4',
         objectId: 'pKJXJtS',
     },
     {
         // Class VIII
+        label: 'Class VIII',
         elementId: 'QV5',
         objectId: 'qvPEkB',
     },
     {
         // Class IX
+        label: 'Class IX',
         elementId: 'QV6',
         objectId: 'WPytt',
     },
@@ -187,6 +194,7 @@ class Polaris {
 
     ClassOfSupply() {
         console.log('ClassOfSupply called');
+        const sidebar = new Sidebar();
 
         const appId = this.isSipr ? this.polarisAppId : this.notionalAppId;
         const appObjects = this.isSipr
@@ -196,6 +204,11 @@ class Polaris {
         const app = this.qlik.openApp(appId, config);
 
         appObjects.forEach((appObject) => {
+            sidebar.addToggleableElement(
+                appObject.label || 'No label',
+                appObject.elementId
+            );
+
             app.getObject(appObject.elementId, appObject.objectId, {
                 noInteraction: false,
             });
@@ -394,26 +407,32 @@ const notionalAppObjects = {
     ],
     classOfSupply: [
         {
+            label: 'Class I',
             elementId: 'QV1',
             objectId: 'GcZB',
         },
         {
+            label: 'Class III',
             elementId: 'QV2',
             objectId: 'frXbuh',
         },
         {
+            label: 'Class IV',
             elementId: 'QV3',
             objectId: 'fsHmHP',
         },
         {
+            label: 'Class V',
             elementId: 'QV4',
             objectId: 'mKw',
         },
         {
+            label: 'Class VIII',
             elementId: 'QV5',
             objectId: 'YJgJM',
         },
         {
+            label: 'Class IX',
             elementId: 'QV6',
             objectId: 'mKw',
         },
