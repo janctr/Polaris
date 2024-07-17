@@ -257,11 +257,6 @@ class Sidebar {
         );
         this.toggleableElements.push(toggleableElement);
 
-        if (isOpen) {
-            // Have to do this initially because they don't have open class
-            toggleableElement.open();
-        }
-
         const toggleWrapper = $('<div></div>').addClass('polaris-checkbox');
         const inputEl = $(`
             <input 
@@ -370,7 +365,7 @@ class ToggleableElement {
     open() {
         console.log('Showing ', this.label);
         this.isOpen = true;
-        this.element.addClass('open');
+        this.element.removeClass('hide');
 
         console.log(this.element);
     }
@@ -378,7 +373,8 @@ class ToggleableElement {
     close() {
         console.log('Hiding ', this.label);
         this.isOpen = false;
-        this.element.removeClass('open');
+
+        this.element.addClass('hide');
     }
 }
 

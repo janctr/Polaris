@@ -370,13 +370,14 @@ a:visited {
     border-radius: 50%;
 }
 
-.tile.open {
-    display: inherit;
+.tile {
+    transition: all 0.5s ease-in-out;
 }
 
-.tile {
-    /* Default state if not open */
-    display: none;
+.tile.hide {
+    overflow: hidden !important;
+    flex: 0 !important;
+    width: 0 !important;
 }
 
 .sidebar-body {
