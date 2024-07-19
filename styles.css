@@ -422,3 +422,43 @@ a:visited {
     cursor: pointer;
 }
 /**************************************/
+
+/**************************************/
+/************* template.html ***************/
+
+#template-page {
+    display: grid;
+    grid-template-columns: repeat(16, 1fr);
+    grid-template-rows: repeat(9, 1fr);
+}
+
+#template-page > div {
+    outline: 1px solid pink;
+}
+
+#template-page .map {
+    grid-area: 7/17/1/5;
+}
+#template-page .one {
+    grid-area: 1 / 5 / 4 / 1;
+}
+
+#template-page .two {
+    grid-area: 4 / 5 / 7 / 1;
+}
+
+#template-page .three {
+    grid-area: 7 / 5 / 10 / 1;
+}
+
+#template-page .four {
+    grid-area: 7 / 9 / 10 / 5;
+}
+#template-page .five {
+    grid-area: 7 / 9 / 10 / 13;
+}
+#template-page .six {
+    grid-area: 7 / 13 / 10 / 17;
+}
+
+/**************************************/

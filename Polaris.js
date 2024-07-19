@@ -132,6 +132,7 @@ const Pages = {
     LogFunctions: 'log-functions.html',
     ClassOfSupply: 'class-of-supply.html',
     COP: 'cop.html',
+    Template: 'template.html',
 };
 
 class Polaris {
@@ -160,6 +161,9 @@ class Polaris {
                 break;
             case Pages.COP:
                 this.Cop();
+                break;
+            case Pages.Template:
+                this.Template();
                 break;
         }
     }
@@ -230,6 +234,24 @@ class Polaris {
     Cop() {
         const appId = this.isSipr ? this.polarisAppId : this.notionalAppId;
         const appObjects = this.isSipr ? copObjects : notionalAppObjects.cop;
+
+        const app = this.qlik.openApp(appId, config);
+
+        appObjects.forEach((appObject) => {
+            // Add loader svg when loading
+            $(`#${appObject.elementId}`).append(loaderEl());
+
+            app.getObject(appObject.elementId, appObject.objectId, {
+                noInteraction: false,
+            });
+        });
+    }
+
+    Template() {
+        const appId = this.isSipr ? this.polarisAppId : this.notionalAppId;
+        const appObjects = this.isSipr
+            ? copObjects
+            : notionalAppObjects.template;
 
         const app = this.qlik.openApp(appId, config);
 
@@ -489,6 +511,15 @@ const notionalAppObjects = {
         },
     ],
     cop: [{ elementId: 'map', objectId: 'aDEUH' }],
+    template: [
+        { elementId: 'map', objectId: 'aDEUH' },
+        { elementId: 'one', objectId: 'GcZB' },
+        { elementId: 'two', objectId: 'frXbuh' },
+        { elementId: 'three', objectId: 'fsHmHP' },
+        { elementId: 'four', objectId: 'mKw' },
+        { elementId: 'five', objectId: 'YJgJM' },
+        { elementId: 'six', objectId: 'mKw' },
+    ],
 };
 
 function loaderEl() {
