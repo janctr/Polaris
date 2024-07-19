@@ -428,8 +428,12 @@ a:visited {
 
 #template-page {
     display: grid;
-    grid-template-columns: repeat(16, 1fr);
-    grid-template-rows: repeat(9, 1fr);
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: auto;
+    grid-template-areas:
+        'grid-1 map map map grid-5'
+        'grid-2 map map map grid-6'
+        'grid-3 grid-4 grid-4 grid-4 grid-7';
 }
 
 #template-page > div {
@@ -437,28 +441,29 @@ a:visited {
 }
 
 #template-page .map {
-    grid-area: 7/17/1/5;
-}
-#template-page .one {
-    grid-area: 1 / 5 / 4 / 1;
+    grid-area: map;
 }
 
-#template-page .two {
-    grid-area: 4 / 5 / 7 / 1;
+#template-page > .grid-1 {
+    grid-area: grid-1;
 }
 
-#template-page .three {
-    grid-area: 7 / 5 / 10 / 1;
+#template-page > .grid-2 {
+    grid-area: grid-2;
 }
-
-#template-page .four {
-    grid-area: 7 / 9 / 10 / 5;
+#template-page > .grid-3 {
+    grid-area: grid-3;
 }
-#template-page .five {
-    grid-area: 7 / 9 / 10 / 13;
+#template-page > .grid-4 {
+    grid-area: grid-4;
 }
-#template-page .six {
-    grid-area: 7 / 13 / 10 / 17;
+#template-page > .grid-5 {
+    grid-area: grid-5;
 }
-
+#template-page > .grid-6 {
+    grid-area: grid-6;
+}
+#template-page > .grid-7 {
+    grid-area: grid-7;
+}
 /**************************************/
