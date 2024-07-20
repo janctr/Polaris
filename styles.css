@@ -144,6 +144,55 @@ a:visited {
     cursor: pointer;
     background-color: #eee;
 }
+
+.dropdown-icon {
+    height: 25px;
+    width: 25px;
+    padding: 6px;
+}
+
+.link-dropdown {
+    position: absolute;
+    visibility: hidden;
+    display: flex;
+    flex-direction: column;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    min-width: 220px;
+    transform: translateY(100%);
+    z-index: -1;
+
+    opacity: 0;
+    background-color: white;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+
+    list-style-type: none;
+
+    transition: all 0.125s cubic-bezier(0.17, 0.67, 0.83, 0.67);
+}
+
+.navbar > .nav-links > .link:hover > .link-dropdown {
+    opacity: 1;
+    z-index: 2;
+    visibility: visible;
+}
+
+.link-dropdown .child-link {
+    padding: 0.5rem;
+    font-size: 1rem;
+    background-color: inherit;
+    transition: all 0.125s cubic-bezier(0.17, 0.67, 0.83, 0.67);
+}
+
+.link-dropdown .child-link > a {
+    display: block;
+    width: 100%;
+}
+
+.link-dropdown .child-link:hover {
+    background-color: #efefef;
+}
 /**************************************/
 
 /**************************************/

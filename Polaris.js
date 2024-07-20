@@ -596,6 +596,44 @@ class Navbar {
                 href: 'class-of-supply.html',
                 label: 'Classes of Supply',
                 classNames: ['link'],
+                childLinks: [
+                    {
+                        href: '#',
+                        label: 'Class I',
+                        classNames: ['child-link'],
+                        anchorClassNames: [],
+                    },
+                    {
+                        href: '#',
+                        label: 'Class III',
+                        classNames: ['child-link'],
+                        anchorClassNames: [],
+                    },
+                    {
+                        href: '#',
+                        label: 'Class IV',
+                        classNames: ['child-link'],
+                        anchorClassNames: [],
+                    },
+                    {
+                        href: '#',
+                        label: 'Class V',
+                        classNames: ['child-link'],
+                        anchorClassNames: [],
+                    },
+                    {
+                        href: '#',
+                        label: 'Class VIII',
+                        classNames: ['child-link'],
+                        anchorClassNames: [],
+                    },
+                    {
+                        href: '#',
+                        label: 'Class IX',
+                        classNames: ['child-link'],
+                        anchorClassNames: [],
+                    },
+                ],
             },
             { href: 'cop.html', label: 'COP', classNames: ['link'] },
             {
@@ -607,7 +645,13 @@ class Navbar {
         ];
 
         const linkEls = links.map(
-            ({ href, label, classNames, anchorClassNames = [] }) => {
+            ({
+                href,
+                label,
+                classNames,
+                anchorClassNames = [],
+                childLinks = [],
+            }) => {
                 const li = $(`<li></li>`);
                 const anchor = $(`<a href="${href}">${label}</a>`);
 
@@ -620,6 +664,11 @@ class Navbar {
                 }
 
                 li.append(anchor);
+
+                if (childLinks.length) {
+                    anchor.append(this.createDropdownIcon());
+                    li.append(this.createDropdown(childLinks));
+                }
 
                 return li;
             }
@@ -641,6 +690,47 @@ class Navbar {
         return navbar;
     }
 
+    createDropdown(links) {
+        const dropdownEl = $(`<ul class="link-dropdown"></ul>`);
+
+        const linkEls = links.map(
+            ({ href, label, classNames = [], anchorClassNames = [] }) => {
+                const li = $(`<li></li>`);
+                const anchor = $(`<a href="${href}">${label}</a>`);
+
+                for (const className of classNames) {
+                    li.addClass(className);
+                }
+
+                for (const anchorClassName of anchorClassNames) {
+                    anchor.addClass(anchorClassName);
+                }
+
+                li.append(anchor);
+
+                return li;
+            }
+        );
+
+        for (const linkEl of linkEls) {
+            dropdownEl.append(linkEl);
+        }
+        return dropdownEl;
+    }
+
+    createDropdownIcon() {
+        return $(`
+            <div class="dropdown-icon">
+                <svg fill="#000000" height="100%" width="100%" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+                    viewBox="0 0 330 330" xml:space="preserve">
+                <path id="XMLID_225_" d="M325.607,79.393c-5.857-5.857-15.355-5.858-21.213,0.001l-139.39,139.393L25.607,79.393
+                    c-5.857-5.857-15.355-5.858-21.213,0.001c-5.858,5.858-5.858,15.355,0,21.213l150.004,150c2.813,2.813,6.628,4.393,10.606,4.393
+                    s7.794-1.581,10.606-4.394l149.996-150C331.465,94.749,331.465,85.251,325.607,79.393z"/>
+                </svg>
+            </div>
+        `);
+    }
+
     createNavbarWithMenuIcon() {
         const navbar = this.createNavbar();
 
@@ -657,16 +747,6 @@ class Navbar {
         navbar.find('.nav-links').prepend(menuIcon);
 
         return navbar;
-    }
-
-    asyncCreateNavbar() {}
-
-    asyncCreateNavbarWithMenuIcon() {
-        return new Promise((resolve, reject) => {
-            const navbar = this.createNavbarWithBurgerIcon;
-
-            resolve(navbar);
-        });
     }
 }
 
