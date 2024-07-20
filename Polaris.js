@@ -170,12 +170,20 @@ class Polaris {
 
     Home() {
         console.log('Home called');
+        const page = new Page();
+        const navbar = new Navbar().createNavbar();
+
+        page.body.prepend(navbar);
     }
 
     LogFunctions() {
         console.log('LogFunctions called');
 
+        const page = new Page();
+        const navbar = new Navbar().createNavbarWithMenuIcon();
         const sidebar = new Sidebar();
+
+        page.body.prepend(navbar);
 
         const appId = this.isSipr ? this.polarisAppId : this.notionalAppId;
         const appObjects = this.isSipr
@@ -204,7 +212,11 @@ class Polaris {
 
     ClassOfSupply() {
         console.log('ClassOfSupply called');
+        const page = new Page();
+        const navbar = new Navbar().createNavbarWithMenuIcon();
         const sidebar = new Sidebar();
+
+        page.body.prepend(navbar);
 
         const appId = this.isSipr ? this.polarisAppId : this.notionalAppId;
         const appObjects = this.isSipr
@@ -232,6 +244,11 @@ class Polaris {
     }
 
     Cop() {
+        const page = new Page();
+        const navbar = new Navbar().createNavbar();
+
+        page.body.prepend(navbar);
+
         const appId = this.isSipr ? this.polarisAppId : this.notionalAppId;
         const appObjects = this.isSipr ? copObjects : notionalAppObjects.cop;
 
@@ -248,6 +265,11 @@ class Polaris {
     }
 
     Template() {
+        const page = new Page();
+        const navbar = new Navbar().createNavbar();
+
+        page.body.prepend(navbar);
+
         const appId = this.isSipr ? this.polarisAppId : this.notionalAppId;
         const appObjects = this.isSipr
             ? copObjects
@@ -281,6 +303,8 @@ class Sidebar {
         this.sidebar = this.createSidebarEl();
         this.sidebarBody = this.sidebar.children('.sidebar-body');
         this.toggleableElements = [];
+        this.isMenuIconEventSet = false;
+        this.setMenuIconEventInterval = null;
 
         this.applyEventHandlerToBurgerIcon();
         $('body').prepend(this.sidebar);
@@ -333,13 +357,21 @@ class Sidebar {
     }
 
     applyEventHandlerToBurgerIcon() {
-        $('.menu-icon').click(() => {
-            if (this.isOpen) {
-                this.close();
+        this.setMenuIconEventInterval = setInterval(() => {
+            if ($('.menu-icon').length) {
+                $('.menu-icon').click(() => {
+                    if (this.isOpen) {
+                        this.close();
+                    } else {
+                        this.open();
+                    }
+                });
+
+                clearInterval(this.setMenuIconEventInterval);
             } else {
-                this.open();
+                console.log('menu-icon not present');
             }
-        });
+        }, 1000);
     }
 
     createSidebarEl() {
@@ -539,4 +571,108 @@ function loaderEl() {
             </svg>
         </div>
     `);
+}
+
+class Navbar {
+    constructor() {
+        console.log('navbar created');
+    }
+
+    createNavbar() {
+        const links = [
+            {
+                href: 'Polaris.html',
+                label: 'POLARIS',
+                classNames: ['no-underline'],
+                anchorClassNames: ['polaris'],
+            },
+            { href: 'Polaris.html', label: 'Home', classNames: ['link'] },
+            {
+                href: 'log-functions.html',
+                label: 'Log Functions',
+                classNames: ['link'],
+            },
+            {
+                href: 'class-of-supply.html',
+                label: 'Classes of Supply',
+                classNames: ['link'],
+            },
+            { href: 'cop.html', label: 'COP', classNames: ['link'] },
+            {
+                href: '',
+                label: 'J4 Landing Page',
+                classNames: ['link'],
+                anchorClassNames: ['j4-landing-page-link'],
+            },
+        ];
+
+        const linkEls = links.map(
+            ({ href, label, classNames, anchorClassNames = [] }) => {
+                const li = $(`<li></li>`);
+                const anchor = $(`<a href="${href}">${label}</a>`);
+
+                for (const className of classNames) {
+                    li.addClass(className);
+                }
+
+                for (const anchorClassName of anchorClassNames) {
+                    anchor.addClass(anchorClassName);
+                }
+
+                li.append(anchor);
+
+                return li;
+            }
+        );
+
+        const navbar = $(`
+            <header class="header">
+                <nav class="navbar">
+                    <ul class="nav-links">
+                    </ul>
+                </nav>
+            </header>
+        `);
+
+        for (const linkEl of linkEls) {
+            navbar.find('.nav-links').append(linkEl);
+        }
+
+        return navbar;
+    }
+
+    createNavbarWithMenuIcon() {
+        const navbar = this.createNavbar();
+
+        const menuIcon = $(`
+            <li class="menu-icon">
+                <svg width="100%" height="100%" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M4 18L20 18" stroke="#000000" stroke-width="2" stroke-linecap="round" />
+                    <path d="M4 12L20 12" stroke="#000000" stroke-width="2" stroke-linecap="round" />
+                    <path d="M4 6L20 6" stroke="#000000" stroke-width="2" stroke-linecap="round" />
+                </svg>
+            </li>
+        `);
+
+        navbar.find('.nav-links').prepend(menuIcon);
+
+        return navbar;
+    }
+
+    asyncCreateNavbar() {}
+
+    asyncCreateNavbarWithMenuIcon() {
+        return new Promise((resolve, reject) => {
+            const navbar = this.createNavbarWithBurgerIcon;
+
+            resolve(navbar);
+        });
+    }
+}
+
+class Page {
+    constructor() {
+        this.body = $('.page');
+        this.main = $('.main');
+    }
 }
