@@ -141,7 +141,7 @@ class Polaris {
         this.isSipr = isSipr;
         this.currentPage;
         this.polarisAppId = '9c32823e-8ffc-4989-9b9f-1f2ad1b281a3'; // SIPR
-        this.notionalAppId = '14577065-da6a-4955-9617-bd0cb094b032'; // NIPR
+        this.notionalAppId = 'a02ee546-bb4f-41d3-a3d0-1a93f0aed2cc'; // NIPR
         this.niprJ4LandingPageLink =
             'https://qlik.advana.data.mil/sense/app/e2f5d8b5-998b-4fcd-b7d7-d8bed97a8695/sheet/dcf05bd5-985e-4bcc-b14e-988f86049a51/state/analysis';
         this.siprJ4LandingPageLink =

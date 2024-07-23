@@ -483,11 +483,11 @@ a:visited {
     grid-template-areas:
         'grid-1 map map map grid-5'
         'grid-2 map map map grid-6'
-        'grid-3 grid-4 grid-4 grid-4 grid-7';
+        'grid-3 map map map grid-7';
 }
 
 #template-page > div {
-    outline: 1px solid pink;
+    /* outline: 1px solid grey; */
 }
 
 #template-page .map {
@@ -496,24 +496,46 @@ a:visited {
 
 #template-page > .grid-1 {
     grid-area: grid-1;
+    border-bottom: 1px solid gray;
 }
 
 #template-page > .grid-2 {
     grid-area: grid-2;
+    border-bottom: 1px solid gray;
 }
 #template-page > .grid-3 {
     grid-area: grid-3;
 }
 #template-page > .grid-4 {
     grid-area: grid-4;
+    border-left: 1px solid gray;
+    border-right: 1px solid gray;
 }
 #template-page > .grid-5 {
     grid-area: grid-5;
+    border-bottom: 1px solid gray;
 }
 #template-page > .grid-6 {
     grid-area: grid-6;
+    border-bottom: 1px solid gray;
 }
 #template-page > .grid-7 {
     grid-area: grid-7;
+}
+
+#template-page .grid-box {
+    padding: 1rem;
+}
+
+#template-page .grid-box .body {
+    margin-left: 1.5rem;
+}
+
+#template-page ul {
+    list-style-type: upper-roman;
+}
+
+#template-page li {
+    /* line-height: 1rem; */
 }
 /**************************************/
