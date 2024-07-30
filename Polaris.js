@@ -647,7 +647,7 @@ class Navbar {
             {
                 href: 'Polaris.html',
                 label: 'POLARIS',
-                classNames: ['no-underline'],
+                classNames: ['polaris-logo', 'no-underline'],
                 anchorClassNames: ['polaris'],
             },
             { href: 'Polaris.html', label: 'Home', classNames: ['link'] },

@@ -93,10 +93,16 @@ a:visited {
 .navbar > .nav-links {
     display: flex;
     flex-direction: row;
-    /* color: #fff; */
+    justify-content: center;
     width: 100%;
     gap: 1rem;
     list-style-type: none;
+}
+
+.polaris-logo {
+    position: absolute;
+    top: 0;
+    left: 0;
 }
 
 .link {
