@@ -208,7 +208,7 @@ class Polaris {
         this.applyLandingPageLink();
     }
 
-    Home() {
+    HomeDeprecated() {
         console.log('Home called');
         const page = new Page();
         const navbar = new Navbar().createNavbar();
@@ -304,7 +304,7 @@ class Polaris {
         });
     }
 
-    Template() {
+    Home() {
         const page = new Page();
         const navbar = new Navbar().createNavbar();
 
