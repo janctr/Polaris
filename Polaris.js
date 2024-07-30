@@ -539,18 +539,42 @@ const notionalAppObjects = {
         {
             label: 'Class IX',
             elementId: 'QV6',
-            objectId: 'mKw',
+            objectId: 'UNDffs',
         },
     ],
     cop: [{ elementId: 'map', objectId: 'aDEUH' }],
     template: [
         { elementId: 'map', objectId: 'aDEUH' },
-        { elementId: 'one', objectId: 'GcZB' },
-        { elementId: 'two', objectId: 'frXbuh' },
-        { elementId: 'three', objectId: 'fsHmHP' },
-        { elementId: 'four', objectId: 'mKw' },
-        { elementId: 'five', objectId: 'YJgJM' },
-        { elementId: 'six', objectId: 'mKw' },
+        {
+            label: 'Class I',
+            elementId: 'QV1',
+            objectId: 'GcZB',
+        },
+        {
+            label: 'Class III',
+            elementId: 'QV2',
+            objectId: 'frXbuh',
+        },
+        {
+            label: 'Class IV',
+            elementId: 'QV3',
+            objectId: 'fsHmHP',
+        },
+        {
+            label: 'Class V',
+            elementId: 'QV4',
+            objectId: 'mKw',
+        },
+        {
+            label: 'Class VIII',
+            elementId: 'QV5',
+            objectId: 'YJgJM',
+        },
+        {
+            label: 'Class IX',
+            elementId: 'QV6',
+            objectId: 'UNDffs',
+        },
     ],
 };
 

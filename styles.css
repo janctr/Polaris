@@ -524,15 +524,22 @@ a:visited {
 }
 
 #template-page .grid-box {
-    padding: 1rem;
+    /* padding: 1rem; */
+    display: flex;
+    flex-direction: column;
+}
+
+#template-page .grid-box .header {
+    padding: 0.5rem;
 }
 
 #template-page .grid-box .body {
-    margin-left: 1.5rem;
+    flex: 1;
+    /* margin-left: 1.5rem; */
 }
 
 #template-page ul {
-    list-style-type: upper-roman;
+    /* list-style-type: upper-roman; */
 }
 
 #template-page li {
