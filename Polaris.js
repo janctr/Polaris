@@ -83,7 +83,7 @@ class Polaris {
 
         const appId = this.isSipr ? this.polarisAppId : this.notionalAppId;
         const appObjects = this.isSipr
-            ? appObjects.home
+            ? siprObjects.home
             : notionalAppObjects.template;
 
         const app = this.qlik.openApp(appId, config);
@@ -117,7 +117,7 @@ class Polaris {
 
         const appId = this.isSipr ? this.polarisAppId : this.notionalAppId;
         const appObjects = this.isSipr
-            ? appObjects.logFunctions
+            ? siprObjects.logFunctions
             : notionalAppObjects.logFunctions;
 
         this.applyDataSources(dataSources.logFunctions);
@@ -152,7 +152,7 @@ class Polaris {
 
         const appId = this.isSipr ? this.polarisAppId : this.notionalAppId;
         const appObjects = this.isSipr
-            ? appObjects.classesOfSupply
+            ? siprObjects.classesOfSupply
             : notionalAppObjects.classesOfSupply;
 
         this.applyDataSources(dataSources.classesOfSupply);
@@ -185,7 +185,7 @@ class Polaris {
 
         const appId = this.isSipr ? this.polarisAppId : this.notionalAppId;
         const appObjects = this.isSipr
-            ? appObjects.cop
+            ? siprObjects.cop
             : notionalAppObjects.cop;
 
         const app = this.qlik.openApp(appId, config);
@@ -739,7 +739,7 @@ const dataSources = {
     ],
 };
 
-const appObjects = {
+const siprObjects = {
     home: [
         { elementId: 'map', objectId: '7ea8e67c-3241-42ee-8250-de8cadfc303a' },
         {
