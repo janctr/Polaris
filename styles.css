@@ -60,6 +60,12 @@ a:visited {
 
 /**************************************/
 /*********** navbar *************/
+.polaris-logo {
+    position: absolute;
+    top: 0;
+    left: 3rem;
+}
+
 .polaris {
     display: inline-block;
     height: 100%;
@@ -68,7 +74,7 @@ a:visited {
     font-size: 2rem;
     text-decoration: none;
 
-    margin-left: 2rem;
+    /* margin-left: 2rem; */
 
     display: flex;
     justify-content: center;
@@ -98,12 +104,6 @@ a:visited {
     width: 100%;
     gap: 1rem;
     list-style-type: none;
-}
-
-.polaris-logo {
-    position: absolute;
-    top: 0;
-    left: 0;
 }
 
 .link {
@@ -139,6 +139,10 @@ a:visited {
 }
 
 .menu-icon {
+    position: absolute;
+    top: 0;
+    left: 0;
+
     height: var(--header-height-px);
     width: var(--header-height-px);
 
