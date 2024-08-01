@@ -34,139 +34,6 @@ require(['js/qlik'], function (qlik) {
     new Polaris(qlik, isSipr, currentPage);
 });
 
-const logFunctionObjects = [
-    {
-        // Supply
-        label: 'Supply',
-        elementId: 'QV1',
-        objectId: 'mENkwjC',
-    },
-    {
-        // Logistics Nodes
-        label: 'Logistics Nodes',
-        elementId: 'QV2',
-        objectId: 'dndvmjp',
-    },
-    {
-        // PDDOC
-        label: 'PDDOC',
-        elementId: 'QV3',
-        objectId: 'tJAutGe',
-    },
-    {
-        // Readiness Airframes
-        label: 'Readiness - Airframes',
-        elementId: 'QV4',
-        objectId: 'bWLGCT',
-    },
-    {
-        // Engineering
-        label: 'Engineering',
-        elementId: 'QV5',
-        objectId: 'jYtzRw',
-    },
-    {
-        // Logistics Services
-        label: 'Logistics Services',
-        elementId: 'QV6',
-        objectId: 'Vby',
-    },
-    {
-        // Joint Health Services
-        label: 'Joint Health Services',
-        elementId: 'QV7',
-        objectId: 'dgkMzt',
-    },
-    {
-        // OCS
-        label: 'OCS',
-        elementId: 'QV8',
-        objectId: 'nPeqdTV',
-    },
-];
-const classOfSupplyObjects = [
-    {
-        // Class I
-        label: 'Class I',
-        elementId: 'QV1',
-        objectId: 'ACjABHm',
-    },
-    {
-        // Class III
-        label: 'Class III',
-
-        elementId: 'QV2',
-        objectId: 'jXhfrmR',
-    },
-    {
-        // Class IV
-        label: 'Class IV',
-        elementId: 'QV3',
-        objectId: 'uvcy',
-    },
-    {
-        // Class V
-        label: 'Class V',
-        elementId: 'QV4',
-        objectId: 'pKJXJtS',
-    },
-    {
-        // Class VIII
-        label: 'Class VIII',
-        elementId: 'QV5',
-        objectId: 'qvPEkB',
-    },
-    {
-        // Class IX
-        label: 'Class IX',
-        elementId: 'QV6',
-        objectId: 'WPytt',
-    },
-];
-const copObjects = [
-    { elementId: 'map', objectId: 'cf0bfaac-b1b2-416a-bc58-f2612a8d1f17' },
-];
-const templateObjects = [
-    { elementId: 'map', objectId: '7ea8e67c-3241-42ee-8250-de8cadfc303a' },
-    {
-        // Class I
-        label: 'Class I',
-        elementId: 'QV1',
-        objectId: 'ACjABHm',
-    },
-    {
-        // Class III
-        label: 'Class III',
-
-        elementId: 'QV2',
-        objectId: 'jXhfrmR',
-    },
-    {
-        // Class IV
-        label: 'Class IV',
-        elementId: 'QV3',
-        objectId: 'uvcy',
-    },
-    {
-        // Class V
-        label: 'Class V',
-        elementId: 'QV4',
-        objectId: 'pKJXJtS',
-    },
-    {
-        // Class VIII
-        label: 'Class VIII',
-        elementId: 'QV5',
-        objectId: 'qvPEkB',
-    },
-    {
-        // Class IX
-        label: 'Class IX',
-        elementId: 'QV6',
-        objectId: 'WPytt',
-    },
-];
-
 const Pages = {
     Home: 'Polaris.html',
     LogFunctions: 'log-functions.html',
@@ -201,11 +68,34 @@ class Polaris {
                 this.Cop();
                 break;
             case Pages.Template:
-                this.Template();
+                this.Home();
                 break;
         }
 
         this.applyLandingPageLink();
+    }
+
+    Home() {
+        const page = new Page();
+        const navbar = new Navbar().createNavbar();
+
+        page.body.prepend(navbar);
+
+        const appId = this.isSipr ? this.polarisAppId : this.notionalAppId;
+        const appObjects = this.isSipr
+            ? appObjects.home
+            : notionalAppObjects.template;
+
+        const app = this.qlik.openApp(appId, config);
+
+        appObjects.forEach((appObject) => {
+            // Add loader svg when loading
+            $(`#${appObject.elementId}`).append(loaderEl());
+
+            app.getObject(appObject.elementId, appObject.objectId, {
+                noInteraction: false,
+            });
+        });
     }
 
     HomeDeprecated() {
@@ -227,7 +117,7 @@ class Polaris {
 
         const appId = this.isSipr ? this.polarisAppId : this.notionalAppId;
         const appObjects = this.isSipr
-            ? logFunctionObjects
+            ? appObjects.logFunctions
             : notionalAppObjects.logFunctions;
 
         this.applyDataSources(dataSources.logFunctions);
@@ -262,8 +152,8 @@ class Polaris {
 
         const appId = this.isSipr ? this.polarisAppId : this.notionalAppId;
         const appObjects = this.isSipr
-            ? classOfSupplyObjects
-            : notionalAppObjects.classOfSupply;
+            ? appObjects.classesOfSupply
+            : notionalAppObjects.classesOfSupply;
 
         this.applyDataSources(dataSources.classesOfSupply);
 
@@ -294,30 +184,9 @@ class Polaris {
         page.body.prepend(navbar);
 
         const appId = this.isSipr ? this.polarisAppId : this.notionalAppId;
-        const appObjects = this.isSipr ? copObjects : notionalAppObjects.cop;
-
-        const app = this.qlik.openApp(appId, config);
-
-        appObjects.forEach((appObject) => {
-            // Add loader svg when loading
-            $(`#${appObject.elementId}`).append(loaderEl());
-
-            app.getObject(appObject.elementId, appObject.objectId, {
-                noInteraction: false,
-            });
-        });
-    }
-
-    Home() {
-        const page = new Page();
-        const navbar = new Navbar().createNavbar();
-
-        page.body.prepend(navbar);
-
-        const appId = this.isSipr ? this.polarisAppId : this.notionalAppId;
         const appObjects = this.isSipr
-            ? templateObjects
-            : notionalAppObjects.template;
+            ? appObjects.cop
+            : notionalAppObjects.cop;
 
         const app = this.qlik.openApp(appId, config);
 
@@ -567,97 +436,6 @@ class ToggleableElement {
     }
 }
 
-const notionalAppObjects = {
-    logFunctions: [
-        {
-            label: 'Supply',
-            elementId: 'QV1',
-            objectId: 'GcZB',
-        },
-        {
-            label: 'Logistics Nodes',
-            elementId: 'QV2',
-            objectId: 'frXbuh',
-        },
-        { label: 'PDDOC', elementId: 'QV3', objectId: 'fsHmHP' },
-        { label: 'Readiness - Airframes', elementId: 'QV4', objectId: 'mKw' },
-        { label: 'Engineering', elementId: 'QV5', objectId: 'YJgJM' },
-        { label: 'Logistics Services', elementId: 'QV6', objectId: 'mKw' },
-        {
-            label: 'Joint Health Services',
-            elementId: 'QV7',
-            objectId: 'fsHmHP',
-        },
-        { label: 'OCS', elementId: 'QV8', objectId: 'frXbuh' },
-    ],
-    classOfSupply: [
-        {
-            label: 'Class I',
-            elementId: 'QV1',
-            objectId: 'GcZB',
-        },
-        {
-            label: 'Class III',
-            elementId: 'QV2',
-            objectId: 'frXbuh',
-        },
-        {
-            label: 'Class IV',
-            elementId: 'QV3',
-            objectId: 'fsHmHP',
-        },
-        {
-            label: 'Class V',
-            elementId: 'QV4',
-            objectId: 'mKw',
-        },
-        {
-            label: 'Class VIII',
-            elementId: 'QV5',
-            objectId: 'YJgJM',
-        },
-        {
-            label: 'Class IX',
-            elementId: 'QV6',
-            objectId: 'UNDffs',
-        },
-    ],
-    cop: [{ elementId: 'map', objectId: 'aDEUH' }],
-    template: [
-        { elementId: 'map', objectId: 'aDEUH' },
-        {
-            label: 'Class I',
-            elementId: 'QV1',
-            objectId: 'GcZB',
-        },
-        {
-            label: 'Class III',
-            elementId: 'QV2',
-            objectId: 'frXbuh',
-        },
-        {
-            label: 'Class IV',
-            elementId: 'QV3',
-            objectId: 'fsHmHP',
-        },
-        {
-            label: 'Class V',
-            elementId: 'QV4',
-            objectId: 'mKw',
-        },
-        {
-            label: 'Class VIII',
-            elementId: 'QV5',
-            objectId: 'YJgJM',
-        },
-        {
-            label: 'Class IX',
-            elementId: 'QV6',
-            objectId: 'UNDffs',
-        },
-    ],
-};
-
 function loaderEl() {
     return $(`
         <div class="loader-wrapper">
@@ -775,7 +553,7 @@ class Navbar {
                 li.append(anchor);
 
                 if (childLinks.length) {
-                    anchor.append(this.createDropdownIcon());
+                    anchor.prepend(this.createDropdownIcon());
                     li.append(this.createDropdown(childLinks));
                 }
 
@@ -957,6 +735,272 @@ const dataSources = {
             dataSources: ['DLA EBS', 'GCSS-A', 'GCSS-MC', 'LMP', 'Navy ERP'],
             refreshRate: { label: '~Daily', color: 'green' },
             quality: { label: 'Partial', color: 'yellow' },
+        },
+    ],
+};
+
+const appObjects = {
+    home: [
+        { elementId: 'map', objectId: '7ea8e67c-3241-42ee-8250-de8cadfc303a' },
+        {
+            // Class I
+            label: 'Class I',
+            elementId: 'QV1',
+            objectId: 'ACjABHm',
+        },
+        {
+            // Class III
+            label: 'Class III',
+
+            elementId: 'QV2',
+            objectId: 'jXhfrmR',
+        },
+        {
+            // Class IV
+            label: 'Class IV',
+            elementId: 'QV3',
+            objectId: 'uvcy',
+        },
+        {
+            // Class V
+            label: 'Class V',
+            elementId: 'QV4',
+            objectId: 'pKJXJtS',
+        },
+        {
+            // Class VIII
+            label: 'Class VIII',
+            elementId: 'QV5',
+            objectId: 'qvPEkB',
+        },
+        {
+            // Class IX
+            label: 'Class IX',
+            elementId: 'QV6',
+            objectId: 'WPytt',
+        },
+    ],
+    logFunctions: [
+        {
+            // Supply
+            label: 'Supply',
+            elementId: 'QV1',
+            objectId: 'mENkwjC',
+        },
+        {
+            // Logistics Nodes
+            label: 'Logistics Nodes',
+            elementId: 'QV2',
+            objectId: 'dndvmjp',
+        },
+        {
+            // PDDOC
+            label: 'PDDOC',
+            elementId: 'QV3',
+            objectId: 'tJAutGe',
+        },
+        {
+            // Readiness Airframes
+            label: 'Readiness - Airframes',
+            elementId: 'QV4',
+            objectId: 'bWLGCT',
+        },
+        {
+            // Engineering
+            label: 'Engineering',
+            elementId: 'QV5',
+            objectId: 'jYtzRw',
+        },
+        {
+            // Logistics Services
+            label: 'Logistics Services',
+            elementId: 'QV6',
+            objectId: 'Vby',
+        },
+        {
+            // Joint Health Services
+            label: 'Joint Health Services',
+            elementId: 'QV7',
+            objectId: 'dgkMzt',
+        },
+        {
+            // OCS
+            label: 'OCS',
+            elementId: 'QV8',
+            objectId: 'nPeqdTV',
+        },
+    ],
+    classesOfSupply: [
+        {
+            // Class I
+            label: 'Class I',
+            elementId: 'QV1',
+            objectId: 'ACjABHm',
+        },
+        {
+            // Class III
+            label: 'Class III',
+
+            elementId: 'QV2',
+            objectId: 'jXhfrmR',
+        },
+        {
+            // Class IV
+            label: 'Class IV',
+            elementId: 'QV3',
+            objectId: 'uvcy',
+        },
+        {
+            // Class V
+            label: 'Class V',
+            elementId: 'QV4',
+            objectId: 'pKJXJtS',
+        },
+        {
+            // Class VIII
+            label: 'Class VIII',
+            elementId: 'QV5',
+            objectId: 'qvPEkB',
+        },
+        {
+            // Class IX
+            label: 'Class IX',
+            elementId: 'QV6',
+            objectId: 'WPytt',
+        },
+    ],
+    cop: [
+        { elementId: 'map', objectId: 'cf0bfaac-b1b2-416a-bc58-f2612a8d1f17' },
+    ],
+    template: [
+        { elementId: 'map', objectId: '7ea8e67c-3241-42ee-8250-de8cadfc303a' },
+        {
+            // Class I
+            label: 'Class I',
+            elementId: 'QV1',
+            objectId: 'ACjABHm',
+        },
+        {
+            // Class III
+            label: 'Class III',
+
+            elementId: 'QV2',
+            objectId: 'jXhfrmR',
+        },
+        {
+            // Class IV
+            label: 'Class IV',
+            elementId: 'QV3',
+            objectId: 'uvcy',
+        },
+        {
+            // Class V
+            label: 'Class V',
+            elementId: 'QV4',
+            objectId: 'pKJXJtS',
+        },
+        {
+            // Class VIII
+            label: 'Class VIII',
+            elementId: 'QV5',
+            objectId: 'qvPEkB',
+        },
+        {
+            // Class IX
+            label: 'Class IX',
+            elementId: 'QV6',
+            objectId: 'WPytt',
+        },
+    ],
+};
+
+const notionalAppObjects = {
+    logFunctions: [
+        {
+            label: 'Supply',
+            elementId: 'QV1',
+            objectId: 'GcZB',
+        },
+        {
+            label: 'Logistics Nodes',
+            elementId: 'QV2',
+            objectId: 'frXbuh',
+        },
+        { label: 'PDDOC', elementId: 'QV3', objectId: 'fsHmHP' },
+        { label: 'Readiness - Airframes', elementId: 'QV4', objectId: 'mKw' },
+        { label: 'Engineering', elementId: 'QV5', objectId: 'YJgJM' },
+        { label: 'Logistics Services', elementId: 'QV6', objectId: 'mKw' },
+        {
+            label: 'Joint Health Services',
+            elementId: 'QV7',
+            objectId: 'fsHmHP',
+        },
+        { label: 'OCS', elementId: 'QV8', objectId: 'frXbuh' },
+    ],
+    classesOfSupply: [
+        {
+            label: 'Class I',
+            elementId: 'QV1',
+            objectId: 'GcZB',
+        },
+        {
+            label: 'Class III',
+            elementId: 'QV2',
+            objectId: 'frXbuh',
+        },
+        {
+            label: 'Class IV',
+            elementId: 'QV3',
+            objectId: 'fsHmHP',
+        },
+        {
+            label: 'Class V',
+            elementId: 'QV4',
+            objectId: 'mKw',
+        },
+        {
+            label: 'Class VIII',
+            elementId: 'QV5',
+            objectId: 'YJgJM',
+        },
+        {
+            label: 'Class IX',
+            elementId: 'QV6',
+            objectId: 'UNDffs',
+        },
+    ],
+    cop: [{ elementId: 'map', objectId: 'aDEUH' }],
+    template: [
+        { elementId: 'map', objectId: 'aDEUH' },
+        {
+            label: 'Class I',
+            elementId: 'QV1',
+            objectId: 'GcZB',
+        },
+        {
+            label: 'Class III',
+            elementId: 'QV2',
+            objectId: 'frXbuh',
+        },
+        {
+            label: 'Class IV',
+            elementId: 'QV3',
+            objectId: 'fsHmHP',
+        },
+        {
+            label: 'Class V',
+            elementId: 'QV4',
+            objectId: 'mKw',
+        },
+        {
+            label: 'Class VIII',
+            elementId: 'QV5',
+            objectId: 'YJgJM',
+        },
+        {
+            label: 'Class IX',
+            elementId: 'QV6',
+            objectId: 'UNDffs',
         },
     ],
 };
