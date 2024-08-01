@@ -230,6 +230,8 @@ class Polaris {
             ? logFunctionObjects
             : notionalAppObjects.logFunctions;
 
+        this.applyDataSources(dataSources.logFunctions);
+
         const app = this.qlik.openApp(appId, config);
 
         appObjects.forEach((appObject) => {
@@ -262,6 +264,8 @@ class Polaris {
         const appObjects = this.isSipr
             ? classOfSupplyObjects
             : notionalAppObjects.classOfSupply;
+
+        this.applyDataSources(dataSources.classesOfSupply);
 
         const app = this.qlik.openApp(appId, config);
 
@@ -333,6 +337,42 @@ class Polaris {
             : this.niprJ4LandingPageLink;
 
         $('.j4-landing-page-link').attr('href', link);
+    }
+
+    applyDataSources(dataSources) {
+        for (const dataSource of dataSources) {
+            const {
+                tileClass,
+                dataSources,
+                refreshRate: {
+                    label: refreshRateLabel,
+                    color: refreshRateColor,
+                },
+                quality: { label: qualityLabel, color: qualityColor },
+            } = dataSource;
+
+            const tile = $(`.tile.${tileClass}`);
+            tile.find('.log-function-sources').remove();
+
+            const dataSourceEl = $(`
+                <div class="log-function-sources">
+                    <p class="sources">
+                        <span>Sources:</span>
+                        <span>${dataSources.join('; ')}</span>
+                    </p>
+                    <p class="refresh-rate">
+                        <span>Refresh Rate</span>
+                        <span class="${refreshRateColor}">${refreshRateLabel}</span>
+                    </p>
+                    <p class="quality">
+                        <span>Quality</span>
+                        <span class="${qualityColor}">${qualityLabel}</span>
+                    </p>
+                </div>
+            `);
+
+            tile.append(dataSourceEl);
+        }
     }
 }
 
@@ -820,3 +860,94 @@ class Page {
         this.main = $('.main');
     }
 }
+
+const dataSources = {
+    logFunctions: [
+        // {
+        //     tileClass: 'supply',
+        //     dataSources: [],
+        //     refreshRate: { label: '', color: '' },
+        //     quality: { label: '', color: '' },
+        // },
+        {
+            tileClass: 'logistics-nodes',
+            dataSources: ['USTRANSCOM Global Distribution Network'],
+            refreshRate: { label: 'Monthly', color: 'yellow' },
+            quality: { label: 'Partial', color: 'yellow' },
+        },
+        {
+            tileClass: 'pddoc',
+            dataSources: ['8th TSC', 'PACFLT0'],
+            refreshRate: { label: 'Hourly', color: 'green' },
+            quality: { label: 'Partial', color: 'yellow' },
+        },
+        {
+            tileClass: 'readiness-airframes',
+            dataSources: ['AMSRR', 'G081', 'IMDS'],
+            refreshRate: { label: '~Daily', color: 'green' },
+            quality: { label: 'Partial', color: 'yellow' },
+        },
+        {
+            tileClass: 'engineering',
+            dataSources: ['Theater Infrastructure Master Plant'],
+            refreshRate: { label: 'Bimonthly', color: 'green' },
+            quality: { label: 'Partial', color: 'yellow' },
+        },
+        // {
+        //     tileClass: 'logistics-services',
+        //     dataSources: [],
+        //     refreshRate: { label: '', color: '' },
+        //     quality: { label: '', color: '' },
+        // },
+        {
+            tileClass: 'joint-health-services',
+            dataSources: ['CarePoint'],
+            refreshRate: { label: 'Static', color: 'red' },
+            quality: { label: 'Partial', color: 'yellow' },
+        },
+        {
+            tileClass: 'ocs',
+            dataSources: ['SPOT-ES'],
+            refreshRate: { label: 'Static', color: 'red' },
+            quality: { label: 'Partial', color: 'yellow' },
+        },
+    ],
+    classesOfSupply: [
+        {
+            tileClass: 'class-i',
+            dataSources: ['DLA EBS', 'GCSS-A'],
+            refreshRate: { label: '~Daily', color: 'green' },
+            quality: { label: 'Partial', color: 'yellow' },
+        },
+        {
+            tileClass: 'class-iii',
+            dataSources: ['DLA-EBS', 'IAWT'],
+            refreshRate: { label: '~Daily', color: 'green' },
+            quality: { label: 'Partial', color: 'yellow' },
+        },
+        {
+            tileClass: 'class-iv',
+            dataSources: ['DLA EBS', 'GCSS-A', 'GCSS-MC', 'LMP', 'Navy ERP'],
+            refreshRate: { label: '~Daily', color: 'green' },
+            quality: { label: 'Partial', color: 'yellow' },
+        },
+        {
+            tileClass: 'class-v',
+            dataSources: ['AESIP', 'DAAS', 'LMP', 'OIS', 'SAAS', 'TICIMS'],
+            refreshRate: { label: '~Daily', color: 'green' },
+            quality: { label: 'Good', color: 'green' },
+        },
+        {
+            tileClass: 'class-viii',
+            dataSources: ['MEDCOP', 'CarePoint'],
+            refreshRate: { label: 'N/A', color: '' },
+            quality: { label: 'N/A', color: '' },
+        },
+        {
+            tileClass: 'class-ix',
+            dataSources: ['DLA EBS', 'GCSS-A', 'GCSS-MC', 'LMP', 'Navy ERP'],
+            refreshRate: { label: '~Daily', color: 'green' },
+            quality: { label: 'Partial', color: 'yellow' },
+        },
+    ],
+};

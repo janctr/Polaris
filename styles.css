@@ -351,29 +351,42 @@ a:visited {
 }
 
 .log-function-sources {
-    height: 15%;
+    /* height: 15%; */
     width: 100%;
 
     padding: 0.5rem;
 
     display: flex;
-    flex-wrap: wrap;
-}
-
-.log-function-sources * {
-    /* outline: 1px solid pink; */
+    gap: 1rem;
 }
 
 .log-function-sources > .sources {
-    width: 100%;
+    flex: 2;
+}
+
+.log-function-sources span {
+    /* text-align: center; */
+    display: block;
+}
+
+.red {
+    color: red;
+}
+
+.yellow {
+    color: orange;
+}
+
+.green {
+    color: green;
 }
 
 .log-function-sources > .refresh-rate {
-    width: 50%;
+    flex: 1;
 }
 
 .log-function-sources > .quality {
-    width: 50%;
+    flex: 1;
 }
 /**************************************/
 
