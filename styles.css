@@ -4,6 +4,13 @@
     --header-height-px: 40px;
     --full-viewport-height-px: calc(100vh - var(--header-height-px));
     --hero-height-px: 600px;
+
+    /* Blue color palette */
+    --blue-1: #2f6690; /* Lapis Lazuli */
+    --blue-2: #3a7ca5; /* Cerulean */
+    --platinum: #d9dcd6; /* Platinum */
+    --blue-3: #16425b; /* Inidigo dye */
+    --blue-4: #81c3d7; /* Sky blue */
 }
 
 * {
