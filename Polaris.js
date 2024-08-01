@@ -678,7 +678,8 @@ function loaderEl() {
 }
 
 class Navbar {
-    constructor() {
+    constructor(currentPage) {
+        this.currentPage = currentPage;
         console.log('navbar created');
     }
 
@@ -758,6 +759,10 @@ class Navbar {
             }) => {
                 const li = $(`<li></li>`);
                 const anchor = $(`<a href="${href}">${label}</a>`);
+
+                if (href === this.getCurrentPage()) {
+                    li.addClass('active');
+                }
 
                 for (const className of classNames) {
                     li.addClass(className);
@@ -851,6 +856,10 @@ class Navbar {
         navbar.find('.nav-links').prepend(menuIcon);
 
         return navbar;
+    }
+
+    getCurrentPage() {
+        return window.location.href.split('/').slice(-1)[0];
     }
 }
 

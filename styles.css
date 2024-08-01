@@ -125,6 +125,17 @@ a:visited {
     transition: color 0.25s ease-in-out;
 }
 
+.link.active:after {
+    position: absolute;
+    content: '';
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+
+    width: 25%;
+    border: 1px solid var(--blue-2);
+}
+
 .link > a {
     display: flex;
     justify-content: center;
@@ -138,7 +149,7 @@ a:visited {
 }
 
 .link > a:hover {
-    color: var(--purple);
+    color: var(--blue-4);
 }
 
 .no-underline:hover {
