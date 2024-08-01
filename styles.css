@@ -336,9 +336,9 @@ a:visited {
 }
 
 .log-function-header {
-    background-color: var(--purple);
+    /* background-color: var(--purple);
+    color: #fff; */
     padding: 0 1rem;
-    color: #fff;
     width: 100%;
 }
 
