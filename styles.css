@@ -113,7 +113,7 @@ a:visited {
     font-weight: bold;
     position: relative;
 
-    color: #000;
+    /* color: #000; */
 
     transition: color 0.25s ease-in-out;
 }
@@ -426,7 +426,8 @@ a:visited {
     position: absolute;
     background-color: #fff;
     width: 300px;
-    height: 100vh;
+    /* height: 100vh; */
+    height: var(--full-viewport-height-px);
     z-index: 2;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
     transform: translateX(-100%);
