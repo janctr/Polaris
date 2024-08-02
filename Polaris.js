@@ -40,6 +40,7 @@ const Pages = {
     ClassOfSupply: 'class-of-supply.html',
     COP: 'cop.html',
     Template: 'template.html',
+    Test: 'test.html',
 };
 
 class Polaris {
@@ -69,6 +70,9 @@ class Polaris {
                 break;
             case Pages.Template:
                 this.Home();
+                break;
+            case Pages.Test:
+                this.Test();
                 break;
         }
 
@@ -197,6 +201,55 @@ class Polaris {
             app.getObject(appObject.elementId, appObject.objectId, {
                 noInteraction: false,
             });
+        });
+    }
+
+    async Test() {
+        const page = new Page();
+        const navbar = new Navbar().createNavbar();
+
+        page.body.prepend(navbar);
+
+        const appId = this.isSipr ? this.polarisAppId : this.notionalAppId;
+
+        const app = this.qlik.openApp(appId, config);
+
+        const testVar = new QlikVariable({
+            app,
+            varName: 'testVar',
+            varCommonName: 'Test Var',
+            varType: QlikVariable.Type.Number,
+            isSessionVariable: false,
+            value: 0,
+        });
+
+        const testVar2 = new QlikVariable({
+            app,
+            varName: 'foo',
+            varCommonName: 'Test Var',
+            varType: QlikVariable.Type.Number,
+            isSessionVariable: false,
+        });
+
+        $('.testVar').text(await testVar.getValue());
+        $('.foo').text(await testVar.getValue());
+
+        $('.toggle-testVar').click(() => {
+            console.log('clicked');
+            testVar.toggle().then(async (newVal) => {
+                $('.testVar').text(newVal);
+            });
+
+            // testVar.getValue().then((val) => {
+            //     const newVal = val === 0 ? 1 : 0;
+            //     console.log('newVal: ', newVal);
+            //     testVar.setValue(newVal);
+
+            //     testVar.getValue().then((asdf) => {
+            //         console.log('yoo');
+            //         $('.testVar').text(asdf);
+            //     });
+            // });
         });
     }
 
@@ -638,6 +691,95 @@ class Navbar {
 
     getCurrentPage() {
         return window.location.href.split('/').slice(-1)[0];
+    }
+}
+
+class QlikVariable {
+    static Type = {
+        String: 'string',
+        Number: 'number',
+    };
+
+    constructor({
+        app,
+        varName,
+        varCommonName,
+        varType,
+        isSessionVariable = true,
+        value,
+    }) {
+        this.app = app;
+        this.varName = varName;
+        this.varCommonName = varCommonName;
+        this.varType = varType;
+        this.isSessionVariable = isSessionVariable;
+
+        if (isSessionVariable) {
+            app.variable.createSessionVariable({
+                qName: varName,
+                qDefinition: varCommonName,
+            });
+        }
+
+        if (typeof value !== 'undefined') {
+            this.setValue(value);
+        }
+    }
+
+    getValue() {
+        console.log('getValue');
+        const self = this;
+
+        return new Promise((resolve, reject) => {
+            this.app.variable.getContent(this.varName, function (reply) {
+                let value = reply.qContent.qString;
+
+                if (self.varType === QlikVariable.Type.Number) {
+                    value = Number(value);
+                }
+
+                console.log('value: ', value);
+                resolve(value);
+            });
+        });
+    }
+
+    setValue(value) {
+        if (this.varType === QlikVariable.Type.String) {
+            this.app.variable.setStringValue(this.varName, value);
+        } else if (this.varType === QlikVariable.Type.Number) {
+            this.app.variable.setNumValue(this.varName, value);
+        }
+
+        return value;
+    }
+
+    toggle() {
+        // Assumes variable is a number in the domain [0, 1]
+        const self = this;
+        return new Promise((resolve, reject) => {
+            self.getValue().then((val) => {
+                const newVal = val === 0 ? 1 : 0;
+                console.log(
+                    `Toggling [${self.varName}] with value [${val}] to [${newVal}]`
+                );
+
+                self.setValue(newVal);
+                resolve(newVal);
+            });
+        });
+    }
+
+    async exists(varName) {
+        const self = this;
+        try {
+            const content = await self.app.variable.getByName(varName);
+            console.log(content);
+            return false;
+        } catch (e) {
+            console.log('e: ', e);
+            return true;
+        }
     }
 }
 
