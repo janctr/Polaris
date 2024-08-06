@@ -55,6 +55,8 @@ class Polaris {
         this.siprJ4LandingPageLink =
             'https://qlik.advana.data.smil.mil/sense/app/7b45d060-eb7d-4764-acc9-240e057176ad/sheet/546baeed-7818-4bf2-9308-afed26880120/state/analysis';
 
+        // qlik.theme.apply('j4-data-team-theme');
+
         switch (currentPage) {
             case Pages.Home:
                 this.Home();
