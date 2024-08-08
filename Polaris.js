@@ -21,11 +21,18 @@ require.config({
         (config.port ? ':' + config.port : '') +
         config.prefix +
         'resources',
+    paths: {
+        angularModule: '../extensions/Polaris/AppController',
+    },
 });
 
 require(['js/qlik'], function (qlik) {
     qlik.setOnError(function (error) {
         console.error('Qlik Error: ', error);
+    });
+
+    require(['angular', 'angularModule'], function (angular) {
+        angular.bootstrap(document, ['angularModule', 'qlik-angular']);
     });
 
     const isSipr = window.location.href.includes('smil');
@@ -46,6 +53,11 @@ const Pages = {
 class Polaris {
     constructor(qlik, isSipr, currentPage) {
         this.qlik = qlik;
+        this.app = this.qlik.openApp(
+            this.isSipr ? this.polarisAppId : this.notionalAppId,
+            config
+        );
+        // this.selectionState = this.app.selectionState();
         this.isSipr = isSipr;
         this.currentPage;
         this.polarisAppId = '9c32823e-8ffc-4989-9b9f-1f2ad1b281a3'; // SIPR
@@ -56,6 +68,14 @@ class Polaris {
             'https://qlik.advana.data.smil.mil/sense/app/7b45d060-eb7d-4764-acc9-240e057176ad/sheet/546baeed-7818-4bf2-9308-afed26880120/state/analysis';
 
         // qlik.theme.apply('j4-data-team-theme');
+
+        const selectionState = this.app.selectionState();
+        const listener = function () {
+            console.log('Selection changed: ', selectionState);
+            selectionState.OnData.unbind(listener);
+        };
+
+        selectionState.OnData.bind(listener);
 
         switch (currentPage) {
             case Pages.Home:
@@ -97,6 +117,7 @@ class Polaris {
         appObjects.forEach((appObject) => {
             // Add loader svg when loading
             $(`#${appObject.elementId}`).append(loaderEl());
+            console.log('selectionState: ', app.selectionState());
 
             app.getObject(appObject.elementId, appObject.objectId, {
                 noInteraction: false,
