@@ -21,111 +21,24 @@ require.config({
         (config.port ? ':' + config.port : '') +
         config.prefix +
         'resources',
+    paths: {
+        angularModule: '../extensions/Polaris/AppController',
+    },
 });
 
 require(['js/qlik'], function (qlik) {
+    qlik.setOnError(function (error) {
+        console.error('Qlik Error: ', error);
+    });
+
+    require(['angular', 'angularModule'], function (angular) {
+        angular.bootstrap(document, ['angularModule', 'qlik-angular']);
+    });
+
     const isSipr = window.location.href.includes('smil');
     const currentPage = window.location.href.split('/').slice(-1)[0];
-    const polarisAppId = '9c32823e-8ffc-4989-9b9f-1f2ad1b281a3'; // SIPR
-    const notionalAppId = 'a02ee546-bb4f-41d3-a3d0-1a93f0aed2cc'; // NIPR
 
-    const angularApp = angular.module('angularApp', ['ngRoute']);
-
-    // Routes
-    angularApp.config(function ($routeProvider, $locationProvider) {
-        $routeProvider
-            .when('/', {
-                redirectTo: '/home',
-            })
-            .when('/home', {
-                templateUrl: 'home.ng.html',
-                controller: 'HomeController',
-            })
-            .when('/log-functions', {
-                templateUrl: 'log-functions.ng.html',
-                controller: 'LogFunctionsController',
-            })
-            .otherwise({
-                redirectTo: '/home',
-            });
-
-        $locationProvider.hashPrefix('');
-    });
-
-    //Controllers
-    angularApp.controller('MainController', [
-        '$scope',
-        function ($scope) {
-            $scope.links = angularLinks;
-        },
-    ]);
-
-    angularApp.controller('HomeController', [
-        '$scope',
-        function ($scope) {
-            const appId = isSipr ? polarisAppId : notionalAppId;
-            const appObjects = isSipr
-                ? siprObjects.home
-                : notionalAppObjects.template;
-
-            const app = qlik.openApp(appId, config);
-
-            appObjects.forEach((appObject) => {
-                // Add loader svg when loading
-                // $(`#${appObject.elementId}`).append(loaderEl());
-                console.log('selectionState: ', app.selectionState());
-
-                app.getObject(appObject.elementId, appObject.objectId, {
-                    noInteraction: false,
-                });
-            });
-        },
-    ]);
-
-    angularApp.controller('LogFunctionsController', [
-        '$scope',
-        function ($scope) {
-            const appId = isSipr ? polarisAppId : notionalAppId;
-            const appObjects = isSipr
-                ? siprObjects.logFunctions
-                : notionalAppObjects.logFunctions;
-
-            // this.applyDataSources(dataSources.logFunctions);
-
-            const app = qlik.openApp(appId, config);
-
-            appObjects.forEach((appObject) => {
-                // sidebar.addToggleableElement(
-                //     appObject.label || 'No label',
-                //     appObject.elementId
-                // );
-
-                app.getObject(appObject.elementId, appObject.objectId, {
-                    noInteraction: false,
-                });
-
-                // sidebar.resizeTiles();
-                qlik.resize();
-            });
-        },
-    ]);
-
-    // Components
-    angular.module('angularApp').component('navigation', {
-        templateUrl: 'navigation.html',
-        bindings: {
-            links: '<',
-        },
-        controller: 'MainController',
-        controllerAs: 'self',
-    });
-    angular.module('angularApp').component('loader', {
-        template: loaderTemplate,
-    });
-
-    angular.bootstrap(document, ['angularApp', 'qlik-angular']);
-
-    // new Polaris(qlik, isSipr, currentPage);
+    new Polaris(qlik, isSipr, currentPage);
 });
 
 const Pages = {
@@ -899,88 +812,6 @@ class Page {
         this.main = $('.main');
     }
 }
-
-const loaderTemplate = `
-<div class="loader-wrapper">
-    <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 44 44" stroke="blue">
-        <g fill="none" fill-rule="evenodd" stroke-width="2">
-            <circle cx="22" cy="22" r="1">
-                <animate attributeName="r" begin="0s" dur="1.8s" values="1; 20" calcMode="spline" keyTimes="0; 1" keySplines="0.165, 0.84, 0.44, 1" repeatCount="indefinite"></animate>
-                <animate attributeName="stroke-opacity" begin="0s" dur="1.8s" values="1; 0" calcMode="spline" keyTimes="0; 1" keySplines="0.3, 0.61, 0.355, 1" repeatCount="indefinite"></animate>
-            </circle>
-            <circle cx="22" cy="22" r="1">
-                <animate attributeName="r" begin="-0.9s" dur="1.8s" values="1; 20" calcMode="spline" keyTimes="0; 1" keySplines="0.165, 0.84, 0.44, 1" repeatCount="indefinite"></animate>
-                <animate attributeName="stroke-opacity" begin="-0.9s" dur="1.8s" values="1; 0" calcMode="spline" keyTimes="0; 1" keySplines="0.3, 0.61, 0.355, 1" repeatCount="indefinite"></animate>
-            </circle>
-        </g>
-    </svg>
-</div>
-`;
-
-const angularLinks = [
-    {
-        href: '#/',
-        label: 'POLARIS',
-        classNames: ['polaris-logo', 'no-underline'],
-        anchorClassNames: ['polaris'],
-    },
-    { href: 'Polaris.html', label: 'Home', classNames: ['link'] },
-    {
-        href: '#/log-functions',
-        label: 'Log Functions',
-        classNames: ['link'],
-    },
-    {
-        href: 'class-of-supply.html',
-        label: 'Classes of Supply',
-        classNames: ['link'],
-        childLinks: [
-            {
-                href: '#',
-                label: 'Class I',
-                classNames: ['child-link'],
-                anchorClassNames: [],
-            },
-            {
-                href: '#',
-                label: 'Class III',
-                classNames: ['child-link'],
-                anchorClassNames: [],
-            },
-            {
-                href: '#',
-                label: 'Class IV',
-                classNames: ['child-link'],
-                anchorClassNames: [],
-            },
-            {
-                href: '#',
-                label: 'Class V',
-                classNames: ['child-link'],
-                anchorClassNames: [],
-            },
-            {
-                href: '#',
-                label: 'Class VIII',
-                classNames: ['child-link'],
-                anchorClassNames: [],
-            },
-            {
-                href: '#',
-                label: 'Class IX',
-                classNames: ['child-link'],
-                anchorClassNames: [],
-            },
-        ],
-    },
-    { href: 'cop.html', label: 'COP', classNames: ['link'] },
-    {
-        href: '',
-        label: 'J4 Landing Page',
-        classNames: ['link'],
-        anchorClassNames: ['j4-landing-page-link'],
-    },
-];
 
 const dataSources = {
     logFunctions: [
