@@ -48,7 +48,7 @@ require(['js/qlik'], function (qlik) {
                 controller: 'LogFunctionsController',
             })
             .when('/classes-of-supply', {
-                template: 'classes-of-supply.ng.html',
+                templateUrl: 'classes-of-supply.ng.html',
                 controller: 'ClassesOfSupplyController',
             })
             .otherwise({
@@ -965,7 +965,7 @@ const angularLinks = [
         classNames: ['link'],
     },
     {
-        href: 'class-of-supply.html',
+        href: '#/classes-of-supply',
         label: 'Classes of Supply',
         classNames: ['link'],
         childLinks: [
