@@ -1007,7 +1007,7 @@ const angularLinks = [
             },
         ],
     },
-    { href: 'cop.html', label: 'COP', classNames: ['link'] },
+    // { href: 'cop.html', label: 'COP', classNames: ['link'] },
     {
         href: '',
         label: 'J4 Landing Page',
