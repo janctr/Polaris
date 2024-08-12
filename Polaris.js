@@ -28,6 +28,10 @@ require(['js/qlik'], function (qlik) {
     const currentPage = window.location.href.split('/').slice(-1)[0];
     const polarisAppId = '9c32823e-8ffc-4989-9b9f-1f2ad1b281a3'; // SIPR
     const notionalAppId = 'a02ee546-bb4f-41d3-a3d0-1a93f0aed2cc'; // NIPR
+    const niprJ4LandingPageLink =
+        'https://qlik.advana.data.mil/sense/app/e2f5d8b5-998b-4fcd-b7d7-d8bed97a8695/sheet/dcf05bd5-985e-4bcc-b14e-988f86049a51/state/analysis';
+    const siprJ4LandingPageLink =
+        'https://qlik.advana.data.smil.mil/sense/app/7b45d060-eb7d-4764-acc9-240e057176ad/sheet/546baeed-7818-4bf2-9308-afed26880120/state/analysis';
 
     const angularApp = angular.module('angularApp', ['ngRoute']);
 
@@ -63,6 +67,9 @@ require(['js/qlik'], function (qlik) {
         '$scope',
         function ($scope) {
             $scope.links = angularLinks;
+            $scope.j4LandingPageLink = isSipr
+                ? siprJ4LandingPageLink
+                : niprJ4LandingPageLink;
         },
     ]);
 
@@ -1008,12 +1015,12 @@ const angularLinks = [
         ],
     },
     // { href: 'cop.html', label: 'COP', classNames: ['link'] },
-    {
-        href: '',
-        label: 'J4 Landing Page',
-        classNames: ['link'],
-        anchorClassNames: ['j4-landing-page-link'],
-    },
+    // {
+    //     href: '',
+    //     label: 'J4 Landing Page',
+    //     classNames: ['link'],
+    //     anchorClassNames: ['j4-landing-page-link'],
+    // },
 ];
 
 const dataSources = {
