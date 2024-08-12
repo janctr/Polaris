@@ -31,6 +31,8 @@ require(['js/qlik'], function (qlik) {
 
     const angularApp = angular.module('angularApp', ['ngRoute']);
 
+    // Constants
+    angularApp.constant;
     // Routes
     angularApp.config(function ($routeProvider, $locationProvider) {
         $routeProvider
@@ -44,6 +46,10 @@ require(['js/qlik'], function (qlik) {
             .when('/log-functions', {
                 templateUrl: 'log-functions.ng.html',
                 controller: 'LogFunctionsController',
+            })
+            .when('/classes-of-supply', {
+                template: 'classes-of-supply.ng.html',
+                controller: 'ClassesOfSupplyController',
             })
             .otherwise({
                 redirectTo: '/home',
@@ -91,6 +97,34 @@ require(['js/qlik'], function (qlik) {
                 : notionalAppObjects.logFunctions;
 
             // this.applyDataSources(dataSources.logFunctions);
+
+            const app = qlik.openApp(appId, config);
+
+            appObjects.forEach((appObject) => {
+                // sidebar.addToggleableElement(
+                //     appObject.label || 'No label',
+                //     appObject.elementId
+                // );
+
+                app.getObject(appObject.elementId, appObject.objectId, {
+                    noInteraction: false,
+                });
+
+                // sidebar.resizeTiles();
+                qlik.resize();
+            });
+        },
+    ]);
+
+    angularApp.controller('ClassesOfSupplyController', [
+        '$scope',
+        function ($scope) {
+            const appId = isSipr ? polarisAppId : notionalAppId;
+            const appObjects = isSipr
+                ? siprObjects.classesOfSupply
+                : notionalAppObjects.classesOfSupply;
+
+            // this.applyDataSources(dataSources.classesOfSupply);
 
             const app = qlik.openApp(appId, config);
 
