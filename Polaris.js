@@ -24,6 +24,7 @@ require.config({
 });
 
 require(['js/qlik'], function (qlik) {
+    // AngularJS version 1.8.3 (ultimate-farewell)
     const isSipr = window.location.href.includes('smil');
     const currentPage = window.location.href.split('/').slice(-1)[0];
     const polarisAppId = '9c32823e-8ffc-4989-9b9f-1f2ad1b281a3'; // SIPR
@@ -63,7 +64,7 @@ require(['js/qlik'], function (qlik) {
     });
 
     //Controllers
-    angularApp.controller('MainController', [
+    angularApp.controller('NavController', [
         '$scope',
         function ($scope) {
             $scope.links = angularLinks;
@@ -76,6 +77,11 @@ require(['js/qlik'], function (qlik) {
     angularApp.controller('HomeController', [
         '$scope',
         function ($scope) {
+            $scope.links = angularLinks;
+            $scope.j4LandingPageLink = isSipr
+                ? siprJ4LandingPageLink
+                : niprJ4LandingPageLink;
+
             const appId = isSipr ? polarisAppId : notionalAppId;
             const appObjects = isSipr
                 ? siprObjects.home
@@ -84,8 +90,6 @@ require(['js/qlik'], function (qlik) {
             const app = qlik.openApp(appId, config);
 
             appObjects.forEach((appObject) => {
-                // Add loader svg when loading
-                // $(`#${appObject.elementId}`).append(loaderEl());
                 console.log('selectionState: ', app.selectionState());
 
                 app.getObject(appObject.elementId, appObject.objectId, {
@@ -103,16 +107,47 @@ require(['js/qlik'], function (qlik) {
                 ? siprObjects.logFunctions
                 : notionalAppObjects.logFunctions;
 
-            // this.applyDataSources(dataSources.logFunctions);
+            $scope.objectElements = logFunctionsPage.objectElements.map(
+                (objectElement) => ({
+                    ...objectElement,
+                    isShowing: true,
+                    toggleIsShowing: function () {
+                        this.isShowing = !this.IsShowing;
+                    },
+                })
+            );
+            $scope.text = 'Testing';
+            $scope.isMenuOpen = false;
+            $scope.toggleMenu = function () {
+                console.log('toggled menu');
+                $scope.isMenuOpen = !$scope.isMenuOpen;
+            };
+            $scope.getContainerSize = function () {
+                const numVisibleTiles = $scope.objectElements.filter(
+                    (objectElement) => objectElement.isShowing
+                ).length;
+
+                console.log(numVisibleTiles);
+                const styles = {};
+
+                if (numVisibleTiles % 4 === 0) {
+                    styles.flex = '25%';
+                } else if (numVisibleTiles % 3 === 0) {
+                    styles.flex = '33%';
+                }
+
+                if (numVisibleTiles === 4) {
+                    styles.flex = '50%';
+                    styles.height = '50%';
+                } else if (numVisibleTiles < 4) {
+                    styles.height = '100%';
+                }
+                return styles;
+            };
 
             const app = qlik.openApp(appId, config);
 
             appObjects.forEach((appObject) => {
-                // sidebar.addToggleableElement(
-                //     appObject.label || 'No label',
-                //     appObject.elementId
-                // );
-
                 app.getObject(appObject.elementId, appObject.objectId, {
                     noInteraction: false,
                 });
@@ -157,11 +192,45 @@ require(['js/qlik'], function (qlik) {
         bindings: {
             links: '<',
         },
-        controller: 'MainController',
+        controller: 'NavController',
         controllerAs: 'self',
     });
+
     angular.module('angularApp').component('loader', {
         template: loaderTemplate,
+    });
+
+    angular.module('angularApp').component('qliknavbar', {
+        template: qlikNavigationBarTemplate,
+        bindings: {
+            text2: '@',
+            toggleMenu2: '&',
+            changeText2: '&',
+        },
+        controller: function ($scope) {
+            console.log('qliknavbar scope: ', $scope);
+
+            console.log('qliknavbar this: ', this);
+            // $scope.$ctrl.changeText('yay 2');
+            // $scope.text = $scope.$parent.text;
+            // $scope.changeText = function () {
+            //     console.log('changing text');
+            //     $scope.$parent.changeText('new text');
+            //     console.log('$scope: ', $scope);
+            // };
+
+            $scope.changeText = $scope.$ctrl.changeText;
+            $scope.onMenuClick = function () {
+                console.log('yo');
+            };
+        },
+    });
+
+    angular.module('angularApp').component('burgermenuicon', {
+        template: burgerMenuIconTemplate,
+        bindings: {
+            toggleMenu: '&',
+        },
     });
 
     angular.bootstrap(document, ['angularApp', 'qlik-angular']);
@@ -958,6 +1027,28 @@ const loaderTemplate = `
 </div>
 `;
 
+const qlikNavigationBarTemplate = `
+<div class="qlik-navigation-bar">
+    <div>
+        <div class="selections-container">
+        </div>
+        <div>
+            <button ng-click="">Clear Filters</button>
+        </div>
+    </div>
+</div>
+`;
+
+const burgerMenuIconTemplate = `
+<div class="menu-icon" ng-click="$ctrl.toggleMenu()">
+    <svg width="100%" height="100%" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M4 18L20 18" stroke="#000000" stroke-width="2" stroke-linecap="round" />
+        <path d="M4 12L20 12" stroke="#000000" stroke-width="2" stroke-linecap="round" />
+        <path d="M4 6L20 6" stroke="#000000" stroke-width="2" stroke-linecap="round" />
+    </svg>
+</div>
+`;
+
 const angularLinks = [
     {
         href: '#/',
@@ -1023,91 +1114,119 @@ const angularLinks = [
     // },
 ];
 
-const dataSources = {
-    logFunctions: [
-        // {
-        //     tileClass: 'supply',
-        //     dataSources: [],
-        //     refreshRate: { label: '', color: '' },
-        //     quality: { label: '', color: '' },
-        // },
+const logFunctionsPage = {
+    objectElements: [
         {
-            tileClass: 'logistics-nodes',
-            dataSources: ['USTRANSCOM Global Distribution Network'],
+            classes: ['supply'],
+            title: 'Supply',
+            bodyId: 'QV1',
+            // sources: ['USTRANSCOM Global Distribution Network'],
+            // refreshRate: { label: 'Monthly', color: 'yellow' },
+            // quality: { label: 'Partial', color: 'yellow' },
+        },
+        {
+            classes: ['logistics-nodes'],
+            title: 'Logistics Nodes',
+            bodyId: 'QV2',
+            sources: ['USTRANSCOM Global Distribution Network'],
             refreshRate: { label: 'Monthly', color: 'yellow' },
             quality: { label: 'Partial', color: 'yellow' },
         },
         {
-            tileClass: 'pddoc',
-            dataSources: ['8th TSC', 'PACFLT0'],
+            classes: ['readiness-airframes'],
+            title: 'PDDOC',
+            bodyId: 'QV3',
+            sources: ['8th TSC', 'PACFLT0'],
             refreshRate: { label: 'Hourly', color: 'green' },
             quality: { label: 'Partial', color: 'yellow' },
         },
         {
-            tileClass: 'readiness-airframes',
-            dataSources: ['AMSRR', 'G081', 'IMDS'],
+            classes: ['readiness-airframes'],
+            title: 'Readiness - Airframes',
+            bodyId: 'QV4',
+            sources: ['AMSRR', 'G081', 'IMDS'],
             refreshRate: { label: '~Daily', color: 'green' },
             quality: { label: 'Partial', color: 'yellow' },
         },
         {
-            tileClass: 'engineering',
-            dataSources: ['Theater Infrastructure Master Plant'],
+            classes: ['engineering'],
+            title: 'Engineering',
+            bodyId: 'QV5',
+            sources: ['Theater Infrastructure Master Plant'],
             refreshRate: { label: 'Bimonthly', color: 'green' },
             quality: { label: 'Partial', color: 'yellow' },
         },
-        // {
-        //     tileClass: 'logistics-services',
-        //     dataSources: [],
-        //     refreshRate: { label: '', color: '' },
-        //     quality: { label: '', color: '' },
-        // },
         {
-            tileClass: 'joint-health-services',
-            dataSources: ['CarePoint'],
+            classes: ['logistics-services'],
+            title: 'Logistics Services',
+            bodyId: 'QV6',
+        },
+        {
+            classes: ['joint-health-services'],
+            title: 'Joint Health Services',
+            bodyId: 'QV7',
+            sources: ['CarePoint'],
             refreshRate: { label: 'Static', color: 'red' },
             quality: { label: 'Partial', color: 'yellow' },
         },
         {
-            tileClass: 'ocs',
-            dataSources: ['SPOT-ES'],
+            classes: ['ocs'],
+            title: 'OCS',
+            bodyId: 'QV8',
+            sources: ['SPOT-ES'],
             refreshRate: { label: 'Static', color: 'red' },
             quality: { label: 'Partial', color: 'yellow' },
         },
     ],
-    classesOfSupply: [
+};
+
+const classesOfSupplyPage = {
+    objectElements: [
         {
-            tileClass: 'class-i',
-            dataSources: ['DLA EBS', 'GCSS-A'],
+            classes: ['class-i'],
+            title: 'Class I',
+            bodyId: 'QV1',
+            sources: ['DLA EBS', 'GCSS-A'],
             refreshRate: { label: '~Daily', color: 'green' },
             quality: { label: 'Partial', color: 'yellow' },
         },
         {
-            tileClass: 'class-iii',
-            dataSources: ['DLA-EBS', 'IAWT'],
+            classes: ['class-iii'],
+            title: 'Class III',
+            bodyId: 'QV2',
+            sources: ['DLA-EBS', 'IAWT'],
             refreshRate: { label: '~Daily', color: 'green' },
             quality: { label: 'Partial', color: 'yellow' },
         },
         {
-            tileClass: 'class-iv',
-            dataSources: ['DLA EBS', 'GCSS-A', 'GCSS-MC', 'LMP', 'Navy ERP'],
+            classes: [' class-iv'],
+            title: 'Class IV',
+            bodyId: 'QV3',
+            sources: ['DLA EBS', 'GCSS-A', 'GCSS-MC', 'LMP', 'Navy ERP'],
             refreshRate: { label: '~Daily', color: 'green' },
             quality: { label: 'Partial', color: 'yellow' },
         },
         {
-            tileClass: 'class-v',
-            dataSources: ['AESIP', 'DAAS', 'LMP', 'OIS', 'SAAS', 'TICIMS'],
+            classes: ['class-v'],
+            title: 'Class V',
+            bodyId: 'QV4',
+            sources: ['AESIP', 'DAAS', 'LMP', 'OIS', 'SAAS', 'TICIMS'],
             refreshRate: { label: '~Daily', color: 'green' },
             quality: { label: 'Good', color: 'green' },
         },
         {
-            tileClass: 'class-viii',
-            dataSources: ['MEDCOP', 'CarePoint'],
+            classes: ['class-viii'],
+            title: 'Class VIII',
+            bodyId: 'QV5',
+            sources: ['MEDCOP', 'CarePoint'],
             refreshRate: { label: 'N/A', color: '' },
             quality: { label: 'N/A', color: '' },
         },
         {
-            tileClass: 'class-ix',
-            dataSources: ['DLA EBS', 'GCSS-A', 'GCSS-MC', 'LMP', 'Navy ERP'],
+            classes: ['class-ix'],
+            title: 'Class IX',
+            bodyId: 'QV6',
+            sources: ['DLA EBS', 'GCSS-A', 'GCSS-MC', 'LMP', 'Navy ERP'],
             refreshRate: { label: '~Daily', color: 'green' },
             quality: { label: 'Partial', color: 'yellow' },
         },
