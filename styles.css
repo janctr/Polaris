@@ -421,6 +421,7 @@ a:visited {
 /******* class-of-supply.html *********/
 
 #class-of-supply-page {
+    height: var(--full-viewport-height-navbar-px);
     padding: 1rem;
 }
 

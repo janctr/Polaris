@@ -1,81 +1,56 @@
+<div class="menu-icon" ng-click="toggleMenu()">
+    <svg width="100%" height="100%" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M4 18L20 18" stroke="#000000" stroke-width="2" stroke-linecap="round" />
+        <path d="M4 12L20 12" stroke="#000000" stroke-width="2" stroke-linecap="round" />
+        <path d="M4 6L20 6" stroke="#000000" stroke-width="2" stroke-linecap="round" />
+    </svg>
+</div>
+
+<div class="polaris-sidebar {{isMenuOpen ? 'open' : ''}}">
+    <div class="close-icon-wrapper">
+        <div class="close-icon" ng-click="toggleMenu()">
+            <svg fill="#000000" height="100%" width="100%" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
+                xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" xml:space="preserve">
+                <g>
+                    <g>
+                        <polygon points="512,59.076 452.922,0 256,196.922 59.076,0 0,59.076 196.922,256 0,452.922 59.076,512 256,315.076 452.922,512 
+                        512,452.922 315.076,256 		" />
+                    </g>
+                </g>
+            </svg>
+        </div>
+    </div>
+    <div class="sidebar-body">
+        <div class="polaris-checkbox" ng-repeat="el in objectElements">
+            <input type="checkbox" id="{{el.bodyId + '-checkbox'}}" ng-model="el.isShowing" name="{{el.title}}" />
+            <label for="{{el.bodyId + '-checkbox'}}">{{el.title}}</label>
+        </div>
+    </div>
+</div>
+
 <main class="main" id="class-of-supply-page">
     <div class="log-functions-container">
-        <div class="log-function tile class-i">
+        <div ng-repeat="el in objectElements" ng-if="el.isShowing" ng-style="{}"
+            class="log-function tile {{el.classes.join(' ')}}">
             <div class="log-function-header">
-                <h2>Class I</h2>
+                <h2>{{ el.title }}</h2>
             </div>
-            <div class="log-function-body" id="QV1">
-                <loader></loader>
+            <div class="log-function-body" id="{{ el.bodyId }}">
+                <!-- <loader></loader> -->
             </div>
-            <div class="log-function-sources">
-                <p class="sources">Sources:</p>
-                <p class="refresh-rate">Refresh Rate: Hourly</p>
-                <p class="quality">Quality: Partial</p>
-            </div>
-        </div>
-        <div class="log-function tile class-iii">
-            <div class="log-function-header">
-                <h2>Class III</h2>
-            </div>
-            <div class="log-function-body" id="QV2">
-                <loader></loader>
-            </div>
-            <div class="log-function-sources">
-                <p class="sources">Sources:</p>
-                <p class="refresh-rate">Refresh Rate: Hourly</p>
-                <p class="quality">Quality: Partial</p>
-            </div>
-        </div>
-        <div class="log-function tile class-iv">
-            <div class="log-function-header">
-                <h2>Class IV</h2>
-            </div>
-            <div class="log-function-body" id="QV3">
-                <loader></loader>
-            </div>
-            <div class="log-function-sources">
-                <p class="sources">Sources:</p>
-                <p class="refresh-rate">Refresh Rate: Hourly</p>
-                <p class="quality">Quality: Partial</p>
-            </div>
-        </div>
-        <div class="log-function tile class-v">
-            <div class="log-function-header">
-                <h2>Class V</h2>
-            </div>
-            <div class="log-function-body" id="QV4">
-                <loader></loader>
-            </div>
-            <div class="log-function-sources">
-                <p class="sources">Sources:</p>
-                <p class="refresh-rate">Refresh Rate: Hourly</p>
-                <p class="quality">Quality: Partial</p>
-            </div>
-        </div>
-        <div class="log-function tile class-viii">
-            <div class="log-function-header">
-                <h2>Class VIII</h2>
-            </div>
-            <div class="log-function-body" id="QV5">
-                <loader></loader>
-            </div>
-            <div class="log-function-sources">
-                <p class="sources">Sources:</p>
-                <p class="refresh-rate">Refresh Rate: Hourly</p>
-                <p class="quality">Quality: Partial</p>
-            </div>
-        </div>
-        <div class="log-function tile class-ix">
-            <div class="log-function-header">
-                <h2>Class IX</h2>
-            </div>
-            <div class="log-function-body" id="QV6">
-                <loader></loader>
-            </div>
-            <div class="log-function-sources">
-                <p class="sources">Sources:</p>
-                <p class="refresh-rate">Refresh Rate: Hourly</p>
-                <p class="quality">Quality: Partial</p>
+            <div ng-if="!!el.sources" class="log-function-sources">
+                <p class="sources">
+                    <span>Sources:</span>
+                    <span>{{ el.sources.join(' , ') }}</span>
+                </p>
+                <p class="refresh-rate">
+                    <span>Refresh Rate:</span>
+                    <span class="{{el.refreshRate.color}}">{{ el.refreshRate.label }}</span>
+                </p>
+                <p class="quality">
+                    <span>Quality:</span>
+                    <span class="{{el.quality.colo}}">{{ el.quality.label }}</span>
+                </p>
             </div>
         </div>
     </div>
