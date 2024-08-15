@@ -41,9 +41,11 @@ require(['js/qlik'], function (qlik) {
     angularApp.constant('isSipr', isSipr);
     angularApp.constant('polarisAppId', polarisAppId);
     angularApp.constant('notionalAppId', notionalAppId);
-    angularApp.constant('angularLinks', angularLinks);
-    angularApp.constant('niprJ4LandingPageLink', niprJ4LandingPageLink);
-    angularApp.constant('siprJ4LandingPageLink', siprJ4LandingPageLink);
+    angularApp.constant('navbarLinks', angularLinks);
+    angularApp.constant('landingPageLinks', {
+        niprJ4LandingPageLink,
+        siprJ4LandingPageLink,
+    });
 
     // Routes
     angularApp.config(function ($routeProvider, $locationProvider) {
@@ -154,17 +156,16 @@ require(['js/qlik'], function (qlik) {
     angularApp.controller('NavController', [
         '$scope',
         'polaris',
-        'angularLinks',
-        'niprJ4LandingPageLink',
-        'siprJ4LandingPageLink',
+        'navbarLinks',
+        'landingPageLinks',
+
         function (
             $scope,
             polaris,
-            angularLinks,
-            niprJ4LandingPageLink,
-            siprJ4LandingPageLink
+            navbarLinks,
+            { niprJ4LandingPageLink, siprJ4LandingPageLink }
         ) {
-            $scope.links = angularLinks;
+            $scope.links = navbarLinks;
             $scope.j4LandingPageLink = polaris.isSipr
                 ? siprJ4LandingPageLink
                 : niprJ4LandingPageLink;
