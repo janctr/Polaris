@@ -2,10 +2,18 @@
     --purple: #3b2f63;
     --dark-purple: #3b2f63;
     --header-height-px: 40px;
+
     --qlik-navigation-bar-height-px: 35px;
+    --qlik-navigation-bar-height-hidden-px: 8px;
+
     --full-viewport-height-px: calc(100vh - var(--header-height-px));
+
     --full-viewport-height-navbar-px: calc(
         var(--full-viewport-height-px) - var(--qlik-navigation-bar-height-px)
+    );
+    --full-viewport-height-hidden-navbar-px: calc(
+        var(--full-viewport-height-px) -
+            var(--qlik-navigation-bar-height-hidden-px)
     );
     --hero-height-px: 600px;
 
@@ -681,6 +689,25 @@ a:visited {
 
 .selection-item .qlik-action:hover {
     background-color: rgba(64, 64, 64, 0.15);
+}
+
+.open-qlik-navbar-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+
+    transition: all 0.25s ease-in-out;
+}
+.open-qlik-navbar-wrapper:hover {
+    cursor: pointer;
+    background-color: rgba(64, 64, 64, 0.15);
+}
+.open-qlik-navbar {
+    width: 50px;
+    height: 34%;
+    background-color: gray;
+    border-radius: 50%;
 }
 
 /**************************************/

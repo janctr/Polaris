@@ -1,5 +1,9 @@
 <div class="qlik-navigation-bar">
-    <div class="qlik-navigation-bar-wrapper">
+    <div class="open-qlik-navbar-wrapper" ng-if="!isShowing" ng-click="toggle()">
+        <div class="open-qlik-navbar">
+        </div>
+    </div>
+    <div class="qlik-navigation-bar-wrapper" ng-if="isShowing">
         <div class="qlik-selections-container">
             <div class="selection-item" ng-repeat="selectionItem in polaris.selectionState.selections">
                 <div class="selection-info">
@@ -41,6 +45,18 @@
                     <path
                         d="M6 15.5a.5.5 0 0 1 .5-.5h3a.5.5 0 1 1 0 1h-3a.5.5 0 0 1-.5-.5m-5-2v1a.5.5 0 0 0 .5.5h1a.5.5 0 1 1 0 1H1a1 1 0 0 1-1-1v-1.5a.5.5 0 1 1 1 0m0-7v3a.5.5 0 0 1-1 0v-3a.5.5 0 0 1 1 0m-1-4V1a1 1 0 0 1 1-1h1.5a.5.5 0 0 1 0 1h-1a.5.5 0 0 0-.5.5v1a.5.5 0 0 1-1 0m6-2a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3A.5.5 0 0 1 6 .5m9 2v-1a.5.5 0 0 0-.5-.5h-1a.5.5 0 1 1 0-1H15a1 1 0 0 1 1 1v1.5a.5.5 0 1 1-1 0M9.166 6.166c1.555-1.555 4.113-1.555 5.668 0s1.555 4.113 0 5.668-4.113 1.555-5.668 0-1.555-4.063 0-5.668m4.966 1.555a.56.56 0 0 0 0-.803.56.56 0 0 0-.803 0l-1.304 1.305-1.304-1.305a.522.522 0 0 0-.803 0 .524.524 0 0 0 0 .803l1.305 1.304-1.305 1.304c-.25.2-.25.552 0 .803.251.25.602.25.803 0l1.304-1.304 1.304 1.304c.2.25.552.25.803 0 .2-.201.25-.602 0-.803l-1.304-1.304z">
                     </path>
+                </svg>
+            </button>
+            <button ng-click="toggle()" class="qlik-action" style="width: 27px;">
+                <svg fill="currentColor" height="8px" width="8px" version="1.1" id="Layer_1"
+                    xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512"
+                    xml:space="preserve">
+                    <g>
+                        <g>
+                            <polygon points="512,59.076 452.922,0 256,196.922 59.076,0 0,59.076 196.922,256 0,452.922 59.076,512 256,315.076 452.922,512 
+			512,452.922 315.076,256 		" />
+                        </g>
+                    </g>
                 </svg>
             </button>
         </div>

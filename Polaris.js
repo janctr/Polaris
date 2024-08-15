@@ -79,6 +79,7 @@ require(['js/qlik'], function (qlik) {
         function (qlik, isSipr, polarisAppId, notionalAppId) {
             const self = this;
 
+            self.qlik = qlik;
             self.isSipr = isSipr;
             self.appId = isSipr ? polarisAppId : notionalAppId;
 
@@ -97,6 +98,8 @@ require(['js/qlik'], function (qlik) {
             // Methods
             self.insertObjects = insertObjects;
             self.getObject = getObject;
+            self.hideNavbar = hideNavbar;
+            self.showNavbar = showNavbar;
 
             function insertObjects(objects) {
                 for (const o of objects) {
@@ -120,6 +123,29 @@ require(['js/qlik'], function (qlik) {
             }
             function forward() {
                 return self.app.forward();
+            }
+
+            function hideNavbar() {
+                $('.qlik-navigation-bar')
+                    .css(
+                        'height',
+                        'var(--qlik-navigation-bar-height-hidden-px)'
+                    )
+                    .css('padding', 0);
+
+                $('main').css(
+                    'height',
+                    'var(--full-viewport-height-hidden-navbar-px)'
+                );
+                self.qlik.resize();
+            }
+
+            function showNavbar() {
+                $('.qlik-navigation-bar').css('height', '');
+                $('.qlik-navigation-bar').css('padding', '');
+
+                $('main').css('height', '');
+                self.qlik.resize();
             }
         },
     ]);
@@ -290,6 +316,16 @@ require(['js/qlik'], function (qlik) {
                 console.log('qliknavbar this: ', this);
 
                 $scope.polaris = polaris;
+                $scope.isShowing = true;
+                $scope.toggle = function () {
+                    if ($scope.isShowing) {
+                        polaris.hideNavbar();
+                    } else {
+                        polaris.showNavbar();
+                    }
+
+                    $scope.isShowing = !$scope.isShowing;
+                };
             },
         ],
     });
