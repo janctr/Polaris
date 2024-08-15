@@ -1,0 +1,48 @@
+<div class="qlik-navigation-bar">
+    <div class="qlik-navigation-bar-wrapper">
+        <div class="qlik-selections-container">
+            <div class="selection-item" ng-repeat="selectionItem in polaris.selectionState.selections">
+                <div class="selection-info">
+                    <p class="selection-item-fieldname">{{selectionItem.fieldName}}</p>
+                    <p class="selection-item-values">{{selectionItem.qSelected.length > 40 ?
+                        selectionItem.qSelected.slice(0, 21) + '...' : selectionItem.qSelected}}
+                    </p>
+                </div>
+                <button ng-click="polaris.clearField(selectionItem.fieldName)" class="qlik-action">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" height="12px" fill="currentColor"
+                        aria-hidden="true" role="img">
+                        <path
+                            d="m9.345 8 3.982 3.982a.951.951 0 0 1-1.345 1.345L8 9.345l-3.982 3.982a.951.951 0 0 1-1.345-1.345L6.655 8 2.673 4.018a.951.951 0 0 1 1.345-1.345L8 6.655l3.982-3.982a.951.951 0 1 1 1.345 1.345z">
+                        </path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <div class="qlik-actions">
+            <button ng-click="polaris.back()" class="qlik-action">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" height="16px" fill="currentColor"
+                    aria-hidden="true" role="img">
+                    <path
+                        d="M1 1.5a.5.5 0 0 1 .5-.5H3V0H1.5A1.5 1.5 0 0 0 0 1.5V3h1zM14.5 1a.5.5 0 0 1 .5.5V3h1V1.5A1.5 1.5 0 0 0 14.5 0H13v1zm0 14a.5.5 0 0 0 .5-.5V13h1v1.5a1.5 1.5 0 0 1-1.5 1.5H13v-1zm-13 0a.5.5 0 0 1-.5-.5V13H0v1.5A1.5 1.5 0 0 0 1.5 16H3v-1zM6 0h4v1H6zm9 6h1v4h-1zm-5 10v-1H6v1zM5.025 9.014A2.986 2.986 0 0 1 8 12h1a3.986 3.986 0 0 0-3.972-3.986l-3.025-.01 1.65-1.65-.707-.708L.093 8.5l2.853 2.854.708-.708L2.01 9.004l3.014.01Z">
+                    </path>
+                </svg>
+            </button>
+            <button ng-click="polaris.forward()" class="qlik-action">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" height="16px" fill="currentColor"
+                    aria-hidden="true" role="img">
+                    <path
+                        d="M1.5 1a.5.5 0 0 0-.5.5V3H0V1.5A1.5 1.5 0 0 1 1.5 0H3v1zm13.5.5a.5.5 0 0 0-.5-.5H13V0h1.5A1.5 1.5 0 0 1 16 1.5V3h-1zM14.5 15a.5.5 0 0 0 .5-.5V13h1v1.5a1.5 1.5 0 0 1-1.5 1.5H13v-1zM1 14.5a.5.5 0 0 0 .5.5H3v1H1.5A1.5 1.5 0 0 1 0 14.5V13h1zM6 0h4v1H6zM1 6H0v4h1zm9 9H6v1h4zm-2-3c0-1.645 1.33-2.98 2.975-2.986l3.031-.01-1.663 1.699.714.7 2.846-2.907-2.85-2.85-.707.708 1.651 1.65-3.025.01A3.986 3.986 0 0 0 7 12z">
+                    </path>
+                </svg>
+            </button>
+            <button ng-click="polaris.clear()" class="qlik-action">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" height="16px" fill="currentColor"
+                    aria-hidden="true" role="img">
+                    <path
+                        d="M6 15.5a.5.5 0 0 1 .5-.5h3a.5.5 0 1 1 0 1h-3a.5.5 0 0 1-.5-.5m-5-2v1a.5.5 0 0 0 .5.5h1a.5.5 0 1 1 0 1H1a1 1 0 0 1-1-1v-1.5a.5.5 0 1 1 1 0m0-7v3a.5.5 0 0 1-1 0v-3a.5.5 0 0 1 1 0m-1-4V1a1 1 0 0 1 1-1h1.5a.5.5 0 0 1 0 1h-1a.5.5 0 0 0-.5.5v1a.5.5 0 0 1-1 0m6-2a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3A.5.5 0 0 1 6 .5m9 2v-1a.5.5 0 0 0-.5-.5h-1a.5.5 0 1 1 0-1H15a1 1 0 0 1 1 1v1.5a.5.5 0 1 1-1 0M9.166 6.166c1.555-1.555 4.113-1.555 5.668 0s1.555 4.113 0 5.668-4.113 1.555-5.668 0-1.555-4.063 0-5.668m4.966 1.555a.56.56 0 0 0 0-.803.56.56 0 0 0-.803 0l-1.304 1.305-1.304-1.305a.522.522 0 0 0-.803 0 .524.524 0 0 0 0 .803l1.305 1.304-1.305 1.304c-.25.2-.25.552 0 .803.251.25.602.25.803 0l1.304-1.304 1.304 1.304c.2.25.552.25.803 0 .2-.201.25-.602 0-.803l-1.304-1.304z">
+                    </path>
+                </svg>
+            </button>
+        </div>
+    </div>
+</div>

@@ -81,8 +81,20 @@ require(['js/qlik'], function (qlik) {
 
             self.isSipr = isSipr;
             self.appId = isSipr ? polarisAppId : notionalAppId;
+
             console.log('opening qlik app: ', self.appId);
+
+            // Qlik
             self.app = qlik.openApp(self.appId, config);
+            self.selectionState = self.app.selectionState();
+
+            // Qlik methods
+            self.clear = clear;
+            self.clearField = clearField;
+            self.back = back;
+            self.forward = forward;
+
+            // Methods
             self.insertObjects = insertObjects;
             self.getObject = getObject;
 
@@ -95,6 +107,19 @@ require(['js/qlik'], function (qlik) {
 
             function getObject({ elementId, objectId, noInteraction = false }) {
                 self.app.getObject(elementId, objectId, { noInteraction });
+            }
+
+            function clear() {
+                return self.app.clearAll();
+            }
+            function clearField(field) {
+                self.app.field(field).clear();
+            }
+            function back() {
+                return self.app.back();
+            }
+            function forward() {
+                return self.app.forward();
             }
         },
     ]);
@@ -251,29 +276,22 @@ require(['js/qlik'], function (qlik) {
     });
 
     angular.module('angularApp').component('qliknavbar', {
-        template: qlikNavigationBarTemplate,
-        bindings: {
-            text2: '@',
-            toggleMenu2: '&',
-            changeText2: '&',
-        },
-        controller: function ($scope) {
-            console.log('qliknavbar scope: ', $scope);
+        templateUrl: 'qlik-navigation-bar.html',
+        // bindings: {
+        //     text2: '@',
+        //     toggleMenu2: '&',
+        //     changeText2: '&',
+        // },
+        controller: [
+            '$scope',
+            'polaris',
+            function ($scope, polaris) {
+                console.log('qliknavbar scope: ', $scope);
+                console.log('qliknavbar this: ', this);
 
-            console.log('qliknavbar this: ', this);
-            // $scope.$ctrl.changeText('yay 2');
-            // $scope.text = $scope.$parent.text;
-            // $scope.changeText = function () {
-            //     console.log('changing text');
-            //     $scope.$parent.changeText('new text');
-            //     console.log('$scope: ', $scope);
-            // };
-
-            $scope.changeText = $scope.$ctrl.changeText;
-            $scope.onMenuClick = function () {
-                console.log('yo');
-            };
-        },
+                $scope.polaris = polaris;
+            },
+        ],
     });
 
     angular.module('angularApp').component('burgermenuicon', {
@@ -391,18 +409,6 @@ const loaderTemplate = `
             </circle>
         </g>
     </svg>
-</div>
-`;
-
-const qlikNavigationBarTemplate = `
-<div class="qlik-navigation-bar">
-    <div>
-        <div class="selections-container">
-        </div>
-        <div>
-            <button ng-click="">Clear Filters</button>
-        </div>
-    </div>
 </div>
 `;
 

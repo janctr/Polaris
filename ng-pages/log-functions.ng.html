@@ -6,6 +6,8 @@
     </svg>
 </div>
 
+<qliknavbar></qliknavbar>
+
 <div class="polaris-sidebar {{isMenuOpen ? 'open' : ''}}">
     <div class="close-icon-wrapper">
         <div class="close-icon" ng-click="toggleMenu()">
@@ -36,7 +38,7 @@
                 <h2>{{ el.title }}</h2>
             </div>
             <div class="log-function-body" id="{{ el.bodyId }}">
-                <!-- <loader></loader> -->
+                <loader></loader>
             </div>
             <div ng-if="!!el.sources" class="log-function-sources">
                 <p class="sources">
