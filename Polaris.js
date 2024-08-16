@@ -25,26 +25,22 @@ require.config({
 
 require(['js/qlik'], function (qlik) {
     // AngularJS version 1.8.3 (ultimate-farewell)
-    const isSipr = window.location.href.includes('smil');
-    const currentPage = window.location.href.split('/').slice(-1)[0];
-    const polarisAppId = '8d04cc88-83c2-400a-a891-f2a07111d6bc'; // SIPR
-    const notionalAppId = 'a02ee546-bb4f-41d3-a3d0-1a93f0aed2cc'; // NIPR
-    const niprJ4LandingPageLink =
-        'https://qlik.advana.data.mil/sense/app/e2f5d8b5-998b-4fcd-b7d7-d8bed97a8695/sheet/dcf05bd5-985e-4bcc-b14e-988f86049a51/state/analysis';
-    const siprJ4LandingPageLink =
-        'https://qlik.advana.data.smil.mil/sense/app/7b45d060-eb7d-4764-acc9-240e057176ad/sheet/546baeed-7818-4bf2-9308-afed26880120/state/analysis';
-
     const angularApp = angular.module('angularApp', ['ngRoute']);
 
     // Constants
     angularApp.constant('qlik', qlik);
-    angularApp.constant('isSipr', isSipr);
-    angularApp.constant('polarisAppId', polarisAppId);
-    angularApp.constant('notionalAppId', notionalAppId);
+    angularApp.constant('isSipr', window.location.href.includes('smil'));
+    angularApp.constant('polarisAppId', '8d04cc88-83c2-400a-a891-f2a07111d6bc');
+    angularApp.constant(
+        'notionalAppId',
+        'a02ee546-bb4f-41d3-a3d0-1a93f0aed2cc'
+    );
     angularApp.constant('navbarLinks', angularLinks);
     angularApp.constant('landingPageLinks', {
-        niprJ4LandingPageLink,
-        siprJ4LandingPageLink,
+        niprJ4LandingPageLink:
+            'https://qlik.advana.data.mil/sense/app/e2f5d8b5-998b-4fcd-b7d7-d8bed97a8695/sheet/dcf05bd5-985e-4bcc-b14e-988f86049a51/state/analysis',
+        siprJ4LandingPageLink:
+            'https://qlik.advana.data.smil.mil/sense/app/7b45d060-eb7d-4764-acc9-240e057176ad/sheet/546baeed-7818-4bf2-9308-afed26880120/state/analysis',
     });
 
     // Routes
