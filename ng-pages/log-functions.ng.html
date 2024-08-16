@@ -32,8 +32,8 @@
 
 <main class="main" id="log-functions-page">
     <div class="tile-container">
-        <div ng-repeat="el in objectElements" ng-if="el.isShowing" ng-style="getContainerSize()"
-            class="tile {{el.classes.join(' ')}}">
+        <div ng-repeat="el in objectElements" ng-style="getContainerSize()" class="tile {{el.classes.join(' ')}}"
+            ng-class="{'hide': !el.isShowing}">
             <div class="tile-header">
                 <h2>{{ el.title }}</h2>
             </div>

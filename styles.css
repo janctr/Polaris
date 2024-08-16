@@ -99,6 +99,12 @@ a:visited {
     transition: all 0.5s ease-in-out;
 }
 
+.tile.hide {
+    overflow: hidden !important;
+    flex: 0 !important;
+    width: 0 !important;
+}
+
 .tile-header {
     background-color: var(--blue-1);
     color: #fff;
@@ -154,11 +160,6 @@ a:visited {
     flex: 1;
 }
 
-.tile.hide {
-    overflow: hidden !important;
-    flex: 0 !important;
-    width: 0 !important;
-}
 /**************************************/
 
 /**************************************/

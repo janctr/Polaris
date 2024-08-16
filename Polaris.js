@@ -102,6 +102,7 @@ require(['js/qlik'], function (qlik) {
             self.getObject = getObject;
             self.hideNavbar = hideNavbar;
             self.showNavbar = showNavbar;
+            self.resize = resize;
 
             function insertObjects(objects) {
                 for (const o of objects) {
@@ -128,6 +129,11 @@ require(['js/qlik'], function (qlik) {
 
             function forward() {
                 return self.app.forward();
+            }
+
+            function resize() {
+                console.log('resizing');
+                self.qlik.resize();
             }
 
             function hideNavbar() {
@@ -219,7 +225,7 @@ require(['js/qlik'], function (qlik) {
                     (objectElement) => objectElement.isShowing
                 ).length;
 
-                console.log(numVisibleTiles);
+                // console.log(numVisibleTiles);
                 const styles = {};
 
                 // if (numVisibleTiles % 4 === 0) {
