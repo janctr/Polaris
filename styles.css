@@ -359,8 +359,8 @@ a:visited {
 }
 
 .log-function {
-    flex: calc(25% - 1rem);
-
+    /* flex: calc(25% - 1rem); 8 tiles */
+    flex: calc(33% - 1rem);
     display: flex;
     flex-direction: column;
     align-items: center;

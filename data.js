@@ -65,14 +65,14 @@ const angularLinks = [
 
 const logFunctionsPage = {
     objectElements: [
-        {
-            classes: ['supply'],
-            title: 'Supply',
-            bodyId: 'QV1',
-            // sources: ['USTRANSCOM Global Distribution Network'],
-            // refreshRate: { label: 'Monthly', color: 'yellow' },
-            // quality: { label: 'Partial', color: 'yellow' },
-        },
+        // {
+        //     classes: ['supply'],
+        //     title: 'Supply',
+        //     bodyId: 'QV1',
+        //     // sources: ['USTRANSCOM Global Distribution Network'],
+        //     // refreshRate: { label: 'Monthly', color: 'yellow' },
+        //     // quality: { label: 'Partial', color: 'yellow' },
+        // },
         {
             classes: ['logistics-nodes'],
             title: 'Logistics Nodes',
@@ -82,7 +82,7 @@ const logFunctionsPage = {
             quality: { label: 'Partial', color: 'yellow' },
         },
         {
-            classes: ['readiness-airframes'],
+            classes: ['pddoc'],
             title: 'PDDOC',
             bodyId: 'QV3',
             sources: ['8th TSC', 'PACFLT0'],
@@ -97,14 +97,14 @@ const logFunctionsPage = {
             refreshRate: { label: '~Daily', color: 'green' },
             quality: { label: 'Partial', color: 'yellow' },
         },
-        {
-            classes: ['engineering'],
-            title: 'Engineering',
-            bodyId: 'QV5',
-            sources: ['Theater Infrastructure Master Plant'],
-            refreshRate: { label: 'Bimonthly', color: 'green' },
-            quality: { label: 'Partial', color: 'yellow' },
-        },
+        // {
+        //     classes: ['engineering'],
+        //     title: 'Engineering',
+        //     bodyId: 'QV5',
+        //     sources: ['Theater Infrastructure Master Plant'],
+        //     refreshRate: { label: 'Bimonthly', color: 'green' },
+        //     quality: { label: 'Partial', color: 'yellow' },
+        // },
         {
             classes: ['logistics-services'],
             title: 'Logistics Services',
@@ -184,93 +184,92 @@ const classesOfSupplyPage = {
 
 const siprObjects = {
     home: [
-        { elementId: 'map', objectId: '7ea8e67c-3241-42ee-8250-de8cadfc303a' },
+        { elementId: 'map', objectId: 'kQBhf' },
         {
             // Class I
             label: 'Class I',
             elementId: 'QV1',
-            objectId: 'ACjABHm',
+            objectId: 'NeQnbP',
         },
         {
             // Class III
             label: 'Class III',
-
             elementId: 'QV2',
-            objectId: 'jXhfrmR',
+            objectId: 'VgRvJMy',
         },
         {
             // Class IV
             label: 'Class IV',
             elementId: 'QV3',
-            objectId: 'uvcy',
+            objectId: 'DhVTXQ',
         },
         {
             // Class V
             label: 'Class V',
             elementId: 'QV4',
-            objectId: 'pKJXJtS',
+            objectId: 'AQjYdx',
         },
         {
             // Class VIII
             label: 'Class VIII',
             elementId: 'QV5',
-            objectId: 'qvPEkB',
+            objectId: 'nfJhN',
         },
         {
             // Class IX
             label: 'Class IX',
             elementId: 'QV6',
-            objectId: 'WPytt',
+            objectId: 'mWQjmAm',
         },
     ],
     logFunctions: [
-        {
-            // Supply
-            label: 'Supply',
-            elementId: 'QV1',
-            objectId: 'mENkwjC',
-        },
+        // {
+        //     // Supply
+        //     label: 'Supply',
+        //     elementId: 'QV1',
+        //     objectId: 'mENkwjC',
+        // },
         {
             // Logistics Nodes
             label: 'Logistics Nodes',
             elementId: 'QV2',
-            objectId: 'dndvmjp',
+            objectId: 'FJpzh',
         },
         {
             // PDDOC
             label: 'PDDOC',
             elementId: 'QV3',
-            objectId: 'tJAutGe',
+            objectId: 'XQhhJ',
         },
         {
             // Readiness Airframes
             label: 'Readiness - Airframes',
             elementId: 'QV4',
-            objectId: 'bWLGCT',
+            objectId: 'wNjwj',
         },
-        {
-            // Engineering
-            label: 'Engineering',
-            elementId: 'QV5',
-            objectId: 'jYtzRw',
-        },
+        // {
+        //     // Engineering
+        //     label: 'Engineering',
+        //     elementId: 'QV5',
+        //     objectId: 'jYtzRw',
+        // },
         {
             // Logistics Services
             label: 'Logistics Services',
             elementId: 'QV6',
-            objectId: 'Vby',
+            objectId: 'jZJhza',
         },
         {
             // Joint Health Services
             label: 'Joint Health Services',
             elementId: 'QV7',
-            objectId: 'dgkMzt',
+            objectId: 'pTMmb',
         },
         {
             // OCS
             label: 'OCS',
             elementId: 'QV8',
-            objectId: 'nPeqdTV',
+            objectId: 'XFwxnmH',
         },
     ],
     classesOfSupply: [
@@ -278,38 +277,37 @@ const siprObjects = {
             // Class I
             label: 'Class I',
             elementId: 'QV1',
-            objectId: 'ACjABHm',
+            objectId: 'NeQnbP',
         },
         {
             // Class III
             label: 'Class III',
-
             elementId: 'QV2',
-            objectId: 'jXhfrmR',
+            objectId: 'VgRvJMy',
         },
         {
             // Class IV
             label: 'Class IV',
             elementId: 'QV3',
-            objectId: 'uvcy',
+            objectId: 'DhVTXQ',
         },
         {
             // Class V
             label: 'Class V',
             elementId: 'QV4',
-            objectId: 'pKJXJtS',
+            objectId: 'AQjYdx',
         },
         {
             // Class VIII
             label: 'Class VIII',
             elementId: 'QV5',
-            objectId: 'qvPEkB',
+            objectId: 'nfJhN',
         },
         {
             // Class IX
             label: 'Class IX',
             elementId: 'QV6',
-            objectId: 'WPytt',
+            objectId: 'mWQjmAm',
         },
     ],
     cop: [
