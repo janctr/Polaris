@@ -31,16 +31,16 @@
 </div>
 
 <main class="main" id="log-functions-page">
-    <div class="log-functions-container">
+    <div class="tile-container">
         <div ng-repeat="el in objectElements" ng-if="el.isShowing" ng-style="getContainerSize()"
-            class="log-function tile {{el.classes.join(' ')}}">
-            <div class="log-function-header">
+            class="tile {{el.classes.join(' ')}}">
+            <div class="tile-header">
                 <h2>{{ el.title }}</h2>
             </div>
-            <div class="log-function-body" id="{{ el.bodyId }}">
+            <div class="tile-body" id="{{ el.bodyId }}">
                 <loader></loader>
             </div>
-            <div ng-if="!!el.sources" class="log-function-sources">
+            <div ng-if="!!el.sources" class="tile-sources">
                 <p class="sources">
                     <span>Sources:</span>
                     <span>{{ el.sources.join(' , ') }}</span>
@@ -57,3 +57,10 @@
         </div>
     </div>
 </main>
+
+<style type="text/css">
+    #log-functions-page {
+        height: var(--full-viewport-height-navbar-px);
+        padding: 1rem;
+    }
+</style>

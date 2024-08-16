@@ -1,5 +1,5 @@
 <qliknavbar></qliknavbar>
-<main class="main" id="template-page">
+<main class="main" id="home-page">
     <div id="map" class="map">
         <loader></loader>
     </div>
@@ -53,3 +53,82 @@
         </div>
     </div>
 </main>
+
+<style type="text/css">
+    #home-page {
+        height: var(--full-viewport-height-navbar-px);
+
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        grid-template-rows: auto;
+        grid-template-areas:
+            'grid-1 map map map grid-5'
+            'grid-2 map map map grid-6'
+            'grid-3 map map map grid-7';
+    }
+
+    #home-page>div {
+        /* outline: 1px solid grey; */
+    }
+
+    #home-page .map {
+        grid-area: map;
+    }
+
+    #home-page>.grid-1 {
+        grid-area: grid-1;
+        border-bottom: 1px solid gray;
+    }
+
+    #home-page>.grid-2 {
+        grid-area: grid-2;
+        border-bottom: 1px solid gray;
+    }
+
+    #home-page>.grid-3 {
+        grid-area: grid-3;
+    }
+
+    #home-page>.grid-4 {
+        grid-area: grid-4;
+        border-left: 1px solid gray;
+        border-right: 1px solid gray;
+    }
+
+    #home-page>.grid-5 {
+        grid-area: grid-5;
+        border-bottom: 1px solid gray;
+    }
+
+    #home-page>.grid-6 {
+        grid-area: grid-6;
+        border-bottom: 1px solid gray;
+    }
+
+    #home-page>.grid-7 {
+        grid-area: grid-7;
+    }
+
+    #home-page .grid-box {
+        /* padding: 1rem; */
+        display: flex;
+        flex-direction: column;
+    }
+
+    #home-page .grid-box .header {
+        padding: 0.5rem;
+    }
+
+    #home-page .grid-box .body {
+        flex: 1;
+        /* margin-left: 1.5rem; */
+    }
+
+    #home-page ul {
+        /* list-style-type: upper-roman; */
+    }
+
+    #home-page li {
+        /* line-height: 1rem; */
+    }
+</style>
