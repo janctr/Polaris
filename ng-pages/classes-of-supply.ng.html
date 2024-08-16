@@ -32,7 +32,7 @@
 
 <main class="main" id="class-of-supply-page">
     <div class="tile-container">
-        <div ng-repeat="el in objectElements" ng-if="el.isShowing" ng-style="{}" class="tile {{el.classes.join(' ')}}">
+        <div ng-repeat="el in objectElements" ng-class="{'hide': !el.isShowing}" class="tile {{el.classes.join(' ')}}">
             <div class="tile-header">
                 <h2>{{ el.title }}</h2>
             </div>
