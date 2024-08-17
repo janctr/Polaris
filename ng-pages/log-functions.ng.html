@@ -30,6 +30,10 @@
     </div>
 </div>
 
+<polarismodal ng-repeat="appObject in modalElements" isOpen="{{appObject.isOpen}}" objectId="{{appObject.objectId}}"
+    elementId="{{appObject.elementId}}">
+</polarismodal>
+
 <main class="main" id="log-functions-page">
     <div class="tile-container">
         <div ng-repeat="el in objectElements" ng-style="getContainerSize()" class="tile {{el.classes.join(' ')}}"

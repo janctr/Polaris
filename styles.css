@@ -50,6 +50,7 @@ a:visited {
 
 .main {
     height: var(--full-viewport-height-px);
+    background-color: #fff;
 }
 
 .header {

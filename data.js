@@ -357,11 +357,11 @@ const siprObjects = {
 
 const notionalAppObjects = {
     logFunctions: [
-        {
-            label: 'Supply',
-            elementId: 'QV1',
-            objectId: 'GcZB',
-        },
+        // {
+        //     label: 'Supply',
+        //     elementId: 'QV1',
+        //     objectId: 'GcZB',
+        // },
         {
             label: 'Logistics Nodes',
             elementId: 'QV2',
@@ -369,7 +369,7 @@ const notionalAppObjects = {
         },
         { label: 'PDDOC', elementId: 'QV3', objectId: 'fsHmHP' },
         { label: 'Readiness - Airframes', elementId: 'QV4', objectId: 'mKw' },
-        { label: 'Engineering', elementId: 'QV5', objectId: 'YJgJM' },
+        // { label: 'Engineering', elementId: 'QV5', objectId: 'YJgJM' },
         { label: 'Logistics Services', elementId: 'QV6', objectId: 'mKw' },
         {
             label: 'Joint Health Services',

@@ -94,6 +94,7 @@ require(['js/qlik'], function (qlik) {
             self.forward = forward;
 
             // Methods
+            self.insertObject = getObject;
             self.insertObjects = insertObjects;
             self.getObject = getObject;
             self.hideNavbar = hideNavbar;
@@ -201,6 +202,15 @@ require(['js/qlik'], function (qlik) {
             angular.element(document).ready(function () {
                 polaris.insertObjects(appObjects);
             });
+
+            $scope.modalElements = appObjects.map((appObject) => ({
+                ...appObject,
+                isOpen: false,
+            }));
+            $scope.toggleModal = function (index) {
+                $scope.modalElements[index].isOpen =
+                    !$scope.modalElements[index].isOpen;
+            };
 
             $scope.objectElements = logFunctionsPage.objectElements.map(
                 (objectElement) => ({
@@ -331,6 +341,88 @@ require(['js/qlik'], function (qlik) {
 
                     $scope.isShowing = !$scope.isShowing;
                 };
+            },
+        ],
+    });
+
+    angularApp.component('polarismodal', {
+        bindings: {
+            isOpen: '=',
+            elementId: '=',
+            objectId: '=',
+        },
+        template: `
+            <div class="polaris-modal" id="{{elementId}}-wrapper"
+                ng-style="{{modalStyle}}">
+                <div class="polaris-modal-actions">
+                    <button ng-click="toggle()">Close</button>
+                </div>
+                <div class="polaris-modal-body" id="{{elementId}}">
+                    <span>{{label}}<span>
+                    {{elementId}}
+                </div>
+            </div>
+            <style type="text/css">
+                .polaris-modal {
+                    position: fixed;
+                    top: 50%;
+                    left: 50%;
+                    transform: translateX(-50%) translateY(-50%);
+                    width: 85vw;
+                    height: 90vh;
+
+                    background-color: #FFF;
+
+                    display: flex;
+                    flex-direction: column;
+                    
+                    z-index: -1;
+
+                    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+                    rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+                }
+                .polaris-modal-actions {
+
+                }
+
+                .polaris-modal-body {
+                    flex: 1;
+                }
+            </style>
+        `,
+        controller: [
+            '$scope',
+            'polaris',
+            function ($scope, polaris) {
+                const { label, objectId, elementId } = $scope.$parent.appObject;
+
+                $scope.label = label;
+                $scope.elementId = elementId;
+                $scope.objectId = objectId;
+
+                $scope.modalStyle = $scope.isOpen
+                    ? {
+                          'z-index': 2,
+                      }
+                    : {};
+
+                $scope.isOpen = false;
+                $scope.toggle = function () {
+                    $scope.isOpen = !$scope.isOpen;
+                };
+
+                console.log('$scope', $scope);
+
+                angular
+                    .element(document)
+                    .find(`${elementId}-wrapper`)
+                    .ready(function () {
+                        console.log('yo');
+                        polaris.insertObject({
+                            elementId,
+                            objectId,
+                        });
+                    });
             },
         ],
     });
