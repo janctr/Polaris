@@ -1,0 +1,66 @@
+<div class="menu-icon" ng-click="toggleMenu()">
+    <svg width="100%" height="100%" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M4 18L20 18" stroke="#000000" stroke-width="2" stroke-linecap="round" />
+        <path d="M4 12L20 12" stroke="#000000" stroke-width="2" stroke-linecap="round" />
+        <path d="M4 6L20 6" stroke="#000000" stroke-width="2" stroke-linecap="round" />
+    </svg>
+</div>
+
+<qliknavbar></qliknavbar>
+
+<div class="polaris-sidebar {{isMenuOpen ? 'open' : ''}}">
+    <div class="close-icon-wrapper">
+        <div class="close-icon" ng-click="toggleMenu()">
+            <svg fill="#000000" height="100%" width="100%" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
+                xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" xml:space="preserve">
+                <g>
+                    <g>
+                        <polygon points="512,59.076 452.922,0 256,196.922 59.076,0 0,59.076 196.922,256 0,452.922 59.076,512 256,315.076 452.922,512 
+                        512,452.922 315.076,256 		" />
+                    </g>
+                </g>
+            </svg>
+        </div>
+    </div>
+    <div class="sidebar-body">
+        <div class="polaris-checkbox" ng-repeat="el in objectElements">
+            <input type="checkbox" id="{{el.bodyId + '-checkbox'}}" ng-model="el.isShowing" name="{{el.title}}" />
+            <label for="{{el.bodyId + '-checkbox'}}">{{el.title}}</label>
+        </div>
+    </div>
+</div>
+
+<main class="main" id="log-functions-page">
+    <div class="tile-container">
+        <div ng-repeat="el in objectElements" ng-style="getContainerSize()" class="tile {{el.classes.join(' ')}}"
+            ng-class="{'hide': !el.isShowing}">
+            <div class="tile-header">
+                <h2>{{ el.title }}</h2>
+            </div>
+            <div class="tile-body" id="{{ el.bodyId }}">
+                <loader></loader>
+            </div>
+            <div ng-if="!!el.sources" class="tile-sources">
+                <p class="sources">
+                    <span>Sources:</span>
+                    <span>{{ el.sources.join(' , ') }}</span>
+                </p>
+                <p class="refresh-rate">
+                    <span>Refresh Rate:</span>
+                    <span class="{{el.refreshRate.color}}">{{ el.refreshRate.label }}</span>
+                </p>
+                <p class="quality">
+                    <span>Quality:</span>
+                    <span class="{{el.quality.colo}}">{{ el.quality.label }}</span>
+                </p>
+            </div>
+        </div>
+    </div>
+</main>
+
+<style type="text/css">
+    #log-functions-page {
+        height: var(--full-viewport-height-navbar-px);
+        padding: 1rem;
+    }
+</style>

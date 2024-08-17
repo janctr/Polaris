@@ -1,0 +1,190 @@
+<header class="header">
+    <nav class="navbar">
+        <ul class="nav-links">
+            <li class="{{link.classNames.join(' ')}}" ng-repeat="link in links">
+                <a href="{{link.href}}" class="{{link.anchorClassNames.join(' ')}}">
+                    <div ng-if="link.childLinks.length > 0" class="dropdown-icon">
+                        <svg fill="#000000" height="100%" width="100%" version="1.1" id="Layer_1"
+                            xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                            viewBox="0 0 330 330" xml:space="preserve">
+                            <path id="XMLID_225_" d="M325.607,79.393c-5.857-5.857-15.355-5.858-21.213,0.001l-139.39,139.393L25.607,79.393
+                            c-5.857-5.857-15.355-5.858-21.213,0.001c-5.858,5.858-5.858,15.355,0,21.213l150.004,150c2.813,2.813,6.628,4.393,10.606,4.393
+                            s7.794-1.581,10.606-4.394l149.996-150C331.465,94.749,331.465,85.251,325.607,79.393z" />
+                        </svg>
+                    </div>
+                    {{ link.label }}
+                </a>
+
+                <ul ng-if="link.childLinks.length > 0" class="link-dropdown">
+                    <li class="{{childLink.classNames.join(' ')}}" ng-repeat="childLink in link.childLinks">
+                        <a class="{{childLink.anchorClassNames.join(' ')}}" href="{{childLink.href}}">{{
+                            childLink.label}}</a>
+                    </li>
+                </ul>
+            </li>
+            <li class="link">
+                <a href="{{j4LandingPageLink}}" class="j4-landing-page-link">
+                    J4 Landing Page
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+
+<style type="text/css">
+    .polaris-logo {
+        position: absolute;
+        top: 0;
+        left: 3rem;
+    }
+
+    .polaris {
+        display: inline-block;
+        height: 100%;
+        text-align: center;
+        /* color: #fff; */
+        font-size: 2rem;
+        text-decoration: none;
+
+        /* margin-left: 2rem; */
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        letter-spacing: 9px !important;
+    }
+
+    .polaris:hover {
+        text-decoration: none !important;
+    }
+
+    .navbar {
+        height: 100%;
+        display: flex;
+        align-items: center;
+
+        padding: 0 2rem 0 0;
+
+        box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+        box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+    }
+
+    .navbar>.nav-links {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        width: 100%;
+        gap: 1rem;
+        list-style-type: none;
+    }
+
+    .link {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        position: relative;
+
+        /* color: #000; */
+
+        transition: color 0.25s ease-in-out;
+    }
+
+    .link.active:after {
+        position: absolute;
+        content: '';
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+
+        width: 25%;
+        border: 1px solid var(--blue-2);
+    }
+
+    .link>a {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+        letter-spacing: 2px;
+        padding: 0 0.5rem;
+
+        transition: color 0.25s ease-in-out;
+    }
+
+    .link>a:hover {
+        color: var(--blue-4);
+    }
+
+    .no-underline:hover {
+        text-decoration: none !important;
+    }
+
+    .menu-icon {
+        position: absolute;
+        top: 0;
+        left: 0;
+
+        height: var(--header-height-px);
+        width: var(--header-height-px);
+
+        padding: 5px;
+
+        transition: all 0.25s cubic-bezier(0.17, 0.67, 0.83, 0.67);
+    }
+
+    .menu-icon:hover {
+        cursor: pointer;
+        background-color: #eee;
+    }
+
+    .dropdown-icon {
+        height: 25px;
+        width: 25px;
+        padding: 6px;
+    }
+
+    .link-dropdown {
+        position: absolute;
+        visibility: hidden;
+        display: flex;
+        flex-direction: column;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        min-width: 220px;
+        transform: translateY(100%);
+        z-index: -1;
+
+        opacity: 0;
+        background-color: white;
+        box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+
+        list-style-type: none;
+
+        transition: all 0.125s cubic-bezier(0.17, 0.67, 0.83, 0.67);
+    }
+
+    .navbar>.nav-links>.link:hover>.link-dropdown {
+        opacity: 1;
+        z-index: 2;
+        visibility: visible;
+    }
+
+    .link-dropdown .child-link {
+        padding: 0.5rem;
+        font-size: 1rem;
+        background-color: inherit;
+        transition: all 0.125s cubic-bezier(0.17, 0.67, 0.83, 0.67);
+    }
+
+    .link-dropdown .child-link>a {
+        display: block;
+        width: 100%;
+    }
+
+    .link-dropdown .child-link:hover {
+        background-color: #efefef;
+    }
+</style>
