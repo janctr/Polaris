@@ -94,21 +94,25 @@ require(['js/qlik'], function (qlik) {
             self.forward = forward;
 
             // Methods
-            self.insertObject = getObject;
+            self.insertObject = insertObject;
             self.insertObjects = insertObjects;
-            self.getObject = getObject;
             self.hideNavbar = hideNavbar;
             self.showNavbar = showNavbar;
             self.resize = resize;
 
             function insertObjects(objects) {
                 for (const o of objects) {
-                    console.log('Fetching object: ', o.label);
-                    self.getObject(o);
+                    self.insertObject(o);
                 }
             }
 
-            function getObject({ elementId, objectId, noInteraction = false }) {
+            function insertObject({
+                label,
+                elementId,
+                objectId,
+                noInteraction = false,
+            }) {
+                console.log('Fetching object: ', label);
                 self.app.getObject(elementId, objectId, { noInteraction });
             }
 
@@ -203,21 +207,30 @@ require(['js/qlik'], function (qlik) {
                 polaris.insertObjects(appObjects);
             });
 
-            $scope.modalElements = appObjects.map((appObject) => ({
+            $scope.modalElements = appObjects.map((appObject, index) => ({
                 ...appObject,
                 isOpen: false,
+                toggleModal: function () {
+                    console.log('toggling modal #', index);
+                    $scope.toggleModal(index);
+                },
             }));
+
             $scope.toggleModal = function (index) {
                 $scope.modalElements[index].isOpen =
                     !$scope.modalElements[index].isOpen;
             };
 
             $scope.objectElements = logFunctionsPage.objectElements.map(
-                (objectElement) => ({
+                (objectElement, index) => ({
                     ...objectElement,
                     isShowing: true,
                     toggleIsShowing: function () {
                         this.isShowing = !this.IsShowing;
+                    },
+                    toggleModal: function () {
+                        console.log('toggling modal #', index);
+                        $scope.toggleModal(index);
                     },
                 })
             );
@@ -263,12 +276,30 @@ require(['js/qlik'], function (qlik) {
                 polaris.insertObjects(appObjects);
             });
 
+            $scope.modalElements = appObjects.map((appObject, index) => ({
+                ...appObject,
+                isOpen: false,
+                toggleModal: function () {
+                    console.log('toggling modal #', index);
+                    $scope.toggleModal(index);
+                },
+            }));
+
+            $scope.toggleModal = function (index) {
+                $scope.modalElements[index].isOpen =
+                    !$scope.modalElements[index].isOpen;
+            };
+
             $scope.objectElements = classesOfSupplyPage.objectElements.map(
-                (objectElement) => ({
+                (objectElement, index) => ({
                     ...objectElement,
                     isShowing: true,
                     toggleIsShowing: function () {
                         this.isShowing = !this.IsShowing;
+                    },
+                    toggleModal: function () {
+                        console.log('toggling modal #', index);
+                        $scope.toggleModal(index);
                     },
                 })
             );
@@ -345,21 +376,26 @@ require(['js/qlik'], function (qlik) {
         ],
     });
 
-    angularApp.component('polarismodal', {
+    angularApp.component('polarisModal', {
         bindings: {
-            isOpen: '=',
-            elementId: '=',
-            objectId: '=',
+            isOpen: '<',
+            toggle: '&',
+            modalLabel: '@',
+            elementId: '@',
+            objectId: '@',
         },
         template: `
-            <div class="polaris-modal" id="{{elementId}}-wrapper"
+            <div class="polaris-modal" id="{{$ctrl.elementId}}-wrapper"
                 ng-style="{{modalStyle}}">
                 <div class="polaris-modal-actions">
-                    <button ng-click="toggle()">Close</button>
+                    <h3>{{$ctrl.modalLabel}}</h3>
+                    <button ng-click="$ctrl.toggle()">
+                        <close-icon></close-icon
+                    </button>
                 </div>
-                <div class="polaris-modal-body" id="{{elementId}}">
-                    <span>{{label}}<span>
-                    {{elementId}}
+                <div class="polaris-modal-body" id="{{$ctrl.elementId}}-modal-body">
+                    <span>{{$ctrl.label}}<span>
+                    {{$ctrl.elementId}}
                 </div>
             </div>
             <style type="text/css">
@@ -382,7 +418,30 @@ require(['js/qlik'], function (qlik) {
                     rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
                 }
                 .polaris-modal-actions {
+                    // background-color: var(--blue-2);
+                    // color: #FFF;
+                    padding: 0.5rem 0.5rem 0.5rem 1rem;
+                    display: flex;
+                    align-items: center;
+                    
+                }
 
+                .polaris-modal-actions h3 {
+                    flex: 1;
+                }
+
+                .polaris-modal-actions button {
+                    border: none;
+                    border-radius: 50%;
+                    padding: 10px;
+                    transition: all 0.25s ease-in-out;
+                    width: 38px;
+                    height: 38px;
+                }
+
+                .polaris-modal-actions button:hover {
+                    cursor: pointer;
+                    background-color: rgba(64, 64, 64, 0.05);
                 }
 
                 .polaris-modal-body {
@@ -394,35 +453,28 @@ require(['js/qlik'], function (qlik) {
             '$scope',
             'polaris',
             function ($scope, polaris) {
-                const { label, objectId, elementId } = $scope.$parent.appObject;
+                $scope.modalStyle = {
+                    'z-index': 2,
+                };
+                $scope.modalElementId = this.elementId + '-modal';
 
-                $scope.label = label;
-                $scope.elementId = elementId;
-                $scope.objectId = objectId;
-
-                $scope.modalStyle = $scope.isOpen
-                    ? {
-                          'z-index': 2,
-                      }
-                    : {};
-
-                $scope.isOpen = false;
                 $scope.toggle = function () {
-                    $scope.isOpen = !$scope.isOpen;
+                    $scope.$ctrl.toggle();
                 };
 
-                console.log('$scope', $scope);
+                angular.element(document).ready(function () {
+                    console.log(
+                        'Inserting object ',
+                        $scope.$ctrl.elementId,
+                        ' into modal'
+                    );
 
-                angular
-                    .element(document)
-                    .find(`${elementId}-wrapper`)
-                    .ready(function () {
-                        console.log('yo');
-                        polaris.insertObject({
-                            elementId,
-                            objectId,
-                        });
+                    polaris.insertObject({
+                        label: $scope.$ctrl.modalLabel,
+                        elementId: `${$scope.$ctrl.elementId}-modal-body`,
+                        objectId: $scope.$ctrl.objectId,
                     });
+                });
             },
         ],
     });
@@ -432,6 +484,14 @@ require(['js/qlik'], function (qlik) {
         bindings: {
             toggleMenu: '&',
         },
+    });
+
+    angularApp.component('closeIcon', {
+        template: closeIconTemplate,
+    });
+
+    angularApp.component('fullscreenIcon', {
+        template: fullscreenIconTemplate,
     });
 
     angular.bootstrap(document, ['angularApp', 'qlik-angular']);
@@ -551,4 +611,45 @@ const burgerMenuIconTemplate = `
         <path d="M4 6L20 6" stroke="#000000" stroke-width="2" stroke-linecap="round" />
     </svg>
 </div>
+`;
+
+const closeIconTemplate = `
+<svg fill="currentColor" height="8px" width="8px" version="1.1" id="Layer_1"
+        xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512"
+        xml:space="preserve">
+        <g>
+            <g>
+                <polygon points="512,59.076 452.922,0 256,196.922 59.076,0 0,59.076 196.922,256 0,452.922 59.076,512 256,315.076 452.922,512 
+512,452.922 315.076,256 		" />
+            </g>
+        </g>
+    </svg>
+`;
+
+const fullscreenIconTemplate = `
+<svg fill="#000000" height="100%" width="100%" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+	 viewBox="0 0 384.97 384.97" xml:space="preserve">
+<g>
+	<g id="Fullscreen_1_">
+		<path d="M372.939,216.545c-6.123,0-12.03,5.269-12.03,12.03v132.333H24.061V24.061h132.333c6.388,0,12.03-5.642,12.03-12.03
+			S162.409,0,156.394,0H24.061C10.767,0,0,10.767,0,24.061v336.848c0,13.293,10.767,24.061,24.061,24.061h336.848
+			c13.293,0,24.061-10.767,24.061-24.061V228.395C384.97,221.731,380.085,216.545,372.939,216.545z"/>
+		<path d="M372.939,0H252.636c-6.641,0-12.03,5.39-12.03,12.03s5.39,12.03,12.03,12.03h91.382L99.635,268.432
+			c-4.668,4.668-4.668,12.235,0,16.903c4.668,4.668,12.235,4.668,16.891,0L360.909,40.951v91.382c0,6.641,5.39,12.03,12.03,12.03
+			s12.03-5.39,12.03-12.03V12.03l0,0C384.97,5.558,379.412,0,372.939,0z"/>
+	</g>
+	<g>
+	</g>
+	<g>
+	</g>
+	<g>
+	</g>
+	<g>
+	</g>
+	<g>
+	</g>
+	<g>
+	</g>
+</g>
+</svg>
 `;

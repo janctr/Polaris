@@ -30,9 +30,10 @@
     </div>
 </div>
 
-<polarismodal ng-repeat="appObject in modalElements" isOpen="{{appObject.isOpen}}" objectId="{{appObject.objectId}}"
-    elementId="{{appObject.elementId}}">
-</polarismodal>
+<polaris-modal ng-repeat="appObject in modalElements" ng-if="appObject.isOpen" is-open="appObject.isOpen"
+    toggle="appObject.toggleModal()" modal-label="{{appObject.label}}" object-id="{{appObject.objectId}}"
+    element-id="{{appObject.elementId}}">
+</polaris-modal>
 
 <main class="main" id="log-functions-page">
     <div class="tile-container">
@@ -40,6 +41,9 @@
             ng-class="{'hide': !el.isShowing}">
             <div class="tile-header">
                 <h2>{{ el.title }}</h2>
+                <button ng-click="el.toggleModal()" class="tile-header-fullscreen-btn">
+                    <fullscreen-icon></fullscreen-icon>
+                </button>
             </div>
             <div class="tile-body" id="{{ el.bodyId }}">
                 <loader></loader>
@@ -55,7 +59,7 @@
                 </p>
                 <p class="quality">
                     <span>Quality:</span>
-                    <span class="{{el.quality.colo}}">{{ el.quality.label }}</span>
+                    <span class="{{el.quality.color}}">{{ el.quality.label }}</span>
                 </p>
             </div>
         </div>
