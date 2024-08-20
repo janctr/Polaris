@@ -347,13 +347,8 @@ require(['js/qlik'], function (qlik) {
         template: loaderTemplate,
     });
 
-    angularApp.component('qliknavbar', {
+    angularApp.component('qlikNavbar', {
         templateUrl: 'qlik-navigation-bar.html',
-        // bindings: {
-        //     text2: '@',
-        //     toggleMenu2: '&',
-        //     changeText2: '&',
-        // },
         controller: [
             '$scope',
             'polaris',
@@ -479,7 +474,7 @@ require(['js/qlik'], function (qlik) {
         ],
     });
 
-    angularApp.component('burgermenuicon', {
+    angularApp.component('burgerMenuIcon', {
         template: burgerMenuIconTemplate,
         bindings: {
             toggleMenu: '&',
@@ -638,18 +633,7 @@ const fullscreenIconTemplate = `
 			c-4.668,4.668-4.668,12.235,0,16.903c4.668,4.668,12.235,4.668,16.891,0L360.909,40.951v91.382c0,6.641,5.39,12.03,12.03,12.03
 			s12.03-5.39,12.03-12.03V12.03l0,0C384.97,5.558,379.412,0,372.939,0z"/>
 	</g>
-	<g>
-	</g>
-	<g>
-	</g>
-	<g>
-	</g>
-	<g>
-	</g>
-	<g>
-	</g>
-	<g>
-	</g>
+    <g></g> <g></g> <g></g> <g></g> <g></g> <g></g>
 </g>
 </svg>
 `;
