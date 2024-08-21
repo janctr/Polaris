@@ -237,6 +237,10 @@ require(['js/qlik'], function (qlik) {
             $scope.j4LandingPageLink = polaris.isSipr
                 ? siprJ4LandingPageLink
                 : niprJ4LandingPageLink;
+            $scope.classificationBannerLabel = polaris.isSipr
+                ? 'SECRET'
+                : 'UNCLASSIFIED';
+            $scope.classificationBannerColor = polaris.isSipr ? 'red' : 'green';
         },
     ]);
 
@@ -645,7 +649,7 @@ require(['js/qlik'], function (qlik) {
                     display: flex;
                     justify-content: center;
                     align-items: center;
-                    
+
                     transition: background-color 0.25s ease-in-out;
                 }
 
@@ -711,6 +715,14 @@ require(['js/qlik'], function (qlik) {
         template: arrowIconTemplate,
         bindings: {
             direction: '<',
+        },
+    });
+
+    angularApp.component('classificationBanner', {
+        template: `<div class="classification-banner {{$ctrl.color}}">{{ $ctrl.label }}</div>`,
+        bindings: {
+            label: '<',
+            color: '<',
         },
     });
 

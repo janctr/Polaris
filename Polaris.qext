@@ -7,7 +7,7 @@
     "homepage": "",
     "keywords": "qlik-sense, visualization, mashup",
     "license": "",
-    "repository": "https://github.com/janctr/PolarisMockup",
+    "repository": "https://github.com/janctr/Polaris",
     "dependencies": {
         "qlik-sense": ">=3.0.x"
     }
