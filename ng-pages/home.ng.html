@@ -1,56 +1,141 @@
 <qlik-navbar></qlik-navbar>
-<main class="main" id="home-page">
-    <div id="map" class="map">
+<main class="main"
+      id="home-page">
+    <div class="sidebar">
+        <div class="toggle-section">
+            <div class="toggle-section-header"
+                 ng-click="isPacomTogglesOpen = !isPacomTogglesOpen">
+                <h2>Classes of Supply</h2>
+                <div class="toggle">
+                    <arrow-icon direction="getArrowDirection(isPacomTogglesOpen)"></arrow-icon>
+                </div>
+            </div>
+            <ul class="checkbox-group"
+                ng-if="isPacomTogglesOpen">
+                <li class="polaris-checkbox"
+                    ng-repeat="toggle in pacomToggles">
+                    <label for="{{toggle.label}}-checkbox">
+                        {{toggle.title}}
+                    </label>
+                    <input type="checkbox"
+                           id="{{toggle.label}}-checkbox"
+                           ng-checked="getVariable(toggle.varName)"
+                           ng-click="toggleVariable(toggle.varName)"
+                           name="{{toggle.label}}" />
+                </li>
+                <li>
+                    <ul>
+                        <li class="polaris-checkbox"
+                            ng-repeat="toggle in classesOfSupplyToggles">
+                            <label for="{{toggle.label}}-checkbox">
+                                {{toggle.title}}
+                            </label>
+                            <input type="checkbox"
+                                   id="{{toggle.label}}-checkbox"
+                                   ng-checked="getVariable(toggle.varName)"
+                                   ng-click="toggleVariable(toggle.varName)"
+                                   name="{{toggle.label}}" />
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        <div class="toggle-section">
+            <div class="toggle-section-header"
+                 ng-click="isPddocTogglesOpen = !isPddocTogglesOpen">
+                <h2>Deployment and Distribution</h2>
+                <div class="toggle">
+                    <arrow-icon direction="getArrowDirection(isPddocTogglesOpen)"></arrow-icon>
+                </div>
+            </div>
+            <ul class="checkbox-group"
+                ng-if="isPddocTogglesOpen">
+                <li class="polaris-checkbox"
+                    ng-repeat="toggle in pddocToggles">
+                    <label for="{{toggle.label}}-checkbox">
+                        {{toggle.title}}
+                    </label>
+                    <input type="checkbox"
+                           id="{{toggle.label}}-checkbox"
+                           ng-checked="getVariable(toggle.varName)"
+                           ng-click="toggleVariable(toggle.varName)"
+                           name="{{toggle.label}}" />
+                </li>
+            </ul>
+        </div>
+        <div class="toggle-section">
+            <div class="toggle-section-header"
+                 ng-click="isNodalHealthTogglesOpen = !isNodalHealthTogglesOpen">
+                <h2>Nodal Health</h2>
+                <div class="toggle">
+                    <arrow-icon direction="getArrowDirection(isNodalHealthTogglesOpen)"></arrow-icon>
+                </div>
+            </div>
+            <ul class="checkbox-group"
+                ng-if="isNodalHealthTogglesOpen">
+                <li class="polaris-checkbox"
+                    ng-repeat="toggle in nodalHealthToggles">
+                    <label for="{{toggle.label}}-checkbox">
+                        {{toggle.title}}
+                    </label>
+                    <input type="checkbox"
+                           id="{{toggle.label}}-checkbox"
+                           ng-checked="getVariable(toggle.varName)"
+                           ng-click="toggleVariable(toggle.varName)"
+                           name="{{toggle.label}}" />
+                </li>
+            </ul>
+        </div>
+        <div class="toggle-section">
+            <div class="toggle-section-header"
+                 ng-click="isEngineerTogglesOpen = !isEngineerTogglesOpen">
+                <h2>Engineer Units</h2>
+                <div class="toggle">
+                    <arrow-icon direction="getArrowDirection(isEngineerTogglesOpen)"></arrow-icon>
+                </div>
+            </div>
+            <ul class="checkbox-group"
+                ng-if="isEngineerTogglesOpen">
+                <li class="polaris-checkbox"
+                    ng-repeat="toggle in engineerUnitsToggles">
+                    <label for="{{toggle.label}}-checkbox">
+                        {{toggle.title}}
+                    </label>
+                    <input type="checkbox"
+                           id="{{toggle.label}}-checkbox"
+                           ng-checked="getVariable(toggle.varName)"
+                           ng-click="toggleVariable(toggle.varName)"
+                           name="{{toggle.label}}" />
+                </li>
+            </ul>
+        </div>
+        <div class="toggle-section">
+            <div class="toggle-section-header"
+                 ng-click="isOcsTogglesOpen = !isOcsTogglesOpen">
+                <h2>OCS</h2>
+                <div class="toggle">
+                    <arrow-icon direction="getArrowDirection(isOcsTogglesOpen)"></arrow-icon>
+                </div>
+            </div>
+            <ul class="checkbox-group"
+                ng-if="isOcsTogglesOpen">
+                <li class="polaris-checkbox"
+                    ng-repeat="toggle in ocsToggles">
+                    <label for="{{toggle.label}}-checkbox">
+                        {{toggle.title}}
+                    </label>
+                    <input type="checkbox"
+                           id="{{toggle.label}}-checkbox"
+                           ng-checked="getVariable(toggle.varName)"
+                           ng-click="toggleVariable(toggle.varName)"
+                           name="{{toggle.label}}" />
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div id="map"
+         class="map">
         <loader></loader>
-    </div>
-    <div class="grid-1 grid-box">
-        <div class="header">
-            <h2>Class I</h2>
-        </div>
-        <div id="QV1" class="body">
-            <loader></loader>
-        </div>
-    </div>
-    <div class="grid-2 grid-box">
-        <div class="header">
-            <h2>Class III</h2>
-        </div>
-        <div id="QV2" class="body">
-            <loader></loader>
-        </div>
-    </div>
-    <div class="grid-3 grid-box">
-        <div class="header">
-            <h2>Class IV</h2>
-        </div>
-        <div id="QV3" class="body">
-            <loader></loader>
-        </div>
-    </div>
-    <!-- <div class="grid-4 grid-box"></div> -->
-    <div class="grid-5 grid-box">
-        <div class="header">
-            <h2>Class V</h2>
-        </div>
-        <div id="QV4" class="body">
-            <loader></loader>
-        </div>
-    </div>
-    <div class="grid-6 grid-box">
-        <div class="header">
-            <h2>Class VIII</h2>
-        </div>
-        <div id="QV5" class="body">
-            <loader></loader>
-        </div>
-    </div>
-    <div class="grid-7 grid-box">
-        <div class="header">
-            <h2>Class IX</h2>
-        </div>
-        <div id="QV6" class="body">
-            <loader></loader>
-        </div>
     </div>
 </main>
 
@@ -62,55 +147,17 @@
         grid-template-columns: repeat(5, 1fr);
         grid-template-rows: auto;
         grid-template-areas:
-            'grid-1 map map map grid-5'
-            'grid-2 map map map grid-6'
-            'grid-3 map map map grid-7';
-    }
-
-    #home-page>div {
-        /* outline: 1px solid grey; */
+            'sidebar map map map map'
+            'sidebar map map map map'
+            'sidebar map map map map';
     }
 
     #home-page .map {
         grid-area: map;
     }
 
-    #home-page>.grid-1 {
-        grid-area: grid-1;
-        border-bottom: 1px solid gray;
-    }
-
-    #home-page>.grid-2 {
-        grid-area: grid-2;
-        border-bottom: 1px solid gray;
-    }
-
-    #home-page>.grid-3 {
-        grid-area: grid-3;
-    }
-
-    #home-page>.grid-4 {
-        grid-area: grid-4;
-        border-left: 1px solid gray;
-        border-right: 1px solid gray;
-    }
-
-    #home-page>.grid-5 {
-        grid-area: grid-5;
-        border-bottom: 1px solid gray;
-    }
-
-    #home-page>.grid-6 {
-        grid-area: grid-6;
-        border-bottom: 1px solid gray;
-    }
-
-    #home-page>.grid-7 {
-        grid-area: grid-7;
-    }
-
     #home-page .grid-box {
-        /* padding: 1rem; */
+
         display: flex;
         flex-direction: column;
     }
@@ -121,14 +168,58 @@
 
     #home-page .grid-box .body {
         flex: 1;
-        /* margin-left: 1.5rem; */
     }
 
-    #home-page ul {
-        /* list-style-type: upper-roman; */
+    #home-page .sidebar {}
+
+    #home-page .toggle-section .toggle-section-header {
+        padding: 0.25rem 0.5rem;
+        display: flex;
+        align-items: center;
     }
 
-    #home-page li {
-        /* line-height: 1rem; */
+    #home-page .toggle-section .toggle-section-header>h2 {
+        font-size: 1rem;
+
+        flex: 1;
+    }
+
+    #home-page .toggle-section .toggle-section-header>.toggle {
+        height: 100%;
+    }
+
+    #home-page .toggle-section .toggle-section-header>.toggle svg {
+        height: 18px;
+        width: 18px;
+        display: block;
+        transition: transform 0.125s ease-in-out;
+    }
+
+    #home-page .checkbox-group .polaris-checkbox {
+        padding: 0.25rem 0.5rem;
+        display: flex;
+        align-items: center;
+
+        transition: all 0.125s ease-in-out;
+    }
+
+    #home-page .checkbox-group .polaris-checkbox:hover {
+        background-color: var(--blue-2);
+        color: #FFF;
+    }
+
+    #home-page .checkbox-group .polaris-checkbox:hover,
+    #home-page .checkbox-group .polaris-checkbox label:hover,
+    #home-page .checkbox-group .polaris-checkbox input:hover {
+        cursor: pointer;
+    }
+
+    #home-page .checkbox-group .polaris-checkbox label {
+        flex: 1;
+    }
+
+    #home-page .checkbox-group .polaris-checkbox input {
+        height: 18px;
+        width: 18px;
     }
 </style>

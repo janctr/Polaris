@@ -92,6 +92,8 @@ require(['js/qlik'], function (qlik) {
             self.clearField = clearField;
             self.back = back;
             self.forward = forward;
+            self.getVariable = getVariable;
+            self.setVariable = setVariable;
 
             // Methods
             self.insertObject = insertObject;
@@ -99,6 +101,8 @@ require(['js/qlik'], function (qlik) {
             self.hideNavbar = hideNavbar;
             self.showNavbar = showNavbar;
             self.resize = resize;
+            self.parseVariable = parseVariable;
+            self.toggleVariable = toggleVariable;
 
             function insertObjects(objects) {
                 for (const o of objects) {
@@ -112,7 +116,11 @@ require(['js/qlik'], function (qlik) {
                 objectId,
                 noInteraction = false,
             }) {
-                console.log('Fetching object: ', label);
+                console.log(
+                    'Fetching object: ',
+                    label,
+                    ` elementId: ${elementId} objectId: ${objectId}`
+                );
                 self.app.getObject(elementId, objectId, { noInteraction });
             }
 
@@ -159,6 +167,57 @@ require(['js/qlik'], function (qlik) {
                 $('main').css('height', '');
                 self.qlik.resize();
             }
+
+            function getVariable(varName, scope) {
+                console.log('getVariable called: ', varName, scope);
+                // Gets variable and sets the value in scope
+                self.app.variable.getContent(varName, function (reply) {
+                    console.log(
+                        'setting ',
+                        varName,
+                        ' to: ',
+                        parseVariable(reply)
+                    );
+                    scope[varName] = parseVariable(reply);
+                });
+            }
+
+            function setVariable({ varName, value }) {
+                if (typeof value === 'string') {
+                    polaris.app.variable.setStringValue(varName, newVal);
+                }
+                if (typeof value === 'number') {
+                    polaris.app.variable.setNumValue(varName, value);
+                }
+
+                throw new Error('ERROR: Unknown variable value');
+            }
+
+            function parseVariable(reply) {
+                const value = reply.qContent.qString;
+
+                if (reply.qContent.qIsNum) {
+                    return Number(value);
+                } else {
+                    return value;
+                }
+            }
+
+            function toggleVariable(varName, scope) {
+                self.app.variable.getContent(varName, function (reply) {
+                    const newVal = parseVariable(reply) === 1 ? 0 : 1;
+                    self.app.variable.setNumValue(varName, newVal);
+
+                    console.log('Toggling: ', varName, ' to: ', newVal);
+                    scope[varName] = newVal;
+                });
+            }
+
+            function refreshVariables({ scope, variables }) {
+                for (const v of variables) {
+                    getVariable({ varName: v, scope });
+                }
+            }
         },
     ]);
 
@@ -187,11 +246,164 @@ require(['js/qlik'], function (qlik) {
         function ($scope, polaris) {
             const appObjects = polaris.isSipr
                 ? siprObjects.home
-                : notionalAppObjects.template;
+                : notionalAppObjects.home;
+
+            const variables = [
+                'v_map_usindopacom',
+                'v_map_joa',
+
+                // Classes of Supply
+                'v_map_classes_of_supply',
+                'v_map_class_i',
+                'v_map_class_iii',
+                'v_map_class_iv',
+                'v_map_class_v',
+                'v_map_class_ix',
+                // PDDOC
+                'v_map_deploy_dist_vessel_health',
+                'v_map_enemy_vessels',
+                'v_map_deploy_dist_aircraft_health',
+                'v_map_aws',
+                // Nodal Health
+                'v_map_seaports',
+                'v_map_airports',
+                // Engineer Units
+                'v_map_combat_engineers',
+                'v_map_civil_engineers',
+                // Contractors
+                'v_map_ocs_cities',
+            ];
 
             angular.element(document).ready(function () {
                 polaris.insertObjects(appObjects);
             });
+
+            for (const v of variables) {
+                console.log('v: ', v);
+                polaris.getVariable(v, $scope);
+            }
+
+            $scope.toggleVariable = function (varName) {
+                console.log('yo: ', varName);
+                polaris.toggleVariable(varName, $scope);
+            };
+
+            $scope.getVariable = function (varName) {
+                return $scope[varName];
+            };
+
+            $scope.getArrowDirection = function (isOpen) {
+                if (isOpen) return 'up';
+                else return 'down';
+            };
+            $scope.isPacomTogglesOpen = false;
+            $scope.isPddocTogglesOpen = false;
+            $scope.isNodalHealthTogglesOpen = false;
+            $scope.isEngineerTogglesOpen = false;
+            $scope.isOcsTogglesOpen = false;
+
+            $scope.pacomToggles = [
+                {
+                    title: 'USINDOPACOM',
+                    label: 'usindopacom',
+                    varName: 'v_map_usindopacom',
+                },
+                {
+                    title: 'JOA Boundaries',
+                    label: 'joa',
+                    varName: 'v_map_joa',
+                },
+                {
+                    title: 'Classes of Supply',
+                    label: 'classes-of-supply',
+                    varName: 'v_map_classes_of_supply',
+                },
+            ];
+
+            $scope.classesOfSupplyToggles = [
+                {
+                    title: 'Class I',
+                    label: 'class-i',
+                    varName: 'v_map_class_i',
+                },
+                {
+                    title: 'Class III',
+                    label: 'class-iii',
+                    varName: 'v_map_class_iii',
+                },
+                {
+                    title: 'Class IV',
+                    label: 'class-iv',
+                    varName: 'v_map_class_iv',
+                },
+                {
+                    title: 'Class V',
+                    label: 'class-v',
+                    varName: 'v_map_class_v',
+                },
+                {
+                    title: 'Class IX',
+                    label: 'class-ix',
+                    varName: 'v_map_class_ix',
+                },
+            ];
+
+            $scope.pddocToggles = [
+                {
+                    title: 'Vessels',
+                    label: 'vessels',
+                    varName: 'v_map_deploy_dist_vessel_health',
+                },
+                {
+                    title: 'Enemy Vessels',
+                    label: 'enemy-vessels',
+                    varName: 'v_map_enemy_vessels',
+                },
+                {
+                    title: 'Aircraft',
+                    label: 'aircraft',
+                    varName: 'v_map_deploy_dist_aircraft_health',
+                },
+                {
+                    title: 'AWS',
+                    label: 'aws',
+                    varName: 'v_map_aws',
+                },
+            ];
+
+            $scope.nodalHealthToggles = [
+                {
+                    title: 'Seaports',
+                    label: 'seaports',
+                    varName: 'v_map_seaports',
+                },
+                {
+                    title: 'Airports',
+                    label: 'airports',
+                    varName: 'v_map_airports',
+                },
+            ];
+
+            $scope.engineerUnitsToggles = [
+                {
+                    title: 'Combat Engineers',
+                    label: 'combat-engineers',
+                    varName: 'v_map_combat_engineers',
+                },
+                {
+                    title: 'Civil Engineers',
+                    label: 'civil-engineers',
+                    varName: 'v_map_civil_engineers',
+                },
+            ];
+
+            $scope.ocsToggles = [
+                {
+                    title: 'Contractors',
+                    label: 'contractors',
+                    varName: 'v_map_ocs_cities',
+                },
+            ];
         },
     ]);
 
@@ -353,9 +565,6 @@ require(['js/qlik'], function (qlik) {
             '$scope',
             'polaris',
             function ($scope, polaris) {
-                console.log('qliknavbar scope: ', $scope);
-                console.log('qliknavbar this: ', this);
-
                 $scope.polaris = polaris;
                 $scope.isShowing = true;
                 $scope.toggle = function () {
@@ -483,103 +692,30 @@ require(['js/qlik'], function (qlik) {
 
     angularApp.component('closeIcon', {
         template: closeIconTemplate,
+        bindings: {
+            toggleMenu: '&',
+        },
     });
 
     angularApp.component('fullscreenIcon', {
         template: fullscreenIconTemplate,
     });
 
+    angularApp.component('arrowIcon', {
+        template: arrowIconTemplate,
+        bindings: {
+            direction: '<',
+        },
+        controller: [
+            '$scope',
+            function ($scope) {
+                console.log('arrow scope: ', $scope);
+            },
+        ],
+    });
+
     angular.bootstrap(document, ['angularApp', 'qlik-angular']);
 });
-
-class QlikVariable {
-    static Type = {
-        String: 'string',
-        Number: 'number',
-    };
-
-    constructor({
-        app,
-        varName,
-        varCommonName,
-        varType,
-        isSessionVariable = true,
-        value,
-    }) {
-        this.app = app;
-        this.varName = varName;
-        this.varCommonName = varCommonName;
-        this.varType = varType;
-        this.isSessionVariable = isSessionVariable;
-
-        if (isSessionVariable) {
-            app.variable.createSessionVariable({
-                qName: varName,
-                qDefinition: varCommonName,
-            });
-        }
-
-        if (typeof value !== 'undefined') {
-            this.setValue(value);
-        }
-    }
-
-    getValue() {
-        console.log('getValue');
-        const self = this;
-
-        return new Promise((resolve, reject) => {
-            this.app.variable.getContent(this.varName, function (reply) {
-                let value = reply.qContent.qString;
-
-                if (self.varType === QlikVariable.Type.Number) {
-                    value = Number(value);
-                }
-
-                console.log('value: ', value);
-                resolve(value);
-            });
-        });
-    }
-
-    setValue(value) {
-        if (this.varType === QlikVariable.Type.String) {
-            this.app.variable.setStringValue(this.varName, value);
-        } else if (this.varType === QlikVariable.Type.Number) {
-            this.app.variable.setNumValue(this.varName, value);
-        }
-
-        return value;
-    }
-
-    toggle() {
-        // Assumes variable is a number in the domain [0, 1]
-        const self = this;
-        return new Promise((resolve, reject) => {
-            self.getValue().then((val) => {
-                const newVal = val === 0 ? 1 : 0;
-                console.log(
-                    `Toggling [${self.varName}] with value [${val}] to [${newVal}]`
-                );
-
-                self.setValue(newVal);
-                resolve(newVal);
-            });
-        });
-    }
-
-    async exists(varName) {
-        const self = this;
-        try {
-            const content = await self.app.variable.getByName(varName);
-            console.log(content);
-            return false;
-        } catch (e) {
-            console.log('e: ', e);
-            return true;
-        }
-    }
-}
 
 const loaderTemplate = `
 <div class="loader-wrapper">
@@ -609,16 +745,17 @@ const burgerMenuIconTemplate = `
 `;
 
 const closeIconTemplate = `
-<svg fill="currentColor" height="8px" width="8px" version="1.1" id="Layer_1"
-        xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512"
-        xml:space="preserve">
+<div class="close-icon" ng-click="$ctrl.toggleMenu()">
+    <svg fill="#000000" height="100%" width="100%" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
+        xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" xml:space="preserve">
         <g>
             <g>
                 <polygon points="512,59.076 452.922,0 256,196.922 59.076,0 0,59.076 196.922,256 0,452.922 59.076,512 256,315.076 452.922,512 
-512,452.922 315.076,256 		" />
+                512,452.922 315.076,256 		" />
             </g>
         </g>
     </svg>
+</div>
 `;
 
 const fullscreenIconTemplate = `
@@ -635,5 +772,15 @@ const fullscreenIconTemplate = `
 	</g>
     <g></g> <g></g> <g></g> <g></g> <g></g> <g></g>
 </g>
+</svg>
+`;
+
+const arrowIconTemplate = `
+<svg ng-style="$ctrl.direction === 'up' ? { 'transform': 'rotate(180deg)'} : {}" fill="#000000" height="100%" width="100%" version="1.1" id="Layer_1"
+    xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+    viewBox="0 0 330 330" xml:space="preserve">
+    <path id="XMLID_225_" d="M325.607,79.393c-5.857-5.857-15.355-5.858-21.213,0.001l-139.39,139.393L25.607,79.393
+    c-5.857-5.857-15.355-5.858-21.213,0.001c-5.858,5.858-5.858,15.355,0,21.213l150.004,150c2.813,2.813,6.628,4.393,10.606,4.393
+    s7.794-1.581,10.606-4.394l149.996-150C331.465,94.749,331.465,85.251,325.607,79.393z" />
 </svg>
 `;
