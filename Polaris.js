@@ -635,12 +635,18 @@ require(['js/qlik'], function (qlik) {
                 }
 
                 .polaris-modal-actions button {
+                    background-color: #FFF;
                     border: none;
                     border-radius: 50%;
                     padding: 10px;
-                    transition: all 0.25s ease-in-out;
                     width: 38px;
                     height: 38px;
+                    
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    
+                    transition: background-color 0.25s ease-in-out;
                 }
 
                 .polaris-modal-actions button:hover {
