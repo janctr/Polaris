@@ -296,11 +296,11 @@ require(['js/qlik'], function (qlik) {
                 if (isOpen) return 'up';
                 else return 'down';
             };
-            $scope.isPacomTogglesOpen = false;
-            $scope.isPddocTogglesOpen = false;
-            $scope.isNodalHealthTogglesOpen = false;
-            $scope.isEngineerTogglesOpen = false;
-            $scope.isOcsTogglesOpen = false;
+            $scope.isPacomTogglesOpen = true;
+            $scope.isPddocTogglesOpen = true;
+            $scope.isNodalHealthTogglesOpen = true;
+            $scope.isEngineerTogglesOpen = true;
+            $scope.isOcsTogglesOpen = true;
 
             $scope.pacomToggles = [
                 {
@@ -706,12 +706,6 @@ require(['js/qlik'], function (qlik) {
         bindings: {
             direction: '<',
         },
-        controller: [
-            '$scope',
-            function ($scope) {
-                console.log('arrow scope: ', $scope);
-            },
-        ],
     });
 
     angular.bootstrap(document, ['angularApp', 'qlik-angular']);

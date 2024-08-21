@@ -23,7 +23,8 @@
                            ng-click="toggleVariable(toggle.varName)"
                            name="{{toggle.label}}" />
                 </li>
-                <li>
+                <li ng-if="v_map_classes_of_supply"
+                    style="list-style: none; padding-left: 1rem;">
                     <ul>
                         <li class="polaris-checkbox"
                             ng-repeat="toggle in classesOfSupplyToggles">
@@ -170,12 +171,24 @@
         flex: 1;
     }
 
-    #home-page .sidebar {}
+    #home-page .sidebar {
+        grid-area: sidebar;
+        box-shadow: var(--box-shadow-1);
+    }
 
     #home-page .toggle-section .toggle-section-header {
+        background-color: var(--blue-3);
+        color: #FFF;
         padding: 0.25rem 0.5rem;
         display: flex;
         align-items: center;
+
+        transition: background-color 0.3s ease-in-out;
+    }
+
+    #home-page .toggle-section .toggle-section-header:hover {
+        cursor: pointer;
+        background-color: var(--blue-2);
     }
 
     #home-page .toggle-section .toggle-section-header>h2 {
@@ -189,6 +202,7 @@
     }
 
     #home-page .toggle-section .toggle-section-header>.toggle svg {
+        fill: #FFF;
         height: 18px;
         width: 18px;
         display: block;
@@ -204,8 +218,7 @@
     }
 
     #home-page .checkbox-group .polaris-checkbox:hover {
-        background-color: var(--blue-2);
-        color: #FFF;
+        background-color: #d3d3d3;
     }
 
     #home-page .checkbox-group .polaris-checkbox:hover,
