@@ -1,0 +1,30 @@
+<qlik-navbar></qlik-navbar>
+<main class="main"
+      id="test-page">
+    <div>
+        <h3>Search</h3>
+        <input type="text"
+               ng-model="searchStr"
+               ng-change="search(searchStr)" />
+    </div>
+    <div>
+        <h3>Results</h3>
+        <div>
+            {{ results }}
+        </div>
+    </div>
+</main>
+
+<style type="text/css">
+    #test-page {
+        height: var(--full-viewport-height-navbar-px);
+
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        grid-template-rows: auto;
+        grid-template-areas:
+            'sidebar map map map map'
+            'sidebar map map map map'
+            'sidebar map map map map';
+    }
+</style>

@@ -61,6 +61,10 @@ require(['js/qlik'], function (qlik) {
                 templateUrl: 'classes-of-supply.ng.html',
                 controller: 'ClassesOfSupplyController',
             })
+            .when('/test', {
+                templateUrl: 'test.ng.html',
+                controller: 'TestController',
+            })
             .otherwise({
                 redirectTo: '/home',
             });
@@ -94,6 +98,7 @@ require(['js/qlik'], function (qlik) {
             self.forward = forward;
             self.getVariable = getVariable;
             self.setVariable = setVariable;
+            self.search = search;
 
             // Methods
             self.insertObject = insertObject;
@@ -217,6 +222,24 @@ require(['js/qlik'], function (qlik) {
                 for (const v of variables) {
                     getVariable({ varName: v, scope });
                 }
+            }
+
+            function search(str) {
+                const terms = str.split(' ').map((s) => s.trim());
+                console.log('terms: ', terms);
+                return new Promise((resolve, reject) => {
+                    self.app.searchResults(
+                        // terms,
+                        [str],
+                        { qOffset: 0, qCount: 15 },
+                        { qContext: 'Cleared' },
+                        function (reply) {
+                            console.log('search reply: ', reply);
+
+                            resolve(reply);
+                        }
+                    );
+                });
             }
         },
     ]);
@@ -549,6 +572,22 @@ require(['js/qlik'], function (qlik) {
         },
     ]);
 
+    angularApp.controller('TestController', [
+        '$scope',
+        'polaris',
+        function ($scope, polaris) {
+            $scope.searchStr = '';
+            $scope.results = '';
+
+            $scope.search = function (str) {
+                console.log('str: ', str);
+                polaris.search(str).then((reply) => {
+                    $scope.results = JSON.stringify(reply);
+                });
+            };
+        },
+    ]);
+
     // Components
     angularApp.component('navigation', {
         templateUrl: 'navigation.html',
@@ -594,7 +633,7 @@ require(['js/qlik'], function (qlik) {
         },
         template: `
             <div class="polaris-modal" id="{{$ctrl.elementId}}-wrapper"
-                ng-style="{{modalStyle}}">
+                style="z-index: 2;">
                 <div class="polaris-modal-actions">
                     <h3>{{$ctrl.modalLabel}}</h3>
                     <button ng-click="$ctrl.toggle()">
@@ -667,9 +706,6 @@ require(['js/qlik'], function (qlik) {
             '$scope',
             'polaris',
             function ($scope, polaris) {
-                $scope.modalStyle = {
-                    'z-index': 2,
-                };
                 $scope.modalElementId = this.elementId + '-modal';
 
                 $scope.toggle = function () {
