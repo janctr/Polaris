@@ -368,11 +368,11 @@ require(['js/qlik'], function (qlik) {
                     label: 'class-v',
                     varName: 'v_map_class_v',
                 },
-                {
-                    title: 'Class IX',
-                    label: 'class-ix',
-                    varName: 'v_map_class_ix',
-                },
+                // {
+                //     title: 'Class IX',
+                //     label: 'class-ix',
+                //     varName: 'v_map_class_ix',
+                // },
             ];
 
             $scope.pddocToggles = [
