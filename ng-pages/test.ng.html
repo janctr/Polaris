@@ -10,8 +10,23 @@
     <div>
         <h3>Results</h3>
         <div>
-            {{ results }}
+            <div ng-repeat="result in results track by $index">
+                <h4>{{result.columnName}}</h4>
+                <ul>
+                    <li ng-repeat="match in result.matches">
+                        <p class="selection-item"
+                           ng-bind="match"
+                           ng-click="select(result.columnName, match)"></p>
+                    </li>
+                </ul>
+            </div>
         </div>
+    </div>
+    <div>
+        <h3>Raw results</h3>
+        <p>
+            {{JSON.stringify(results)}}
+        </p>
     </div>
 </main>
 
@@ -26,5 +41,14 @@
             'sidebar map map map map'
             'sidebar map map map map'
             'sidebar map map map map';
+    }
+
+    #test-page .selection-item {
+        transition: all 0.25s ease-in-out;
+    }
+
+    #test-page .selection-item:hover {
+        background-color: var(--blue-2);
+        cursor: pointer;
     }
 </style>

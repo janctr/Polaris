@@ -21,6 +21,7 @@
             var(--qlik-navigation-bar-height-hidden-px)
     );
     --hero-height-px: 600px;
+    --qlik-search-bar-height: 36px;
 
     /* Blue color palette */
     --blue-1: #2f6690; /* Lapis Lazuli */
@@ -32,6 +33,7 @@
     /* Box shadows */
     --box-shadow-1: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px,
         rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
+    --box-shadow-2: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
 
 * {

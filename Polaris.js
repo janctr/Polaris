@@ -98,6 +98,7 @@ require(['js/qlik'], function (qlik) {
             self.forward = forward;
             self.getVariable = getVariable;
             self.setVariable = setVariable;
+            self.select = select;
             self.search = search;
 
             // Methods
@@ -229,17 +230,50 @@ require(['js/qlik'], function (qlik) {
                 console.log('terms: ', terms);
                 return new Promise((resolve, reject) => {
                     self.app.searchResults(
-                        // terms,
-                        [str],
+                        terms,
+                        // [str],
                         { qOffset: 0, qCount: 15 },
                         { qContext: 'Cleared' },
                         function (reply) {
                             console.log('search reply: ', reply);
 
-                            resolve(reply);
+                            resolve(parseSearchResult(reply));
                         }
                     );
                 });
+            }
+
+            function parseSearchResult(result) {
+                const {
+                    qResult: { qTotalNumberOfGroups, qSearchGroupArray },
+                } = result;
+
+                const results = [];
+
+                for (const group of qSearchGroupArray) {
+                    const { qItems } = group;
+
+                    for (const item of qItems) {
+                        const { qIdentifier: columnName, qItemMatches } = item;
+
+                        const setOfMatches = {
+                            columnName,
+                            matches: qItemMatches.map((match) => match.qText),
+                        };
+
+                        console.log('setOfMatches: ', setOfMatches);
+                        results.push(setOfMatches);
+                    }
+                }
+
+                // Returns [{ columnName, matches: ['match1', 'match2'] }];
+                return results;
+            }
+
+            function select(columnName, qText) {
+                self.app
+                    .field(columnName)
+                    .selectValues([{ qText }], true, true);
             }
         },
     ]);
@@ -577,13 +611,17 @@ require(['js/qlik'], function (qlik) {
         'polaris',
         function ($scope, polaris) {
             $scope.searchStr = '';
-            $scope.results = '';
+            $scope.results = [];
 
             $scope.search = function (str) {
                 console.log('str: ', str);
-                polaris.search(str).then((reply) => {
-                    $scope.results = JSON.stringify(reply);
+                polaris.search(str).then((results) => {
+                    $scope.results = results;
                 });
+            };
+
+            $scope.select = function (column, text) {
+                polaris.select(column, text);
             };
         },
     ]);
@@ -610,6 +648,10 @@ require(['js/qlik'], function (qlik) {
             function ($scope, polaris) {
                 $scope.polaris = polaris;
                 $scope.isShowing = true;
+                $scope.isSearchBarOpen = false;
+                $scope.searchStr = '';
+                $scope.searchResults = [];
+
                 $scope.toggle = function () {
                     if ($scope.isShowing) {
                         polaris.hideNavbar();
@@ -618,6 +660,18 @@ require(['js/qlik'], function (qlik) {
                     }
 
                     $scope.isShowing = !$scope.isShowing;
+                };
+
+                $scope.toggleSearchBar = function () {
+                    $scope.searchStr = '';
+                    $scope.searchResults = [];
+                    $scope.isSearchBarOpen = !$scope.isSearchBarOpen;
+                };
+
+                $scope.search = function (searchStr) {
+                    polaris.search(searchStr).then((results) => {
+                        $scope.searchResults = results;
+                    });
                 };
             },
         ],
@@ -637,7 +691,7 @@ require(['js/qlik'], function (qlik) {
                 <div class="polaris-modal-actions">
                     <h3>{{$ctrl.modalLabel}}</h3>
                     <button ng-click="$ctrl.toggle()">
-                        <close-icon></close-icon
+                        <close-icon></close-icon>
                     </button>
                 </div>
                 <div class="polaris-modal-body" id="{{$ctrl.elementId}}-modal-body">
