@@ -61,6 +61,10 @@ require(['js/qlik'], function (qlik) {
                 templateUrl: 'classes-of-supply.ng.html',
                 controller: 'ClassesOfSupplyController',
             })
+            .when('/test', {
+                templateUrl: 'test.ng.html',
+                controller: 'TestController',
+            })
             .otherwise({
                 redirectTo: '/home',
             });
@@ -94,6 +98,8 @@ require(['js/qlik'], function (qlik) {
             self.forward = forward;
             self.getVariable = getVariable;
             self.setVariable = setVariable;
+            self.select = select;
+            self.search = search;
 
             // Methods
             self.insertObject = insertObject;
@@ -218,6 +224,63 @@ require(['js/qlik'], function (qlik) {
                     getVariable({ varName: v, scope });
                 }
             }
+
+            function search(str) {
+                const terms = str.split(' ').map((s) => s.trim());
+                console.log('terms: ', terms);
+                return new Promise((resolve, reject) => {
+                    // Qlik method searchResults() docs:
+                    // https://help.qlik.com/en-US/sense-developer/May2024/Subsystems/APIs/Content/Sense_ClientAPIs/CapabilityAPIs/AppAPI/searchResults-method.htm
+                    self.app.searchResults(
+                        terms,
+                        // [str],
+                        { qOffset: 0, qCount: 15 },
+                        { qContext: 'Cleared' },
+                        function (reply) {
+                            console.log('search reply: ', reply);
+
+                            resolve(parseSearchResult(reply));
+                        }
+                    );
+                });
+            }
+
+            function searchFields(fields, str) {
+                // TODO: Search only within specified fields (dimensions)
+            }
+
+            function parseSearchResult(result) {
+                const {
+                    qResult: { qTotalNumberOfGroups, qSearchGroupArray },
+                } = result;
+
+                const results = [];
+
+                for (const group of qSearchGroupArray) {
+                    const { qItems } = group;
+
+                    for (const item of qItems) {
+                        const { qIdentifier: columnName, qItemMatches } = item;
+
+                        const setOfMatches = {
+                            columnName,
+                            matches: qItemMatches.map((match) => match.qText),
+                        };
+
+                        console.log('setOfMatches: ', setOfMatches);
+                        results.push(setOfMatches);
+                    }
+                }
+
+                // Returns [{ columnName: 'myDimension', matches: ['match1', 'match2'] }];
+                return results;
+            }
+
+            function select(columnName, qText) {
+                self.app
+                    .field(columnName)
+                    .selectValues([{ qText }], true, true);
+            }
         },
     ]);
 
@@ -288,7 +351,6 @@ require(['js/qlik'], function (qlik) {
             }
 
             $scope.toggleVariable = function (varName) {
-                console.log('yo: ', varName);
                 polaris.toggleVariable(varName, $scope);
             };
 
@@ -297,9 +359,9 @@ require(['js/qlik'], function (qlik) {
             };
 
             $scope.getArrowDirection = function (isOpen) {
-                if (isOpen) return 'up';
-                else return 'down';
+                return isOpen ? 'up' : 'down';
             };
+
             $scope.isPacomTogglesOpen = true;
             $scope.isPddocTogglesOpen = true;
             $scope.isNodalHealthTogglesOpen = true;
@@ -345,11 +407,11 @@ require(['js/qlik'], function (qlik) {
                     label: 'class-v',
                     varName: 'v_map_class_v',
                 },
-                {
-                    title: 'Class IX',
-                    label: 'class-ix',
-                    varName: 'v_map_class_ix',
-                },
+                // {
+                //     title: 'Class IX',
+                //     label: 'class-ix',
+                //     varName: 'v_map_class_ix',
+                // },
             ];
 
             $scope.pddocToggles = [
@@ -549,6 +611,26 @@ require(['js/qlik'], function (qlik) {
         },
     ]);
 
+    angularApp.controller('TestController', [
+        '$scope',
+        'polaris',
+        function ($scope, polaris) {
+            $scope.searchStr = '';
+            $scope.results = [];
+
+            $scope.search = function (str) {
+                console.log('str: ', str);
+                polaris.search(str).then((results) => {
+                    $scope.results = results;
+                });
+            };
+
+            $scope.select = function (column, text) {
+                polaris.select(column, text);
+            };
+        },
+    ]);
+
     // Components
     angularApp.component('navigation', {
         templateUrl: 'navigation.html',
@@ -571,6 +653,10 @@ require(['js/qlik'], function (qlik) {
             function ($scope, polaris) {
                 $scope.polaris = polaris;
                 $scope.isShowing = true;
+                $scope.isSearchBarOpen = false;
+                $scope.searchStr = '';
+                $scope.searchResults = [];
+
                 $scope.toggle = function () {
                     if ($scope.isShowing) {
                         polaris.hideNavbar();
@@ -579,6 +665,18 @@ require(['js/qlik'], function (qlik) {
                     }
 
                     $scope.isShowing = !$scope.isShowing;
+                };
+
+                $scope.toggleSearchBar = function () {
+                    $scope.searchStr = '';
+                    $scope.searchResults = [];
+                    $scope.isSearchBarOpen = !$scope.isSearchBarOpen;
+                };
+
+                $scope.search = function (searchStr) {
+                    polaris.search(searchStr).then((results) => {
+                        $scope.searchResults = results;
+                    });
                 };
             },
         ],
@@ -594,11 +692,11 @@ require(['js/qlik'], function (qlik) {
         },
         template: `
             <div class="polaris-modal" id="{{$ctrl.elementId}}-wrapper"
-                ng-style="{{modalStyle}}">
+                style="z-index: 2;">
                 <div class="polaris-modal-actions">
                     <h3>{{$ctrl.modalLabel}}</h3>
                     <button ng-click="$ctrl.toggle()">
-                        <close-icon></close-icon
+                        <close-icon></close-icon>
                     </button>
                 </div>
                 <div class="polaris-modal-body" id="{{$ctrl.elementId}}-modal-body">
@@ -667,9 +765,6 @@ require(['js/qlik'], function (qlik) {
             '$scope',
             'polaris',
             function ($scope, polaris) {
-                $scope.modalStyle = {
-                    'z-index': 2,
-                };
                 $scope.modalElementId = this.elementId + '-modal';
 
                 $scope.toggle = function () {
@@ -691,6 +786,32 @@ require(['js/qlik'], function (qlik) {
                 });
             },
         ],
+    });
+
+    angularApp.component('polarisToggle', {
+        bindings: {
+            isChecked: '<',
+            toggle: '&',
+            label: '@',
+            id: '@',
+        },
+        template: `
+            <div class="polaris-toggle"">
+                <h3 class="polaris-toggle-title">{{ $ctrl.label }}</h3>
+                <label 
+                    class="polaris-toggle-box" 
+                    for="{{$ctrl.id}}-checkbox"
+                    ng-class="{'checked': $ctrl.isChecked}">
+
+                    <input type="checkbox"  
+                           id="{{$ctrl.id}}-checkbox"
+                           ng-checked="$ctrl.isChecked"
+                           ng-click="$ctrl.toggle()"
+                           name="{{$ctrl.id}}">
+                    <div class="circle"></div>
+                </label>
+            </div>
+        `,
     });
 
     angularApp.component('burgerMenuIcon', {

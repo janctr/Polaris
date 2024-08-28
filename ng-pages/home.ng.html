@@ -14,28 +14,25 @@
                 ng-if="isPacomTogglesOpen">
                 <li class="polaris-checkbox"
                     ng-repeat="toggle in pacomToggles">
-                    <label for="{{toggle.label}}-checkbox">
-                        {{toggle.title}}
-                    </label>
-                    <input type="checkbox"
-                           id="{{toggle.label}}-checkbox"
-                           ng-checked="getVariable(toggle.varName)"
-                           ng-click="toggleVariable(toggle.varName)"
-                           name="{{toggle.label}}" />
+
+                    <polaris-toggle is-checked="getVariable(toggle.varName)"
+                                    toggle="toggleVariable(toggle.varName)"
+                                    label="{{toggle.title}}"
+                                    id="{{toggle.label}}">
+                    </polaris-toggle>
                 </li>
                 <li ng-if="v_map_classes_of_supply"
                     style="list-style: none; padding-left: 1rem;">
                     <ul>
                         <li class="polaris-checkbox"
+                            style="list-style: none; padding-left: 1rem;"
                             ng-repeat="toggle in classesOfSupplyToggles">
-                            <label for="{{toggle.label}}-checkbox">
-                                {{toggle.title}}
-                            </label>
-                            <input type="checkbox"
-                                   id="{{toggle.label}}-checkbox"
-                                   ng-checked="getVariable(toggle.varName)"
-                                   ng-click="toggleVariable(toggle.varName)"
-                                   name="{{toggle.label}}" />
+
+                            <polaris-toggle is-checked="getVariable(toggle.varName)"
+                                            toggle="toggleVariable(toggle.varName)"
+                                            label="{{toggle.title}}"
+                                            id="{{toggle.label}}">
+                            </polaris-toggle>
                         </li>
                     </ul>
                 </li>
@@ -53,14 +50,11 @@
                 ng-if="isPddocTogglesOpen">
                 <li class="polaris-checkbox"
                     ng-repeat="toggle in pddocToggles">
-                    <label for="{{toggle.label}}-checkbox">
-                        {{toggle.title}}
-                    </label>
-                    <input type="checkbox"
-                           id="{{toggle.label}}-checkbox"
-                           ng-checked="getVariable(toggle.varName)"
-                           ng-click="toggleVariable(toggle.varName)"
-                           name="{{toggle.label}}" />
+                    <polaris-toggle is-checked="getVariable(toggle.varName)"
+                                    toggle="toggleVariable(toggle.varName)"
+                                    label="{{toggle.title}}"
+                                    id="{{toggle.label}}">
+                    </polaris-toggle>
                 </li>
             </ul>
         </div>
@@ -76,14 +70,11 @@
                 ng-if="isNodalHealthTogglesOpen">
                 <li class="polaris-checkbox"
                     ng-repeat="toggle in nodalHealthToggles">
-                    <label for="{{toggle.label}}-checkbox">
-                        {{toggle.title}}
-                    </label>
-                    <input type="checkbox"
-                           id="{{toggle.label}}-checkbox"
-                           ng-checked="getVariable(toggle.varName)"
-                           ng-click="toggleVariable(toggle.varName)"
-                           name="{{toggle.label}}" />
+                    <polaris-toggle is-checked="getVariable(toggle.varName)"
+                                    toggle="toggleVariable(toggle.varName)"
+                                    label="{{toggle.title}}"
+                                    id="{{toggle.label}}">
+                    </polaris-toggle>
                 </li>
             </ul>
         </div>
@@ -99,14 +90,11 @@
                 ng-if="isEngineerTogglesOpen">
                 <li class="polaris-checkbox"
                     ng-repeat="toggle in engineerUnitsToggles">
-                    <label for="{{toggle.label}}-checkbox">
-                        {{toggle.title}}
-                    </label>
-                    <input type="checkbox"
-                           id="{{toggle.label}}-checkbox"
-                           ng-checked="getVariable(toggle.varName)"
-                           ng-click="toggleVariable(toggle.varName)"
-                           name="{{toggle.label}}" />
+                    <polaris-toggle is-checked="getVariable(toggle.varName)"
+                                    toggle="toggleVariable(toggle.varName)"
+                                    label="{{toggle.title}}"
+                                    id="{{toggle.label}}">
+                    </polaris-toggle>
                 </li>
             </ul>
         </div>
@@ -122,14 +110,11 @@
                 ng-if="isOcsTogglesOpen">
                 <li class="polaris-checkbox"
                     ng-repeat="toggle in ocsToggles">
-                    <label for="{{toggle.label}}-checkbox">
-                        {{toggle.title}}
-                    </label>
-                    <input type="checkbox"
-                           id="{{toggle.label}}-checkbox"
-                           ng-checked="getVariable(toggle.varName)"
-                           ng-click="toggleVariable(toggle.varName)"
-                           name="{{toggle.label}}" />
+                    <polaris-toggle is-checked="getVariable(toggle.varName)"
+                                    toggle="toggleVariable(toggle.varName)"
+                                    label="{{toggle.title}}"
+                                    id="{{toggle.label}}">
+                    </polaris-toggle>
                 </li>
             </ul>
         </div>
@@ -177,7 +162,7 @@
     }
 
     #home-page .toggle-section .toggle-section-header {
-        background-color: var(--blue-3);
+        background-color: var(--blue-2);
         color: #FFF;
         padding: 0.25rem 0.5rem;
         display: flex;
@@ -188,7 +173,7 @@
 
     #home-page .toggle-section .toggle-section-header:hover {
         cursor: pointer;
-        background-color: var(--blue-2);
+        background-color: var(--blue-3);
     }
 
     #home-page .toggle-section .toggle-section-header>h2 {
@@ -211,9 +196,6 @@
 
     #home-page .checkbox-group .polaris-checkbox {
         padding: 0.25rem 0.5rem;
-        display: flex;
-        align-items: center;
-
         transition: all 0.125s ease-in-out;
     }
 
@@ -225,10 +207,6 @@
     #home-page .checkbox-group .polaris-checkbox label:hover,
     #home-page .checkbox-group .polaris-checkbox input:hover {
         cursor: pointer;
-    }
-
-    #home-page .checkbox-group .polaris-checkbox label {
-        flex: 1;
     }
 
     #home-page .checkbox-group .polaris-checkbox input {
