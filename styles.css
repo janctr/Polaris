@@ -29,6 +29,7 @@
     --platinum: #d9dcd6; /* Platinum */
     --blue-3: #16425b; /* Inidigo dye */
     --blue-4: #81c3d7; /* Sky blue */
+    --blujan: #2f6690;
 
     /* Box shadows */
     --box-shadow-1: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px,
@@ -281,3 +282,58 @@ a:visited {
     cursor: pointer;
 }
 /**************************************/
+
+/********** polaris-toggle ************/
+
+/**************************************/
+.polaris-toggle {
+    display: flex;
+    gap: 1rem;
+}
+
+.polaris-toggle-title {
+    flex: 1;
+    display: flex;
+    align-items: center;
+}
+
+.polaris-toggle-box {
+    width: 50px;
+    height: 25px;
+
+    display: block;
+    background-color: var(--platinum);
+    border-radius: 1000px;
+    cursor: pointer;
+    position: relative;
+
+    transition: background-color ease 0.25s;
+}
+
+.polaris-toggle-box.checked {
+    background-color: var(--blujan);
+}
+
+.polaris-toggle-box .circle {
+    transition: transform cubic-bezier(0.4, 0, 0.2, 1) 0.25s;
+    transform: translateX(0px);
+}
+
+.polaris-toggle-box.checked .circle {
+    transform: translateX(25px);
+}
+
+.polaris-toggle input[type='checkbox'] {
+    display: none;
+}
+
+.polaris-toggle .circle {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    left: 0px;
+    background-color: #fff;
+    border-radius: 1000px;
+    margin: 2.5px;
+    transition: 0.5s;
+}

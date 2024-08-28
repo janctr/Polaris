@@ -229,6 +229,8 @@ require(['js/qlik'], function (qlik) {
                 const terms = str.split(' ').map((s) => s.trim());
                 console.log('terms: ', terms);
                 return new Promise((resolve, reject) => {
+                    // Qlik method searchResults() docs:
+                    // https://help.qlik.com/en-US/sense-developer/May2024/Subsystems/APIs/Content/Sense_ClientAPIs/CapabilityAPIs/AppAPI/searchResults-method.htm
                     self.app.searchResults(
                         terms,
                         // [str],
@@ -241,6 +243,10 @@ require(['js/qlik'], function (qlik) {
                         }
                     );
                 });
+            }
+
+            function searchFields(fields, str) {
+                // TODO: Search only within specified fields (dimensions)
             }
 
             function parseSearchResult(result) {
@@ -266,7 +272,7 @@ require(['js/qlik'], function (qlik) {
                     }
                 }
 
-                // Returns [{ columnName, matches: ['match1', 'match2'] }];
+                // Returns [{ columnName: 'myDimension', matches: ['match1', 'match2'] }];
                 return results;
             }
 
@@ -345,7 +351,6 @@ require(['js/qlik'], function (qlik) {
             }
 
             $scope.toggleVariable = function (varName) {
-                console.log('yo: ', varName);
                 polaris.toggleVariable(varName, $scope);
             };
 
@@ -354,9 +359,9 @@ require(['js/qlik'], function (qlik) {
             };
 
             $scope.getArrowDirection = function (isOpen) {
-                if (isOpen) return 'up';
-                else return 'down';
+                return isOpen ? 'up' : 'down';
             };
+
             $scope.isPacomTogglesOpen = true;
             $scope.isPddocTogglesOpen = true;
             $scope.isNodalHealthTogglesOpen = true;
@@ -781,6 +786,32 @@ require(['js/qlik'], function (qlik) {
                 });
             },
         ],
+    });
+
+    angularApp.component('polarisToggle', {
+        bindings: {
+            isChecked: '<',
+            toggle: '&',
+            label: '@',
+            id: '@',
+        },
+        template: `
+            <div class="polaris-toggle"">
+                <h3 class="polaris-toggle-title">{{ $ctrl.label }}</h3>
+                <label 
+                    class="polaris-toggle-box" 
+                    for="{{$ctrl.id}}-checkbox"
+                    ng-class="{'checked': $ctrl.isChecked}">
+
+                    <input type="checkbox"  
+                           id="{{$ctrl.id}}-checkbox"
+                           ng-checked="$ctrl.isChecked"
+                           ng-click="$ctrl.toggle()"
+                           name="{{$ctrl.id}}">
+                    <div class="circle"></div>
+                </label>
+            </div>
+        `,
     });
 
     angularApp.component('burgerMenuIcon', {
