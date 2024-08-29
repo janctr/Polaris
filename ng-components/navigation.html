@@ -5,6 +5,14 @@
 <header class="header">
     <nav class="navbar">
         <ul class="nav-links">
+            <li class="polaris-logo no-underline">
+                <a class="polaris"
+                   href="#/">
+                    <img class="advana-logo"
+                         src="./advana.png" />
+                    POLARIS
+                </a>
+            </li>
             <li class="{{link.classNames.join(' ')}}"
                 ng-repeat="link in links">
                 <a href="{{link.href}}"
@@ -54,6 +62,12 @@
         position: absolute;
         top: var(--classification-banner-height-px);
         left: 3rem;
+    }
+
+    .advana-logo {
+        max-width: 40px;
+        margin-right: 0.25rem;
+        padding: 0.25rem;
     }
 
     .polaris {

@@ -1,10 +1,4 @@
 const angularLinks = [
-    {
-        href: '#/',
-        label: 'POLARIS',
-        classNames: ['polaris-logo', 'no-underline'],
-        anchorClassNames: ['polaris'],
-    },
     { href: 'Polaris.html', label: 'Home', classNames: ['link'] },
     {
         href: '#/log-functions',
