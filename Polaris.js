@@ -318,7 +318,6 @@ require(['js/qlik'], function (qlik) {
             const variables = [
                 'v_map_usindopacom',
                 'v_map_joa',
-
                 // Classes of Supply
                 'v_map_classes_of_supply',
                 'v_map_class_i',
@@ -470,6 +469,21 @@ require(['js/qlik'], function (qlik) {
                     varName: 'v_map_ocs_cities',
                 },
             ];
+
+            // Dynamic map drilldown boxes
+            $scope.isOrgSelected = false;
+
+            polaris.app.createGenericObject(
+                {
+                    isOrgSelected: {
+                        qStringExpression: '=count(distinct [org])',
+                    },
+                },
+                function (reply) {
+                    console.log('reply: ', reply);
+                    $scope.isOrgSelected = Number(reply.isOrgSelected) === 1;
+                }
+            );
         },
     ]);
 
@@ -812,6 +826,34 @@ require(['js/qlik'], function (qlik) {
                 </label>
             </div>
         `,
+    });
+
+    angularApp.component('polarisMapBox', {
+        bindings: {
+            modalLabel: '@',
+            isShowing: '<',
+            objectId: '@',
+            dimensions: '<',
+        },
+        template: `
+            <div
+                class="polaris-map-box" id="{{$ctrl.objectId}}-container" ng-show="$ctrl.isShowing">
+            <loader></loader>
+            </div>
+        `,
+        controller: [
+            '$scope',
+            'polaris',
+            function ($scope, polaris) {
+                angular.element(document).ready(function () {
+                    polaris.insertObject({
+                        label: $scope.$ctrl.modalLabel,
+                        elementId: `${$scope.$ctrl.objectId}-container`,
+                        objectId: $scope.$ctrl.objectId,
+                    });
+                });
+            },
+        ],
     });
 
     angularApp.component('burgerMenuIcon', {

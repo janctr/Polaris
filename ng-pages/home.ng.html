@@ -123,6 +123,10 @@
          class="map">
         <loader></loader>
     </div>
+    <polaris-map-box style="position: absolute; bottom: 0; right: 0; z-index: 2;"
+                     modal-label="Proof of Concept"
+                     is-showing="isOrgSelected"
+                     object-id="XJwxAG"></polaris-map-box>
 </main>
 
 <style type="text/css">
@@ -130,7 +134,7 @@
         height: var(--full-viewport-height-navbar-px);
 
         display: grid;
-        grid-template-columns: repeat(5, 1fr);
+        grid-template-columns: 350px 1fr 1fr 1fr 1fr;
         grid-template-rows: auto;
         grid-template-areas:
             'sidebar map map map map'
@@ -212,5 +216,22 @@
     #home-page .checkbox-group .polaris-checkbox input {
         height: 18px;
         width: 18px;
+    }
+
+    #home-page .box-container {
+        z-index: 1;
+        padding: 0.5rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    #home-page .polaris-map-box {
+        width: 300px;
+        height: var(--full-viewport-height-navbar-px);
+        background-color: #fff;
+        /* box-shadow: var(--box-shadow-2); */
+        /* border-radius: 6px; */
+        padding: 0.25rem;
     }
 </style>
