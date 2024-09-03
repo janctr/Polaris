@@ -88,9 +88,13 @@
             <div class="selection-item"
                  ng-repeat="selectionItem in polaris.selectionState.selections">
                 <div class="selection-info">
-                    <p class="selection-item-fieldname">{{selectionItem.fieldName}}</p>
-                    <p class="selection-item-values">{{selectionItem.qSelected.length > 40 ?
-                        selectionItem.qSelected.slice(0, 21) + '...' : selectionItem.qSelected}}
+                    <p class="selection-item-fieldname">
+                        {{selectionItem.fieldName.length > 26 ? selectionItem.fieldName.slice(0, 23) + '...' :
+                        selectionItem.fieldName}}
+                    </p>
+                    <p class="selection-item-values">
+                        {{selectionItem.qSelected.length > 26 ? selectionItem.qSelected.slice(0, 23) + '...' :
+                        selectionItem.qSelected}}
                     </p>
                 </div>
                 <button ng-click="polaris.clearField(selectionItem.fieldName)"

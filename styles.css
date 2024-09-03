@@ -6,7 +6,7 @@
     --header-height-px: 40px;
     /* calc(40px + var(--classification-banner-height-px)); */
 
-    --qlik-navigation-bar-height-px: 35px;
+    --qlik-navigation-bar-height-px: 40px;
     --qlik-navigation-bar-height-hidden-px: 8px;
 
     --full-viewport-height-px: calc(
