@@ -472,16 +472,28 @@ require(['js/qlik'], function (qlik) {
 
             // Dynamic map drilldown boxes
             $scope.isOrgSelected = false;
+            $scope.closeOrgBox = function () {
+                polaris.clearField('org');
+            };
+            $scope.isClass3Selected = false;
+            $scope.closeClass3Box = function () {
+                polaris.clearField('plant_desc');
+            };
 
             polaris.app.createGenericObject(
                 {
                     isOrgSelected: {
                         qStringExpression: '=count(distinct [org])',
                     },
+                    isClass3Selected: {
+                        qStringExpression: '=count(distinct [plant_desc])',
+                    },
                 },
                 function (reply) {
                     console.log('reply: ', reply);
                     $scope.isOrgSelected = Number(reply.isOrgSelected) === 1;
+                    $scope.isClass3Selected =
+                        Number(reply.isClass3Selected) === 1;
                 }
             );
         },
@@ -832,19 +844,29 @@ require(['js/qlik'], function (qlik) {
         bindings: {
             modalLabel: '@',
             isShowing: '<',
+            close: '&',
             objectId: '@',
             dimensions: '<',
         },
         template: `
-            <div
-                class="polaris-map-box" id="{{$ctrl.objectId}}-container" ng-show="$ctrl.isShowing">
-            <loader></loader>
+        <div class="polaris-map-box" ng-show="$ctrl.isShowing">       
+            <div class="object-header">
+                <h3> {{ polaris.selectionState.selections[0].qSelected }}</h3>
+                <button ng-click="$ctrl.close()" class="tile-header-fullscreen-btn">
+                    <close-icon></close-icon>
+                </button>
             </div>
+            <div class="object-container" id="{{$ctrl.objectId}}-container">
+                <loader></loader>
+            </div>
+        </div>
         `,
         controller: [
             '$scope',
             'polaris',
             function ($scope, polaris) {
+                $scope.polaris = polaris;
+
                 angular.element(document).ready(function () {
                     polaris.insertObject({
                         label: $scope.$ctrl.modalLabel,

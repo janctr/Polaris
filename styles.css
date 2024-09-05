@@ -250,8 +250,8 @@ a:visited {
 
 .close-icon:hover {
     cursor: pointer;
-    background-color: #eee;
-    border-radius: 50%;
+    /* background-color: #eee; */
+    /* border-radius: 50%; */
 }
 
 .sidebar-body {
