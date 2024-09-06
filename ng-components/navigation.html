@@ -19,7 +19,7 @@
                    class="{{link.anchorClassNames.join(' ')}}">
                     <div ng-if="link.childLinks.length > 0"
                          class="dropdown-icon">
-                        <svg fill="#000000"
+                        <svg fill="#FFF"
                              height="100%"
                              width="100%"
                              version="1.1"
@@ -99,6 +99,9 @@
 
         box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
         box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+
+        background-color: var(--blue-1);
+        color: #FFF;
     }
 
     .navbar>.nav-links {
@@ -205,9 +208,12 @@
     }
 
     .link-dropdown .child-link {
+        color: #000;
         padding: 0.5rem;
         font-size: 1rem;
         background-color: inherit;
+        border-bottom: 1px inset var(--platinum);
+
         transition: all 0.125s cubic-bezier(0.17, 0.67, 0.83, 0.67);
     }
 
