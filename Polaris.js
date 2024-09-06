@@ -311,11 +311,13 @@ require(['js/qlik'], function (qlik) {
         '$scope',
         'polaris',
         function ($scope, polaris) {
+            $scope.polaris = polaris;
+
             const appObjects = polaris.isSipr
                 ? siprObjects.home
                 : notionalAppObjects.home;
 
-            const variables = [
+            const qlikVariables = [
                 'v_map_usindopacom',
                 'v_map_joa',
                 // Classes of Supply
@@ -344,7 +346,7 @@ require(['js/qlik'], function (qlik) {
                 polaris.insertObjects(appObjects);
             });
 
-            for (const v of variables) {
+            for (const v of qlikVariables) {
                 console.log('v: ', v);
                 polaris.getVariable(v, $scope);
             }
@@ -471,31 +473,50 @@ require(['js/qlik'], function (qlik) {
             ];
 
             // Dynamic map drilldown boxes
-            $scope.isOrgSelected = false;
-            $scope.closeOrgBox = function () {
-                polaris.clearField('org');
-            };
-            $scope.isClass3Selected = false;
-            $scope.closeClass3Box = function () {
-                polaris.clearField('plant_desc');
-            };
-
-            polaris.app.createGenericObject(
+            $scope.drilldownBoxes = [
                 {
-                    isOrgSelected: {
-                        qStringExpression: '=count(distinct [org])',
-                    },
-                    isClass3Selected: {
-                        qStringExpression: '=count(distinct [plant_desc])',
-                    },
+                    label: 'Proof of Concept',
+                    fieldName: 'org',
+                    varName: 'isOrgSelected',
+                    objectId: 'XJwxAG',
+                    isOpen: false,
                 },
-                function (reply) {
-                    console.log('reply: ', reply);
-                    $scope.isOrgSelected = Number(reply.isOrgSelected) === 1;
-                    $scope.isClass3Selected =
-                        Number(reply.isClass3Selected) === 1;
-                }
+                {
+                    label: 'Class I',
+                    fieldName: 'master.dodaac_nomen',
+                    varName: 'isClass1Selected',
+                    objectId: '',
+                    isOpen: false,
+                },
+                {
+                    label: 'Class III',
+                    fieldName: 'plant_desc',
+                    varName: 'isClass3Selected',
+                    objectId: 'rBBTea',
+                    isOpen: false,
+                },
+            ];
+
+            const genericObject = $scope.drilldownBoxes.reduce(
+                (obj, drilldownBox) => {
+                    obj[drilldownBox.varName] = {
+                        qStringExpression: `=count(distinct [${drilldownBox.fieldName}])`,
+                    };
+                    return obj;
+                },
+                {}
             );
+
+            for (const drilldownBox of $scope.drilldownBoxes) {
+                const { fieldName } = drilldownBox;
+                $scope[fieldName] = false;
+            }
+
+            polaris.app.createGenericObject(genericObject, function (reply) {
+                for (const box of $scope.drilldownBoxes) {
+                    box.isOpen = Number(reply[box.varName]) === 1;
+                }
+            });
         },
     ]);
 
@@ -842,11 +863,9 @@ require(['js/qlik'], function (qlik) {
 
     angularApp.component('polarisMapBox', {
         bindings: {
-            modalLabel: '@',
             isShowing: '<',
             close: '&',
             objectId: '@',
-            dimensions: '<',
         },
         template: `
         <div class="polaris-map-box" ng-show="$ctrl.isShowing">       

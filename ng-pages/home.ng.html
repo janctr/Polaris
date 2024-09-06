@@ -123,17 +123,12 @@
          class="map">
         <loader></loader>
     </div>
-    <polaris-map-box style="position: absolute; bottom: 0; right: 0; z-index: 2;"
-                     modal-label="Proof of Concept"
-                     is-showing="isOrgSelected"
-                     close="closeOrgBox()"
-                     object-id="XJwxAG"></polaris-map-box>
 
-    <polaris-map-box style="position: absolute; bottom: 0; right: 0; z-index: 2;"
-                     modal-label="Proof of Concept"
-                     is-showing="isClass3Selected"
-                     close="closeClass3Box()"
-                     object-id="rBBTea"></polaris-map-box>
+    <polaris-map-box ng-repeat="box in drilldownBoxes"
+                     style="position: absolute; bottom: 0; right: 0; z-index: 2;"
+                     is-showing="box.isOpen"
+                     close="polaris.clearField(box.fieldName)"
+                     object-id="{{box.objectId}}"></polaris-map-box>
 </main>
 
 <style type="text/css">
