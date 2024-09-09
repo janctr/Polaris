@@ -8,32 +8,46 @@
         <close-icon toggle-menu="toggleMenu()"></close-icon>
     </div>
     <div class="sidebar-body">
-        <div class="polaris-checkbox" ng-repeat="el in objectElements">
-            <input type="checkbox" id="{{el.bodyId + '-checkbox'}}" ng-model="el.isShowing" name="{{el.title}}" />
+        <div class="polaris-checkbox"
+             ng-repeat="el in objectElements">
+            <input type="checkbox"
+                   id="{{el.bodyId + '-checkbox'}}"
+                   ng-model="el.isShowing"
+                   name="{{el.title}}" />
             <label for="{{el.bodyId + '-checkbox'}}">{{el.title}}</label>
         </div>
     </div>
 </div>
 
-<polaris-modal ng-repeat="appObject in modalElements" ng-if="appObject.isOpen" is-open="appObject.isOpen"
-    toggle="appObject.toggleModal()" modal-label="{{appObject.label}}" object-id="{{appObject.objectId}}"
-    element-id="{{appObject.elementId}}">
+<polaris-modal ng-repeat="appObject in modalElements"
+               ng-if="appObject.isOpen"
+               is-open="appObject.isOpen"
+               toggle="appObject.toggleModal()"
+               modal-label="{{appObject.label}}"
+               object-id="{{appObject.objectId}}"
+               element-id="{{appObject.elementId}}">
 </polaris-modal>
 
-<main class="main" id="log-functions-page">
+<main class="main"
+      id="log-functions-page">
     <div class="tile-container">
-        <div ng-repeat="el in objectElements" ng-style="getContainerSize()" class="tile {{el.classes.join(' ')}}"
-            ng-class="{'hide': !el.isShowing}">
+        <div ng-repeat="el in objectElements"
+             ng-style="getContainerSize()"
+             class="tile {{el.classes.join(' ')}}"
+             ng-class="{'hide': !el.isShowing}">
             <div class="tile-header">
                 <h2>{{ el.title }}</h2>
-                <button ng-click="el.toggleModal()" class="tile-header-fullscreen-btn">
+                <button ng-click="el.toggleModal()"
+                        class="tile-header-fullscreen-btn">
                     <fullscreen-icon></fullscreen-icon>
                 </button>
             </div>
-            <div class="tile-body" id="{{ el.bodyId }}">
+            <div class="tile-body"
+                 id="{{ el.bodyId }}">
                 <loader></loader>
             </div>
-            <div ng-if="!!el.sources" class="tile-sources">
+            <div ng-if="!!el.sources"
+                 class="tile-sources">
                 <p class="sources">
                     <span>Sources:</span>
                     <span>{{ el.sources.join(' , ') }}</span>
