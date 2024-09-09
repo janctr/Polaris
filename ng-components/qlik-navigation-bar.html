@@ -113,6 +113,10 @@
             </div>
         </div>
     </div>
+    <div class="close-nav-bar-wrapper"
+         ng-click="toggleNavBar()">
+        <arrow-icon direction="getArrowDirection(isShowing)"></arrow-icon>
+    </div>
 
     <div class="search-bar"
          ng-if="isSearchBarOpen">
@@ -161,10 +165,13 @@
 
 <style type="text/css">
     .qlik-navigation-bar {
+        position: relative;
         width: 100%;
         height: var(--qlik-navigation-bar-height-px);
         padding: 0.25rem 1rem;
         background-color: rgb(242, 242, 242);
+
+        transition: height 0.25s ease-in-out;
     }
 
     .qlik-navigation-bar-wrapper {
@@ -348,6 +355,23 @@
 
     .result-text:hover {
         background-color: rgba(64, 64, 64, 0.05);
+        cursor: pointer;
+    }
+
+    .close-nav-bar-wrapper {
+        position: absolute;
+        bottom: -16px;
+        right: 10px;
+        width: 17px;
+        height: 16px;
+        background-color: inherit;
+        z-index: 2;
+        padding: 0 4px;
+        border-bottom-left-radius: 6px;
+        border-bottom-right-radius: 6px;
+    }
+
+    .close-nav-bar-wrapper:hover {
         cursor: pointer;
     }
 </style>

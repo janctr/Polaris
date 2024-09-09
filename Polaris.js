@@ -704,7 +704,11 @@ require(['js/qlik'], function (qlik) {
                 $scope.searchStr = '';
                 $scope.searchResults = [];
 
-                $scope.toggle = function () {
+                $scope.getArrowDirection = function (isOpen) {
+                    return isOpen ? 'up' : 'down';
+                };
+
+                $scope.toggleNavBar = function () {
                     if ($scope.isShowing) {
                         polaris.hideNavbar();
                     } else {
