@@ -109,6 +109,7 @@ require(['js/qlik'], function (qlik) {
             self.resize = resize;
             self.parseVariable = parseVariable;
             self.toggleVariable = toggleVariable;
+            self.getContainerSize = getContainerSize;
 
             function insertObjects(objects) {
                 for (const o of objects) {
@@ -172,6 +173,36 @@ require(['js/qlik'], function (qlik) {
 
                 $('main').css('height', '');
                 self.qlik.resize();
+            }
+
+            function getContainerSize(objectElements) {
+                const numVisibleTiles = objectElements.filter(
+                    (objectElement) => objectElement.isShowing
+                ).length;
+
+                const styles = {};
+
+                if (numVisibleTiles % 2 === 1) {
+                    styles.flex = '33%';
+                }
+
+                if (numVisibleTiles % 4 === 0) {
+                    styles.flex = '25%';
+                } else if (numVisibleTiles % 3 === 0) {
+                    styles.flex = '33%';
+                }
+
+                if (numVisibleTiles === 4) {
+                    styles.flex = '50%';
+                    styles.height = '50%';
+                } else if (numVisibleTiles < 4) {
+                    // styles.flex = 1;
+                    styles.height = '100%';
+                }
+
+                resize();
+
+                return styles;
             }
 
             function getVariable(varName, scope) {
@@ -524,6 +555,8 @@ require(['js/qlik'], function (qlik) {
         '$scope',
         'polaris',
         function ($scope, polaris) {
+            $scope.polaris = polaris;
+
             const appObjects = polaris.isSipr
                 ? siprObjects.logFunctions
                 : notionalAppObjects.logFunctions;
@@ -564,28 +597,6 @@ require(['js/qlik'], function (qlik) {
                 console.log('toggled menu');
                 $scope.isMenuOpen = !$scope.isMenuOpen;
             };
-            $scope.getContainerSize = function () {
-                const numVisibleTiles = $scope.objectElements.filter(
-                    (objectElement) => objectElement.isShowing
-                ).length;
-
-                // console.log(numVisibleTiles);
-                const styles = {};
-
-                // if (numVisibleTiles % 4 === 0) {
-                //     styles.flex = '25%';
-                // } else if (numVisibleTiles % 3 === 0) {
-                //     styles.flex = '33%';
-                // }
-
-                // if (numVisibleTiles === 4) {
-                //     styles.flex = '50%';
-                //     styles.height = '50%';
-                // } else if (numVisibleTiles < 4) {
-                //     styles.height = '100%';
-                // }
-                return styles;
-            };
         },
     ]);
 
@@ -593,6 +604,8 @@ require(['js/qlik'], function (qlik) {
         '$scope',
         'polaris',
         function ($scope, polaris) {
+            $scope.polaris = polaris;
+
             const appObjects = polaris.isSipr
                 ? siprObjects.classesOfSupply
                 : notionalAppObjects.classesOfSupply;
@@ -632,28 +645,6 @@ require(['js/qlik'], function (qlik) {
             $scope.toggleMenu = function () {
                 console.log('toggled menu');
                 $scope.isMenuOpen = !$scope.isMenuOpen;
-            };
-            $scope.getContainerSize = function () {
-                const numVisibleTiles = $scope.objectElements.filter(
-                    (objectElement) => objectElement.isShowing
-                ).length;
-
-                console.log(numVisibleTiles);
-                const styles = {};
-
-                if (numVisibleTiles % 4 === 0) {
-                    styles.flex = '25%';
-                } else if (numVisibleTiles % 3 === 0) {
-                    styles.flex = '33%';
-                }
-
-                if (numVisibleTiles === 4) {
-                    styles.flex = '50%';
-                    styles.height = '50%';
-                } else if (numVisibleTiles < 4) {
-                    styles.height = '100%';
-                }
-                return styles;
             };
         },
     ]);

@@ -49,34 +49,39 @@
       id="class-of-supply-page">
     <div class="tile-container">
         <div ng-repeat="el in objectElements"
+             ng-style="polaris.getContainerSize(objectElements)"
              ng-class="{'hide': !el.isShowing}"
-             class="tile {{el.classes.join(' ')}}">
-            <div class="tile-header">
-                <h2>{{ el.title }}</h2>
-                <button ng-click="el.toggleModal()"
-                        class="tile-header-fullscreen-btn">
-                    <fullscreen-icon></fullscreen-icon>
-                </button>
+             class="tile-wrapper">
+
+            <div class="tile {{el.classes.join(' ')}}">
+                <div class="tile-header">
+                    <h2>{{ el.title }}</h2>
+                    <button ng-click="el.toggleModal()"
+                            class="tile-header-fullscreen-btn">
+                        <fullscreen-icon></fullscreen-icon>
+                    </button>
+                </div>
+                <div class="tile-body"
+                     id="{{ el.bodyId }}">
+                    <loader></loader>
+                </div>
+                <div ng-if="!!el.sources"
+                     class="tile-sources">
+                    <p class="sources">
+                        <span>Sources:</span>
+                        <span>{{ el.sources.join(' , ') }}</span>
+                    </p>
+                    <p class="refresh-rate">
+                        <span>Refresh Rate:</span>
+                        <span class="{{el.refreshRate.color}}">{{ el.refreshRate.label }}</span>
+                    </p>
+                    <p class="quality">
+                        <span>Quality:</span>
+                        <span class="{{el.quality.colo}}">{{ el.quality.label }}</span>
+                    </p>
+                </div>
             </div>
-            <div class="tile-body"
-                 id="{{ el.bodyId }}">
-                <loader></loader>
-            </div>
-            <div ng-if="!!el.sources"
-                 class="tile-sources">
-                <p class="sources">
-                    <span>Sources:</span>
-                    <span>{{ el.sources.join(' , ') }}</span>
-                </p>
-                <p class="refresh-rate">
-                    <span>Refresh Rate:</span>
-                    <span class="{{el.refreshRate.color}}">{{ el.refreshRate.label }}</span>
-                </p>
-                <p class="quality">
-                    <span>Quality:</span>
-                    <span class="{{el.quality.colo}}">{{ el.quality.label }}</span>
-                </p>
-            </div>
+
         </div>
     </div>
 </main>
