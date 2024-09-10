@@ -124,6 +124,69 @@
         <loader></loader>
     </div>
 
+    <div class="map map-elements">
+        <div class="map-search-bar">
+            <input ng-model="searchStr"
+                   ng-change="search(searchStr)"
+                   placeholder="Search POLARIS" />
+            <div class="search-icon"
+                 ng-if="searchStr.length === 0">
+                <svg fill="#000"
+                     height="100%"
+                     width="100%"
+                     version="1.1"
+                     id="Capa_1"
+                     xmlns="http://www.w3.org/2000/svg"
+                     xmlns:xlink="http://www.w3.org/1999/xlink"
+                     viewBox="0 0 488.4 488.4"
+                     xml:space="preserve">
+                    <g>
+                        <g>
+                            <path d="M0,203.25c0,112.1,91.2,203.2,203.2,203.2c51.6,0,98.8-19.4,134.7-51.2l129.5,129.5c2.4,2.4,5.5,3.6,8.7,3.6
+                s6.3-1.2,8.7-3.6c4.8-4.8,4.8-12.5,0-17.3l-129.6-129.5c31.8-35.9,51.2-83,51.2-134.7c0-112.1-91.2-203.2-203.2-203.2
+                S0,91.15,0,203.25z M381.9,203.25c0,98.5-80.2,178.7-178.7,178.7s-178.7-80.2-178.7-178.7s80.2-178.7,178.7-178.7
+                S381.9,104.65,381.9,203.25z" />
+                        </g>
+                    </g>
+                </svg>
+            </div>
+            <div class="close-icon-wrapper"
+                 ng-if="searchStr.length"
+                 ng-click="closeSearchBar()">
+                <svg fill="#000000"
+                     height="100%"
+                     width="100%"
+                     version="1.1"
+                     id="Layer_1"
+                     xmlns="http://www.w3.org/2000/svg"
+                     xmlns:xlink="http://www.w3.org/1999/xlink"
+                     viewBox="0 0 512 512"
+                     xml:space="preserve">
+                    <g>
+                        <g>
+                            <polygon points="512,59.076 452.922,0 256,196.922 59.076,0 0,59.076 196.922,256 0,452.922 59.076,512 256,315.076 452.922,512 
+                            512,452.922 315.076,256 		"></polygon>
+                        </g>
+                    </g>
+                </svg>
+            </div>
+            <div class="results scrollbar"
+                 ng-if="searchStr.length">
+                <ul>
+                    <li ng-if="searchStr.length && searchResults.length === 0">No results</li>
+                    <li class="search-result"
+                        ng-repeat="result in searchResults">
+                        <h3 ng-bind="result.columnName"></h3>
+                        <p ng-repeat="text in result.matches"
+                           ng-bind="text"
+                           ng-click="polaris.select(result.columnName, text)"
+                           class="result-text"></p>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
     <polaris-map-box ng-repeat="box in drilldownBoxes"
                      style="position: absolute; bottom: 0; right: 0; z-index: 2;"
                      is-showing="box.isOpen"
@@ -267,5 +330,67 @@
 
     #home-page .object-container {
         flex: 1;
+    }
+
+    #home-page .map-elements {
+        width: 0;
+        height: 0;
+        position: relative;
+        z-index: 2;
+    }
+
+    #home-page .map-search-bar {
+        position: absolute;
+        background-color: #FFF;
+        box-shadow: var(--box-shadow-3);
+        width: 235px;
+        height: 35px;
+
+        margin: 0.5rem;
+        padding: 0.5rem 1rem;
+        border-radius: 18px;
+
+        display: flex;
+        gap: 0.5rem;
+    }
+
+    #home-page .map-search-bar>input {
+        border: none;
+        display: block;
+        flex: 1;
+        font-size: 1rem;
+    }
+
+    #home-page .map-search-bar>input::placeholder {
+        font-style: italic;
+    }
+
+    #home-page .map-search-bar>.search-icon {
+        width: 17px;
+        height: 17px;
+    }
+
+    #home-page .map-search-bar>.close-icon-wrapper {
+        width: 17px;
+        height: 17px;
+        padding: 2px;
+    }
+
+    #home-page .map-search-bar>.close-icon-wrapper:hover {
+        cursor: pointer;
+    }
+
+    #home-page .map-search-bar .results {
+        position: absolute;
+        top: 40px;
+        left: 0;
+        padding: 0.5rem;
+        width: 100%;
+        max-height: 300px;
+        overflow-x: hidden;
+        overflow-y: auto;
+        background-color: inherit;
+        box-shadow: var(--box-shadow-3);
+        border-radius: 0.5rem;
     }
 </style>

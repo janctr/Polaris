@@ -256,20 +256,34 @@ require(['js/qlik'], function (qlik) {
                 }
             }
 
-            function search(str) {
+            function search(
+                str,
+                {
+                    qOffset = 0,
+                    qCount = 1000,
+                    qSearchFields,
+                    qContext = 'CurrentSelections',
+                } = {}
+            ) {
+                console.log(
+                    'searching with params: ',
+                    str,
+                    qOffset,
+                    qCount,
+                    qContext
+                );
                 const terms = str.split(' ').map((s) => s.trim());
-                console.log('terms: ', terms);
+
                 return new Promise((resolve, reject) => {
                     // Qlik method searchResults() docs:
                     // https://help.qlik.com/en-US/sense-developer/May2024/Subsystems/APIs/Content/Sense_ClientAPIs/CapabilityAPIs/AppAPI/searchResults-method.htm
                     self.app.searchResults(
                         terms,
                         // [str],
-                        { qOffset: 0, qCount: 15 },
-                        { qContext: 'Cleared' },
+                        { qOffset, qCount },
+                        { qSearchFields, qContext },
                         function (reply) {
                             console.log('search reply: ', reply);
-
                             resolve(parseSearchResult(reply));
                         }
                     );
@@ -548,6 +562,38 @@ require(['js/qlik'], function (qlik) {
                     box.isOpen = Number(reply[box.varName]) === 1;
                 }
             });
+
+            // Search functionality
+            $scope.searchStr = '';
+            $scope.searchResults = [];
+            $scope.search = function (searchStr) {
+                polaris
+                    .search(searchStr, {
+                        qSearchFields: polaris.isSipr
+                            ? [
+                                  'master.dodaac_nomen', // Class IV, Class I
+                                  //   'plant_desc',
+                                  'poi_name', // Class III
+                                  'base_name_muns', // Class V
+                                  'PRIMARY_DEPLOYED_DUTY_STATION_CITY', // OCS
+                                  'engineers.uic', // Combat/Civi; Engineers
+                                  //   'airport_name', // APODS
+                                  //   'port_name', // SPODS
+                                  'CUOPS_VESSEL', // AWS Vessels
+                                  'tasked_flights.Airport', // Taskable Aircraft
+                                  'enemy_vessel', // Enemy Vessels
+                                  'vessel_key', //Vessels
+                              ]
+                            : ['org'],
+                    })
+                    .then((results) => {
+                        $scope.searchResults = results;
+                    });
+            };
+            $scope.closeSearchBar = function () {
+                $scope.searchStr = '';
+                $scope.searchResults = [];
+            };
         },
     ]);
 
