@@ -7,7 +7,7 @@
     /* calc(40px + var(--classification-banner-height-px)); */
 
     --qlik-navigation-bar-height-px: 40px;
-    --qlik-navigation-bar-height-hidden-px: 8px;
+    --qlik-navigation-bar-height-hidden-px: 3px;
 
     --full-viewport-height-px: calc(
         100vh - var(--header-height-px) - var(--classification-banner-height-px)
