@@ -332,11 +332,13 @@ require(['js/qlik'], function (qlik) {
     //Controllers
     angularApp.controller('NavController', [
         '$scope',
+        '$window',
         'polaris',
         'navbarLinks',
         'landingPageLinks',
         function (
             $scope,
+            $window,
             polaris,
             navbarLinks,
             { niprJ4LandingPageLink, siprJ4LandingPageLink }
@@ -349,6 +351,9 @@ require(['js/qlik'], function (qlik) {
                 ? 'SECRET'
                 : 'UNCLASSIFIED';
             $scope.classificationBannerColor = polaris.isSipr ? 'red' : 'green';
+            $scope.printWindow = function () {
+                $window.print();
+            };
         },
     ]);
 
