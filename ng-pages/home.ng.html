@@ -1,7 +1,10 @@
+<burger-menu-icon toggle-menu="toggleSidebar()"></burger-menu-icon>
 <qlik-navbar></qlik-navbar>
 <main class="main"
+      ng-class="{'fullscreen': !isSidebarShowing}"
       id="home-page">
-    <div class="sidebar">
+    <div class="sidebar"
+         ng-show="isSidebarShowing">
         <div class="toggle-section">
             <div class="toggle-section-header"
                  ng-click="isPacomTogglesOpen = !isPacomTogglesOpen">
@@ -205,6 +208,18 @@
             'sidebar map map map map'
             'sidebar map map map map'
             'sidebar map map map map';
+
+        transition: all 0.25s ease-in-out
+    }
+
+    #home-page.fullscreen {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr) 1fr 1fr 1fr 1fr 1fr;
+        grid-template-rows: auto;
+        grid-template-areas:
+            'map map map map map'
+            'map map map map map'
+            'map map map map map';
     }
 
     #home-page .map {

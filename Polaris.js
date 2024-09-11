@@ -358,6 +358,11 @@ require(['js/qlik'], function (qlik) {
         function ($scope, polaris) {
             $scope.polaris = polaris;
 
+            $scope.isSidebarShowing = true;
+            $scope.toggleSidebar = function () {
+                $scope.isSidebarShowing = !$scope.isSidebarShowing;
+            };
+
             const appObjects = polaris.isSipr
                 ? siprObjects.home
                 : notionalAppObjects.home;
