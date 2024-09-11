@@ -69,7 +69,7 @@ require(['js/qlik'], function (qlik) {
                 redirectTo: '/home',
             });
 
-        $locationProvider.hashPrefix('');
+        $locationProvider.hashPrefix(''); // IMPORTANT: Grants ability to refresh page
     });
 
     // Services
@@ -364,9 +364,6 @@ require(['js/qlik'], function (qlik) {
             $scope.polaris = polaris;
 
             $scope.isSidebarShowing = true;
-            $scope.toggleSidebar = function () {
-                $scope.isSidebarShowing = !$scope.isSidebarShowing;
-            };
 
             const appObjects = polaris.isSipr
                 ? siprObjects.home
@@ -406,17 +403,10 @@ require(['js/qlik'], function (qlik) {
                 polaris.getVariable(v, $scope);
             }
 
-            $scope.toggleVariable = function (varName) {
+            $scope.toggleVariable = (varName) =>
                 polaris.toggleVariable(varName, $scope);
-            };
-
-            $scope.getVariable = function (varName) {
-                return $scope[varName];
-            };
-
-            $scope.getArrowDirection = function (isOpen) {
-                return isOpen ? 'up' : 'down';
-            };
+            $scope.getVariable = (varName) => $scope[varName];
+            $scope.getArrowDirection = (isOpen) => (isOpen ? 'up' : 'down');
 
             $scope.isPacomTogglesOpen = true;
             $scope.isPddocTogglesOpen = true;
@@ -573,7 +563,7 @@ require(['js/qlik'], function (qlik) {
                 }
             });
 
-            // Search functionality
+            // Search bar functionality
             $scope.searchStr = '';
             $scope.searchResults = [];
             $scope.search = function (searchStr) {
@@ -594,7 +584,7 @@ require(['js/qlik'], function (qlik) {
                                   'enemy_vessel', // Enemy Vessels
                                   'vessel_key', //Vessels
                               ]
-                            : ['org'],
+                            : ['org', 'soccerTeam', 'nbaTeam', 'mlsTeam'],
                     })
                     .then((results) => {
                         $scope.searchResults = results;
@@ -802,62 +792,6 @@ require(['js/qlik'], function (qlik) {
                     {{$ctrl.elementId}}
                 </div>
             </div>
-            <style type="text/css">
-                .polaris-modal {
-                    position: fixed;
-                    top: 50%;
-                    left: 50%;
-                    transform: translateX(-50%) translateY(-50%);
-                    width: 85vw;
-                    height: 90vh;
-
-                    background-color: #FFF;
-
-                    display: flex;
-                    flex-direction: column;
-                    
-                    z-index: -1;
-
-                    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
-                    rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
-                }
-                .polaris-modal-actions {
-                    // background-color: var(--blue-2);
-                    // color: #FFF;
-                    padding: 0.5rem 0.5rem 0.5rem 1rem;
-                    display: flex;
-                    align-items: center;
-                    
-                }
-
-                .polaris-modal-actions h3 {
-                    flex: 1;
-                }
-
-                .polaris-modal-actions button {
-                    background-color: #FFF;
-                    border: none;
-                    border-radius: 50%;
-                    padding: 10px;
-                    width: 38px;
-                    height: 38px;
-                    
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-
-                    transition: background-color 0.25s ease-in-out;
-                }
-
-                .polaris-modal-actions button:hover {
-                    cursor: pointer;
-                    background-color: rgba(64, 64, 64, 0.05);
-                }
-
-                .polaris-modal-body {
-                    flex: 1;
-                }
-            </style>
         `,
         controller: [
             '$scope',
