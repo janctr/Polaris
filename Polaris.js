@@ -535,9 +535,23 @@ require(['js/qlik'], function (qlik) {
                 },
                 {
                     label: 'Class III',
-                    fieldName: 'plant_desc',
+                    fieldName: 'poi_name',
                     varName: 'isClass3Selected',
                     objectId: 'rBBTea',
+                    isOpen: false,
+                },
+                {
+                    label: 'Airports',
+                    fieldName: 'Airport',
+                    varName: 'isApodSelected',
+                    objectId: 'gtsz',
+                    isOpen: false,
+                },
+                {
+                    label: 'Seaports',
+                    fieldName: 'seaport',
+                    varName: 'isSeaportSelected',
+                    objectId: 'JsSDm',
                     isOpen: false,
                 },
             ];
