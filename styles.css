@@ -128,14 +128,13 @@ a:visited {
 
     display: flex;
     flex-wrap: wrap;
-    /* gap: 1rem; */
 }
 
 .tile-wrapper {
     flex: 25%;
     width: auto;
     height: 50%;
-    padding: 0.5rem;
+    /* padding: 0.5rem; */
 
     transition: all 0.5s ease-in-out;
 }
@@ -152,9 +151,10 @@ a:visited {
     display: flex;
     flex-direction: column;
     align-items: center;
-    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
-        rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
-    border-radius: 6px;
+    /* box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+        rgba(0, 0, 0, 0.3) 0px 1px 3px -1px; */
+    /* border-radius: 6px; */
+    border: 1px solid var(--blue-1);
     overflow: hidden;
 }
 

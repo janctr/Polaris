@@ -5,7 +5,7 @@
 
 <div class="polaris-sidebar {{isMenuOpen ? 'open' : ''}}">
     <div class="close-icon-wrapper">
-        <close-icon toggle-menu="toggleMenu()"></close-icon>
+        <close-icon handle-click="toggleMenu()"></close-icon>
     </div>
     <div class="sidebar-body">
         <div class="polaris-checkbox"
@@ -44,6 +44,8 @@
                             class="tile-header-fullscreen-btn">
                         <fullscreen-icon></fullscreen-icon>
                     </button>
+                    <close-icon handle-click="el.isShowing = false"
+                                fill-color="#FFF"></close-icon>
                 </div>
                 <div class="tile-body"
                      id="{{ el.bodyId }}">
@@ -73,6 +75,6 @@
 <style type="text/css">
     #log-functions-page {
         height: var(--full-viewport-height-navbar-px);
-        padding: 1rem;
+        /* padding: 1rem; */
     }
 </style>
