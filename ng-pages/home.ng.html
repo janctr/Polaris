@@ -27,15 +27,29 @@
                 <li ng-if="v_map_classes_of_supply"
                     style="list-style: none; padding-left: 1rem;">
                     <ul>
-                        <li class="polaris-checkbox"
-                            style="list-style: none; padding-left: 1rem;"
-                            ng-repeat="toggle in classesOfSupplyToggles">
+                        <li ng-repeat="toggle in classesOfSupplyToggles"
+                            class="polaris-checkbox {{toggle.label}}"
+                            style="list-style: none; padding-left: 1rem;">
 
                             <polaris-toggle is-checked="getVariable(toggle.varName)"
                                             toggle="toggleVariable(toggle.varName)"
                                             label="{{toggle.title}}"
                                             id="{{toggle.label}}">
                             </polaris-toggle>
+
+                            <ul ng-if="toggle.subToggles && v_map_class_iii"
+                                class="class-iii-subtoggles">
+                                <li class="polaris-checkbox"
+                                    style="list-style: none; padding-left: 1rem; padding-right: 0"
+                                    ng-repeat="subToggle in toggle.subToggles">
+
+                                    <polaris-toggle is-checked="getVariable(subToggle.varName)"
+                                                    toggle="toggleSubToggle(subToggle.varName)"
+                                                    label="{{subToggle.title}}"
+                                                    id="{{subToggle.label}}">
+                                    </polaris-toggle>
+                                </li>
+                            </ul>
                         </li>
                     </ul>
                 </li>
@@ -193,8 +207,17 @@
     <polaris-map-box ng-repeat="box in drilldownBoxes"
                      style="position: absolute; bottom: 0; right: 0; z-index: 2;"
                      is-showing="box.isOpen"
-                     close="polaris.clearField(box.fieldName)"
-                     object-id="{{box.objectId}}"></polaris-map-box>
+                     close="box.onClose()"
+                     object-id="{{box.objectId}}"
+                     object-ids="box.objectIds"></polaris-map-box>
+
+    <polaris-map-box ng-repeat="box in secretDrilldownBoxes"
+                     style="position: absolute; bottom: 0; right: 0; z-index: 2;"
+                     is-showing="box.isOpen"
+                     close="box.onClose()"
+                     object-id="{{box.objectId}}"
+                     object-ids="box.objectIds"
+                     width="420px"></polaris-map-box>
 </main>
 
 <style type="text/css">
@@ -287,6 +310,27 @@
         background-color: #d3d3d3;
     }
 
+    /********** Class III **********/
+    #home-page .class-iii {
+        padding: 0 !important;
+    }
+
+    #home-page .class-iii>polaris-toggle>.polaris-toggle {
+        padding: 0.25rem 0.5rem 0.25rem 1rem;
+    }
+
+    #home-page .class-iii-subtoggles {
+        padding-left: 1rem;
+        padding-right: 0.5rem;
+        background-color: #FFF;
+    }
+
+    #home-page .class-iii-subtoggles .polaris-checkbox:hover {
+        background-color: #FFF;
+    }
+
+    /*******************************/
+
     #home-page .checkbox-group .polaris-checkbox:hover,
     #home-page .checkbox-group .polaris-checkbox label:hover,
     #home-page .checkbox-group .polaris-checkbox input:hover {
@@ -316,6 +360,16 @@
 
         display: flex;
         flex-direction: column;
+    }
+
+    #home-page .polaris-map-box .objects-container {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+    }
+
+    #home-page .polaris-map-box .objects-container>div {
+        flex: 1;
     }
 
     #home-page .object-header {

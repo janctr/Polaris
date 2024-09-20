@@ -100,6 +100,7 @@ require(['js/qlik'], function (qlik) {
             self.setVariable = setVariable;
             self.select = select;
             self.search = search;
+            self.createHypercube = createHypercube;
 
             // Methods
             self.insertObject = insertObject;
@@ -220,14 +221,25 @@ require(['js/qlik'], function (qlik) {
             }
 
             function setVariable({ varName, value }) {
-                if (typeof value === 'string') {
-                    polaris.app.variable.setStringValue(varName, newVal);
-                }
-                if (typeof value === 'number') {
-                    polaris.app.variable.setNumValue(varName, value);
-                }
-
-                throw new Error('ERROR: Unknown variable value');
+                console.log('setVariable: ', varName, ' to: ', value);
+                return new Promise((resolve, reject) => {
+                    if (typeof value === 'string') {
+                        self.app.variable
+                            .setStringValue(varName, newVal)
+                            .then(() => {
+                                resolve(true);
+                            });
+                    } else if (typeof value === 'number') {
+                        self.app.variable
+                            .setNumValue(varName, value)
+                            .then(() => {
+                                resolve(true);
+                            });
+                    } else {
+                        reject();
+                        throw new Error('ERROR: Unknown variable value');
+                    }
+                });
             }
 
             function parseVariable(reply) {
@@ -326,6 +338,40 @@ require(['js/qlik'], function (qlik) {
                     .field(columnName)
                     .selectValues([{ qText }], true, true);
             }
+
+            function createHypercube({
+                dimensions = [],
+                measures = [],
+                initialDataFetch: {
+                    top = 0,
+                    left = 0,
+                    height = 1000,
+                    width = dimensions.length + measures.length,
+                } = {},
+                callback,
+            }) {
+                if (dimensions.length === 0 && measures.length === 0) {
+                    throw new Error('Please define dimensions or measures.');
+                }
+
+                const hypercubeDefinition = {
+                    qDimensions: dimensions.map((dim) => ({
+                        qDef: {
+                            qFieldDefs: [dim],
+                        },
+                    })),
+                    qInitialDataFetch: [
+                        {
+                            qTop: top,
+                            qLeft: left,
+                            qHeight: height,
+                            qWidth: width,
+                        },
+                    ],
+                };
+
+                self.app.createCube(hypercubeDefinition, callback);
+            }
         },
     ]);
 
@@ -384,6 +430,7 @@ require(['js/qlik'], function (qlik) {
                 'v_map_enemy_vessels',
                 'v_map_deploy_dist_aircraft_health',
                 'v_map_aws',
+                'v_map_land_vehicles',
                 // Nodal Health
                 'v_map_seaports',
                 'v_map_airports',
@@ -460,6 +507,51 @@ require(['js/qlik'], function (qlik) {
                 // },
             ];
 
+            // Class III Subtoggles
+            polaris.createHypercube({
+                dimensions: ['secretLabel', 'secretVarName'],
+                callback: function (reply) {
+                    const subToggles = [];
+                    for (const row of reply.qHyperCube.qDataPages[0].qMatrix) {
+                        const [label, varName] = row;
+
+                        const subToggle = {
+                            title: label.qText,
+                            label: label.qText
+                                .toLowerCase()
+                                .split(' ')
+                                .join('-'),
+                            varName: varName.qText,
+                        };
+
+                        subToggles.push(subToggle);
+
+                        polaris.getVariable(subToggle.varName, $scope);
+                    }
+
+                    $scope.classesOfSupplyToggles.find(
+                        (toggle) => toggle.label === 'class-iii'
+                    ).subToggles = subToggles;
+
+                    $scope.toggleSubToggle = function (varNameToToggle) {
+                        // Turn off currently selected sub toggles
+                        reply.qHyperCube.qDataPages[0].qMatrix
+                            .filter(([label, varName]) => {
+                                return varName.qText !== varNameToToggle;
+                            })
+                            .map(([label, varName]) => varName.qText)
+                            .forEach((varName) => {
+                                if ($scope.getVariable(varName)) {
+                                    $scope.toggleVariable(varName);
+                                }
+                            });
+
+                        // Toggle as usual
+                        $scope.toggleVariable(varNameToToggle);
+                    };
+                },
+            });
+
             $scope.pddocToggles = [
                 {
                     title: 'Vessels',
@@ -480,6 +572,11 @@ require(['js/qlik'], function (qlik) {
                     title: 'AWS',
                     label: 'aws',
                     varName: 'v_map_aws',
+                },
+                {
+                    title: 'Land Vehicles',
+                    label: 'land-vehicles',
+                    varName: 'v_map_land_vehicles',
                 },
             ];
 
@@ -519,26 +616,57 @@ require(['js/qlik'], function (qlik) {
 
             // Dynamic map drilldown boxes
             $scope.drilldownBoxes = [
+                // NIPR
                 {
                     label: 'Proof of Concept',
                     fieldName: 'org',
                     varName: 'isOrgSelected',
                     objectId: 'XJwxAG',
                     isOpen: false,
+                    onClose: function () {
+                        polaris.clearField('org');
+                    },
                 },
                 {
-                    label: 'Class I',
-                    fieldName: 'master.dodaac_nomen',
-                    varName: 'isClass1Selected',
-                    objectId: '',
+                    label: 'Proof of Concept',
+                    fieldName: 'soccerTeam',
+                    varName: 'isSoccerTeamSelected',
+                    objectIds: ['frXbuh', 'fsHmHP', 'mKw'],
                     isOpen: false,
+                    onClose: function () {
+                        polaris.clear();
+                    },
                 },
+                // SIPR
+                // {
+                //     label: 'Class I',
+                //     fieldName: 'master.dodaac_nomen',
+                //     varName: 'isClass1Selected',
+                //     objectId: 'hzhrF',
+                //     isOpen: false,
+                //     onClose: function () {
+                //         polaris.clearField('master.dodaac_nomen');
+                //     },
+                // },
                 {
                     label: 'Class III',
-                    fieldName: 'poi_name',
+                    fieldName: 'plant_desc',
                     varName: 'isClass3Selected',
-                    objectId: 'rBBTea',
+                    objectId: 'ppfj',
                     isOpen: false,
+                    onClose: function () {
+                        polaris.clear();
+                    },
+                },
+                {
+                    label: 'Class III Subtoggle 1 Detailed Map Viz',
+                    fieldName: '',
+                    varName: '',
+                    objectIds: [],
+                    isOpen: false,
+                    onClose: function () {
+                        polaris.clear();
+                    },
                 },
                 {
                     label: 'Airports',
@@ -546,6 +674,9 @@ require(['js/qlik'], function (qlik) {
                     varName: 'isApodSelected',
                     objectId: 'gtsz',
                     isOpen: false,
+                    onClose: function () {
+                        polaris.clearField('Airport');
+                    },
                 },
                 {
                     label: 'Seaports',
@@ -553,6 +684,9 @@ require(['js/qlik'], function (qlik) {
                     varName: 'isSeaportSelected',
                     objectId: 'JsSDm',
                     isOpen: false,
+                    onClose: function () {
+                        polaris.clearField('seaport');
+                    },
                 },
             ];
 
@@ -577,28 +711,119 @@ require(['js/qlik'], function (qlik) {
                 }
             });
 
+            // Secret map boxes
+            $scope.secretDrilldownBoxes = [];
+            polaris.createHypercube({
+                dimensions: [
+                    'secretMapBoxLabel',
+                    'secretMapBoxFieldName',
+                    'secretMapBoxVarName',
+                    'secretMapBoxObjectIds',
+                ],
+                callback: function (reply) {
+                    const secretMapBoxes =
+                        reply.qHyperCube.qDataPages[0].qMatrix.map((row) => {
+                            const [label, fieldName, varName, objectIds] = row;
+                            const objectIdsParsed = objectIds.qText.split(' ');
+
+                            console.log('objectIdsParsed: ', objectIdsParsed);
+                            const mapBox = {
+                                label: label.qText,
+                                fieldName: fieldName.qText,
+                                varName: varName.qText,
+                                objectId:
+                                    objectIdsParsed.length === 1
+                                        ? objectIdsParsed[0]
+                                        : undefined,
+                                objectIds:
+                                    objectIdsParsed.length > 0
+                                        ? objectIdsParsed
+                                        : undefined,
+                                isOpen: false,
+                                onClose: function () {
+                                    polaris.clearField(fieldName.qText);
+                                },
+                            };
+
+                            console.log('secret map box created: ', mapBox);
+
+                            return mapBox;
+                        });
+
+                    $scope.secretDrilldownBoxes = secretMapBoxes;
+
+                    // Add these search fields to the search bar
+                    for (const { fieldName } of secretMapBoxes) {
+                        if (polaris.isSipr) {
+                            $scope.siprSearchFields.push(fieldName);
+                        } else {
+                            $scope.niprSearchFields.push(fieldName);
+                        }
+                    }
+
+                    const secretGenericObject = secretMapBoxes.reduce(
+                        (obj, drilldownBox) => {
+                            obj[drilldownBox.varName] = {
+                                qStringExpression: `=count(distinct [${drilldownBox.fieldName}])`,
+                            };
+                            return obj;
+                        },
+                        {}
+                    );
+
+                    for (const drilldownBox of secretMapBoxes) {
+                        const { fieldName } = drilldownBox;
+                        $scope[fieldName] = false;
+                    }
+
+                    polaris.app.createGenericObject(
+                        secretGenericObject,
+                        function (reply) {
+                            console.log('got the secret boxes: ', reply);
+                            for (const box of $scope.secretDrilldownBoxes) {
+                                box.isOpen = Number(reply[box.varName]) === 1;
+                            }
+                        }
+                    );
+                },
+            });
+
             // Search bar functionality
             $scope.searchStr = '';
             $scope.searchResults = [];
+            $scope.niprSearchFields = [
+                'org',
+                'soccerTeam',
+                'nbaTeam',
+                'mlsTeam',
+            ];
+            $scope.siprSearchFields = [
+                'master.dodaac_nomen', // Class IV, Class I
+                'plant_desc', // Class III
+                //   'poi_name', // Class III
+                'base_name_muns', // Class V
+                'PRIMARY_DEPLOYED_DUTY_STATION_CITY', // OCS
+                'engineers.uic', // Combat/Civi; Engineers
+                'Airport', // APODS
+                'seaport', // SPODS
+                'CUOPS_VESSEL', // AWS Vessels
+                'tasked_flights.Airport', // Taskable Aircraft
+                'enemy_vessel', // Enemy Vessels
+                'vessel_key', //Vessels
+                'asset_id', // Aircraft, Land Vehicles
+            ];
             $scope.search = function (searchStr) {
+                const searchFields = polaris.isSipr
+                    ? $scope.siprSearchFields
+                    : $scope.niprSearchFields;
+
+                console.log('Search within these fields: ', searchFields);
+
                 polaris
                     .search(searchStr, {
                         qSearchFields: polaris.isSipr
-                            ? [
-                                  'master.dodaac_nomen', // Class IV, Class I
-                                  //   'plant_desc',
-                                  'poi_name', // Class III
-                                  'base_name_muns', // Class V
-                                  'PRIMARY_DEPLOYED_DUTY_STATION_CITY', // OCS
-                                  'engineers.uic', // Combat/Civi; Engineers
-                                  //   'airport_name', // APODS
-                                  //   'port_name', // SPODS
-                                  'CUOPS_VESSEL', // AWS Vessels
-                                  'tasked_flights.Airport', // Taskable Aircraft
-                                  'enemy_vessel', // Enemy Vessels
-                                  'vessel_key', //Vessels
-                              ]
-                            : ['org', 'soccerTeam', 'nbaTeam', 'mlsTeam'],
+                            ? $scope.siprSearchFields
+                            : $scope.niprSearchFields,
                     })
                     .then((results) => {
                         $scope.searchResults = results;
@@ -865,17 +1090,24 @@ require(['js/qlik'], function (qlik) {
             isShowing: '<',
             close: '&',
             objectId: '@',
+            objectIds: '<',
+            width: '@',
         },
         template: `
-        <div class="polaris-map-box" ng-show="$ctrl.isShowing">       
+        <div class="polaris-map-box" ng-show="$ctrl.isShowing" ng-style="{'width': $ctrl.width}">       
             <div class="object-header">
                 <h3> {{ polaris.selectionState.selections[0].qSelected }}</h3>
                 <button ng-click="$ctrl.close()" class="tile-header-fullscreen-btn">
                     <close-icon></close-icon>
                 </button>
             </div>
-            <div class="object-container" id="{{$ctrl.objectId}}-container">
+            <div ng-show="$ctrl.objectId.length" class="object-container" id="{{$ctrl.objectId}}-container">
                 <loader></loader>
+            </div>
+            <div ng-show="$ctrl.objectIds.length" class="objects-container">
+                <div ng-repeat="objectId in $ctrl.objectIds" id="{{objectId}}-container">
+                    <loader></loader>
+                </div>
             </div>
         </div>
         `,
@@ -885,12 +1117,27 @@ require(['js/qlik'], function (qlik) {
             function ($scope, polaris) {
                 $scope.polaris = polaris;
 
+                console.log('map box created: ', $scope);
+                // Only if objectIds is defined
                 angular.element(document).ready(function () {
-                    polaris.insertObject({
-                        label: $scope.$ctrl.modalLabel,
-                        elementId: `${$scope.$ctrl.objectId}-container`,
-                        objectId: $scope.$ctrl.objectId,
-                    });
+                    if ($scope.$ctrl.objectId?.length) {
+                        // For single element
+                        polaris.insertObject({
+                            label: $scope.$ctrl.modalLabel,
+                            elementId: `${$scope.$ctrl.objectId}-container`,
+                            objectId: $scope.$ctrl.objectId,
+                        });
+                    } else if ($scope.$ctrl.objectIds?.length) {
+                        // If multiple elements are defined
+
+                        for (const objectId of $scope.$ctrl.objectIds) {
+                            polaris.insertObject({
+                                label: $scope.$ctrl.modalLabel,
+                                elementId: `${objectId}-container`,
+                                objectId: objectId,
+                            });
+                        }
+                    }
                 });
             },
         ],
