@@ -1,8 +1,8 @@
 # J43 POLARIS Qlik Mashup
 
-## Files that are included in the mashup named "Polaris" in the Dev Hub
+### Files that are included in the mashup named "Polaris" in the Dev Hub
 
-### Main files
+#### Main files
 
 -   `Polaris.qext`
 -   `Polaris.js`
@@ -32,9 +32,23 @@ This mini web application is built using the Qlik mashup capabilities. Developme
 
 This mashup uses AngularJS. Here are the [docs](https://help.qlik.com/en-US/sense-developer/May2024/Subsystems/Mashups/Content/Sense_Mashups/Howtos/mashups-use-angularjs-in-mashup.htm) that outline how to incorporate Angular in your Qlik Mashup.
 
-## Editing
+#### Application Structure
 
-Only I (Jan Eligio) have access to directly change this code in the Dev Hub. But collabotors are free to fork this repository and make pull requests. If I were to leave, in order to grant access for another user to make changes to Polaris, the following steps have to be taken:
+`Polaris.html` is the entrypoint of the mashup. It is where Angular is defined and where all the file dependencies are linked.
+
+`Polaris.js` is where all the business logic is defined. It is where services, components, routing is defined. The Qlik API is leveraged heavily.
+
+##### Components
+
+-   `navigation.html` and `qlik-navigation-bar.html` are angular components are that are used in every page.
+
+##### Pages
+
+-   `home.ng.html`, `log-functions.ng.html`, `classes-of-supply.ng.html` are the pages defined in the main JS file. They all have corresponding controllers that are defined in `Polaris.js`.
+
+#### Editing
+
+Only I (Jan Iverson Eligio) have access to directly change this code in the Dev Hub. But collabotors are free to fork this repository and make pull requests. If I were to leave, in order to grant access for another user to make changes to Polaris, the following steps have to be taken:
 
 -   I delete Polaris from the Dev Hub
 -   A person would be designated as the person that makes change to Polaris
