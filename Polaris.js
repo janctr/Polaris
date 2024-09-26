@@ -829,6 +829,10 @@ require(['js/qlik'], function (qlik) {
                 'asset_id', // Aircraft, Land Vehicles
             ];
             $scope.search = function (searchStr) {
+                if (searchStr.length <= 3) {
+                    return;
+                }
+
                 const searchFields = polaris.isSipr
                     ? $scope.siprSearchFields
                     : $scope.niprSearchFields;

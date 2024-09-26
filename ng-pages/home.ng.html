@@ -197,7 +197,7 @@
             <div class="results scrollbar"
                  ng-if="searchStr.length">
                 <ul>
-                    <li ng-if="searchStr.length && searchResults.length === 0">No results</li>
+                    <li ng-if="searchStr.length > 3 && searchResults.length === 0">No results</li>
                     <li class="search-result"
                         ng-repeat="result in searchResults">
                         <h3 ng-bind="result.columnName"></h3>
