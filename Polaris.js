@@ -654,16 +654,16 @@ require(['js/qlik'], function (qlik) {
                     },
                 },
                 // SIPR
-                // {
-                //     label: 'Class I',
-                //     fieldName: 'master.dodaac_nomen',
-                //     varName: 'isClass1Selected',
-                //     objectId: 'hzhrF',
-                //     isOpen: false,
-                //     onClose: function () {
-                //         polaris.clearField('master.dodaac_nomen');
-                //     },
-                // },
+                {
+                    label: 'Class I',
+                    fieldName: 'dodaac_nomen_cli',
+                    varName: 'isClass1Selected',
+                    objectId: 'CjKN',
+                    isOpen: false,
+                    onClose: function () {
+                        polaris.clearField('dodaac_nomen_cli');
+                    },
+                },
                 {
                     label: 'Class III',
                     fieldName: 'plant_desc',
@@ -814,7 +814,7 @@ require(['js/qlik'], function (qlik) {
                 'mlsTeam',
             ];
             $scope.siprSearchFields = [
-                'master.dodaac_nomen', // Class IV, Class I
+                'dodaac_nomen_cli', // Class I
                 'plant_desc', // Class III
                 //   'poi_name', // Class III
                 'base_name_muns', // Class V
