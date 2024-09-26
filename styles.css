@@ -321,6 +321,10 @@ a:visited {
     align-items: center;
 }
 
+.polaris-toggle-dropdown {
+    flex: 1;
+}
+
 .polaris-toggle-box {
     width: 50px;
     height: 25px;

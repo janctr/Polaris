@@ -466,11 +466,13 @@ require(['js/qlik'], function (qlik) {
                     title: 'USINDOPACOM',
                     label: 'usindopacom',
                     varName: 'v_map_usindopacom',
+                    qlikDropdownId: polaris.isSipr ? '' : 'yRuKjT',
                 },
                 {
                     title: 'JOA Boundaries',
                     label: 'joa',
                     varName: 'v_map_joa',
+                    qlikDropdownId: 'PvXr',
                 },
                 {
                     title: 'Classes of Supply',
@@ -484,21 +486,25 @@ require(['js/qlik'], function (qlik) {
                     title: 'Class I',
                     label: 'class-i',
                     varName: 'v_map_class_i',
+                    qlikDropdownId: 'MEtjzmZ',
                 },
                 {
                     title: 'Class III',
                     label: 'class-iii',
                     varName: 'v_map_class_iii',
+                    qlikDropdownId: 'pqjjPZ',
                 },
                 {
                     title: 'Class IV',
                     label: 'class-iv',
                     varName: 'v_map_class_iv',
+                    qlikDropdownId: 'JnZQYx',
                 },
                 {
                     title: 'Class V',
                     label: 'class-v',
                     varName: 'v_map_class_v',
+                    qlikDropdownId: 'fYkxMwf',
                 },
                 // {
                 //     title: 'Class IX',
@@ -557,26 +563,31 @@ require(['js/qlik'], function (qlik) {
                     title: 'Vessels',
                     label: 'vessels',
                     varName: 'v_map_deploy_dist_vessel_health',
+                    qlikDropdownId: 'LPGRT',
                 },
                 {
                     title: 'Enemy Vessels',
                     label: 'enemy-vessels',
                     varName: 'v_map_enemy_vessels',
+                    qlikDropdownId: 'eFpAKzG',
                 },
                 {
                     title: 'Aircraft',
                     label: 'aircraft',
                     varName: 'v_map_deploy_dist_aircraft_health',
+                    qlikDropdownId: 'ZMWxmF',
                 },
                 {
                     title: 'AWS',
                     label: 'aws',
                     varName: 'v_map_aws',
+                    qlikDropdownId: 'BcPALt',
                 },
                 {
                     title: 'Land Vehicles',
                     label: 'land-vehicles',
                     varName: 'v_map_land_vehicles',
+                    qlikDropdownId: 'qZbxy',
                 },
             ];
 
@@ -585,11 +596,13 @@ require(['js/qlik'], function (qlik) {
                     title: 'Seaports',
                     label: 'seaports',
                     varName: 'v_map_seaports',
+                    qlikDropdownId: 'WPbSPF',
                 },
                 {
                     title: 'Airports',
                     label: 'airports',
                     varName: 'v_map_airports',
+                    qlikDropdownId: 'hWvUq',
                 },
             ];
 
@@ -598,11 +611,13 @@ require(['js/qlik'], function (qlik) {
                     title: 'Combat Engineers',
                     label: 'combat-engineers',
                     varName: 'v_map_combat_engineers',
+                    qlikDropdownId: 'qekyX',
                 },
                 {
                     title: 'Civil Engineers',
                     label: 'civil-engineers',
                     varName: 'v_map_civil_engineers',
+                    qlikDropdownId: 'HzDHVu',
                 },
             ];
 
@@ -611,6 +626,7 @@ require(['js/qlik'], function (qlik) {
                     title: 'Contractors',
                     label: 'contractors',
                     varName: 'v_map_ocs_cities',
+                    qlikDropdownId: 'yjprNQT',
                 },
             ];
 
@@ -1065,10 +1081,12 @@ require(['js/qlik'], function (qlik) {
             toggle: '&',
             label: '@',
             id: '@',
+            qlikDropdownId: '@',
         },
         template: `
-            <div class="polaris-toggle"">
+            <div class="polaris-toggle">
                 <h3 class="polaris-toggle-title">{{ $ctrl.label }}</h3>
+                <div ng-if="$ctrl.qlikDropdownId.length" class="polaris-toggle-dropdown" id="{{$ctrl.id}}-dropdown"></div>
                 <label 
                     class="polaris-toggle-box" 
                     for="{{$ctrl.id}}-checkbox"
@@ -1083,6 +1101,19 @@ require(['js/qlik'], function (qlik) {
                 </label>
             </div>
         `,
+        controller: [
+            '$scope',
+            'polaris',
+            function ($scope, polaris) {
+                angular.element(document).ready(function () {
+                    polaris.insertObject({
+                        label: $scope.$ctrl.label,
+                        elementId: `${$scope.$ctrl.id}-dropdown`,
+                        objectId: $scope.$ctrl.qlikDropdownId,
+                    });
+                });
+            },
+        ],
     });
 
     angularApp.component('polarisMapBox', {

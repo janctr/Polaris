@@ -21,7 +21,8 @@
                     <polaris-toggle is-checked="getVariable(toggle.varName)"
                                     toggle="toggleVariable(toggle.varName)"
                                     label="{{toggle.title}}"
-                                    id="{{toggle.label}}">
+                                    id="{{toggle.label}}"
+                                    qlik-dropdown-id="{{toggle.qlikDropdownId}}">
                     </polaris-toggle>
                 </li>
                 <li ng-if="v_map_classes_of_supply"
@@ -34,7 +35,8 @@
                             <polaris-toggle is-checked="getVariable(toggle.varName)"
                                             toggle="toggleVariable(toggle.varName)"
                                             label="{{toggle.title}}"
-                                            id="{{toggle.label}}">
+                                            id="{{toggle.label}}"
+                                            qlik-dropdown-id="{{toggle.qlikDropdownId}}">
                             </polaris-toggle>
 
                             <ul ng-if="toggle.subToggles && v_map_class_iii"
@@ -46,7 +48,8 @@
                                     <polaris-toggle is-checked="getVariable(subToggle.varName)"
                                                     toggle="toggleSubToggle(subToggle.varName)"
                                                     label="{{subToggle.title}}"
-                                                    id="{{subToggle.label}}">
+                                                    id="{{subToggle.label}}"
+                                                    qlik-dropdown-id="{{toggle.qlikDropdownId}}">
                                     </polaris-toggle>
                                 </li>
                             </ul>
@@ -70,7 +73,8 @@
                     <polaris-toggle is-checked="getVariable(toggle.varName)"
                                     toggle="toggleVariable(toggle.varName)"
                                     label="{{toggle.title}}"
-                                    id="{{toggle.label}}">
+                                    id="{{toggle.label}}"
+                                    qlik-dropdown-id="{{toggle.qlikDropdownId}}">
                     </polaris-toggle>
                 </li>
             </ul>
@@ -90,7 +94,8 @@
                     <polaris-toggle is-checked="getVariable(toggle.varName)"
                                     toggle="toggleVariable(toggle.varName)"
                                     label="{{toggle.title}}"
-                                    id="{{toggle.label}}">
+                                    id="{{toggle.label}}"
+                                    qlik-dropdown-id="{{toggle.qlikDropdownId}}">
                     </polaris-toggle>
                 </li>
             </ul>
@@ -110,7 +115,8 @@
                     <polaris-toggle is-checked="getVariable(toggle.varName)"
                                     toggle="toggleVariable(toggle.varName)"
                                     label="{{toggle.title}}"
-                                    id="{{toggle.label}}">
+                                    id="{{toggle.label}}"
+                                    qlik-dropdown-id="{{toggle.qlikDropdownId}}">
                     </polaris-toggle>
                 </li>
             </ul>
@@ -130,7 +136,8 @@
                     <polaris-toggle is-checked="getVariable(toggle.varName)"
                                     toggle="toggleVariable(toggle.varName)"
                                     label="{{toggle.title}}"
-                                    id="{{toggle.label}}">
+                                    id="{{toggle.label}}"
+                                    qlik-dropdown-id="{{toggle.qlikDropdownId}}">
                     </polaris-toggle>
                 </li>
             </ul>
@@ -225,7 +232,7 @@
         height: var(--full-viewport-height-navbar-px);
 
         display: grid;
-        grid-template-columns: 350px 1fr 1fr 1fr 1fr;
+        grid-template-columns: 400px 1fr 1fr 1fr 1fr;
         grid-template-rows: auto;
         grid-template-areas:
             'sidebar map map map map'
