@@ -214,6 +214,8 @@
     <polaris-map-box ng-repeat="box in drilldownBoxes"
                      style="position: absolute; bottom: 0; right: 0; z-index: 2;"
                      is-showing="box.isOpen"
+                     position="{{box.position}}"
+                     height="{{box.height}}"
                      close="box.onClose()"
                      object-id="{{box.objectId}}"
                      object-ids="box.objectIds"></polaris-map-box>
@@ -367,6 +369,11 @@
 
         display: flex;
         flex-direction: column;
+    }
+
+    #home-page .polaris-map-box.bottom {
+        width: calc(100vw - 400px);
+        height: 300px;
     }
 
     #home-page .polaris-map-box .objects-container {

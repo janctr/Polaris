@@ -639,6 +639,8 @@ require(['js/qlik'], function (qlik) {
                     varName: 'isOrgSelected',
                     objectId: 'XJwxAG',
                     isOpen: false,
+                    position: 'bottom',
+                    height: '100px',
                     onClose: function () {
                         polaris.clearField('org');
                     },
@@ -659,6 +661,8 @@ require(['js/qlik'], function (qlik) {
                     fieldName: 'dodaac_nomen_cli',
                     varName: 'isClass1Selected',
                     objectId: 'CjKN',
+                    position: 'bottom',
+                    height: '300px',
                     isOpen: false,
                     onClose: function () {
                         polaris.clearField('dodaac_nomen_cli');
@@ -1126,10 +1130,12 @@ require(['js/qlik'], function (qlik) {
             close: '&',
             objectId: '@',
             objectIds: '<',
+            height: '@',
             width: '@',
+            position: '@',
         },
         template: `
-        <div class="polaris-map-box" ng-show="$ctrl.isShowing" ng-style="{'width': $ctrl.width}">       
+        <div class="polaris-map-box {{ position }}" ng-show="$ctrl.isShowing" ng-style="{'height': $ctrl.height, 'width': $ctrl.width}">       
             <div class="object-header">
                 <h3> {{ polaris.selectionState.selections[0].qSelected }}</h3>
                 <button ng-click="$ctrl.close()" class="tile-header-fullscreen-btn">
@@ -1152,9 +1158,19 @@ require(['js/qlik'], function (qlik) {
             function ($scope, polaris) {
                 $scope.polaris = polaris;
 
+                $scope.position = 'right';
+
                 console.log('map box created: ', $scope);
                 // Only if objectIds is defined
                 angular.element(document).ready(function () {
+                    switch ($scope.$ctrl.position) {
+                        case 'bottom':
+                            $scope.position = 'bottom';
+                            break;
+                    }
+
+                    console.log('position: ', $scope.$ctrl);
+
                     if ($scope.$ctrl.objectId?.length) {
                         // For single element
                         polaris.insertObject({
