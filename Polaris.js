@@ -810,6 +810,7 @@ require(['js/qlik'], function (qlik) {
 
             // Search bar functionality
             $scope.searchStr = '';
+            $scope.searchState = SearchState.NOT_LOADING;
             $scope.searchResults = [];
             $scope.niprSearchFields = [
                 'org',
@@ -837,6 +838,9 @@ require(['js/qlik'], function (qlik) {
                     return;
                 }
 
+                $scope.searchState = SearchState.LOADING;
+                console.log('searchState: ', $scope.searchState);
+
                 const searchFields = polaris.isSipr
                     ? $scope.siprSearchFields
                     : $scope.niprSearchFields;
@@ -846,13 +850,17 @@ require(['js/qlik'], function (qlik) {
                 polaris
                     .search(searchStr, {
                         qSearchFields: polaris.isSipr
-                            ? $scope.siprSearchFields
+                            ? $scope.siprSearchFieldsf
                             : $scope.niprSearchFields,
                     })
                     .then((results) => {
                         $scope.searchResults = results;
+
+                        $scope.searchState = SearchState.NOT_LOADING;
+                        console.log('searchState: ', $scope.searchState);
                     });
             };
+
             $scope.closeSearchBar = function () {
                 $scope.searchStr = '';
                 $scope.searchResults = [];
@@ -1029,6 +1037,52 @@ require(['js/qlik'], function (qlik) {
                         $scope.searchResults = results;
                     });
                 };
+            },
+        ],
+    });
+
+    angularApp.component('qlikSelectionItem', {
+        bindings: {
+            selectionItem: '<',
+        },
+        template: `
+        <div class="selection-item"
+            ng-click="">
+            <div class="selection-info">
+                <p class="selection-item-fieldname">
+                    {{$ctrl.selectionItem.fieldName.length > 26 ? $ctrl.selectionItem.fieldName.slice(0, 23) + '...' :
+                    $ctrl.selectionItem.fieldName}}
+                </p>
+                <p class="selection-item-values">
+                    {{$ctrl.selectionItem.qSelected.length > 26 ? $ctrl.selectionItem.qSelected.slice(0, 23) + '...' :
+                    $ctrl.selectionItem.qSelected}}
+                </p>
+            </div>
+            <button ng-click="polaris.clearField($ctrl.selectionItem.fieldName)"
+                class="qlik-action">
+            <svg xmlns="http://www.w3.org/2000/svg"
+                 viewBox="0 0 16 16"
+                 height="12px"
+                 fill="currentColor"
+                 aria-hidden="true"
+                 role="img">
+                <path
+                      d="m9.345 8 3.982 3.982a.951.951 0 0 1-1.345 1.345L8 9.345l-3.982 3.982a.951.951 0 0 1-1.345-1.345L6.655 8 2.673 4.018a.951.951 0 0 1 1.345-1.345L8 6.655l3.982-3.982a.951.951 0 1 1 1.345 1.345z">
+                </path>
+            </svg>
+            </button>
+        </div>`,
+        controller: [
+            '$scope',
+            'polaris',
+            function ($scope, polaris) {
+                $scope.selectionItem = $scope.$ctrl.selectionItem;
+                console.log('$scope of selectionItem:', $scope);
+                console.log(
+                    '$scope.$ctrl.selectionItem: ',
+                    $scope.$ctrl.selectionItem
+                );
+                console.log('$scope.selectionItem: ', $scope.selectionItem);
             },
         ],
     });

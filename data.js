@@ -366,3 +366,8 @@ const notionalAppObjects = {
         },
     ],
 };
+
+const SearchState = Object.freeze({
+    NOT_LOADING: 0,
+    LOADING: 1,
+});

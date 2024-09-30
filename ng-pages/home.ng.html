@@ -153,6 +153,8 @@
             <input ng-model="searchStr"
                    ng-change="search(searchStr)"
                    placeholder="Search POLARIS" />
+            <loader class="search-loader"
+                    ng-if="searchState === 1"></loader>
             <div class="search-icon"
                  ng-if="searchStr.length === 0">
                 <svg fill="#000"
@@ -195,9 +197,10 @@
                 </svg>
             </div>
             <div class="results scrollbar"
-                 ng-if="searchStr.length">
+                 ng-if="searchStr.length > 3 && searchState === 0">
                 <ul>
-                    <li ng-if="searchStr.length > 3 && searchResults.length === 0">No results</li>
+                    <li ng-if="searchStr.length > 3 && searchResults.length === 0 && searchState === 0">No results</li>
+                    </li>
                     <li class="search-result"
                         ng-repeat="result in searchResults">
                         <h3 ng-bind="result.columnName"></h3>
@@ -426,7 +429,7 @@
         position: absolute;
         background-color: #FFF;
         box-shadow: var(--box-shadow-3);
-        width: 235px;
+        width: 260px;
         height: 35px;
 
         margin: 0.5rem;
@@ -446,6 +449,11 @@
 
     #home-page .map-search-bar>input::placeholder {
         font-style: italic;
+    }
+
+    #home-page .map-search-bar>.search-loader {
+        width: 20px;
+        height: 20px;
     }
 
     #home-page .map-search-bar>.search-icon {

@@ -83,32 +83,9 @@
         <div class="qlik-selections-container">
             <p class="no-selections"
                ng-if="polaris.selectionState.selections.length === 0">No selections applied</p>
-            <div class="selection-item"
-                 ng-repeat="selectionItem in polaris.selectionState.selections">
-                <div class="selection-info">
-                    <p class="selection-item-fieldname">
-                        {{selectionItem.fieldName.length > 26 ? selectionItem.fieldName.slice(0, 23) + '...' :
-                        selectionItem.fieldName}}
-                    </p>
-                    <p class="selection-item-values">
-                        {{selectionItem.qSelected.length > 26 ? selectionItem.qSelected.slice(0, 23) + '...' :
-                        selectionItem.qSelected}}
-                    </p>
-                </div>
-                <button ng-click="polaris.clearField(selectionItem.fieldName)"
-                        class="qlik-action">
-                    <svg xmlns="http://www.w3.org/2000/svg"
-                         viewBox="0 0 16 16"
-                         height="12px"
-                         fill="currentColor"
-                         aria-hidden="true"
-                         role="img">
-                        <path
-                              d="m9.345 8 3.982 3.982a.951.951 0 0 1-1.345 1.345L8 9.345l-3.982 3.982a.951.951 0 0 1-1.345-1.345L6.655 8 2.673 4.018a.951.951 0 0 1 1.345-1.345L8 6.655l3.982-3.982a.951.951 0 1 1 1.345 1.345z">
-                        </path>
-                    </svg>
-                </button>
-            </div>
+            <qlik-selection-item ng-repeat="selectionItem in polaris.selectionState.selections"
+                                 selection-item="selectionItem"></qlik-selection-item>
+
         </div>
     </div>
     <div class="close-nav-bar-wrapper"

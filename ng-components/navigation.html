@@ -17,6 +17,7 @@
                 ng-repeat="link in links">
                 <a href="{{link.href}}"
                    class="{{link.anchorClassNames.join(' ')}}">
+                    {{ link.label }}
                     <div ng-if="link.childLinks.length > 0"
                          class="dropdown-icon">
                         <svg fill="#FFF"
@@ -34,7 +35,6 @@
                             s7.794-1.581,10.606-4.394l149.996-150C331.465,94.749,331.465,85.251,325.607,79.393z" />
                         </svg>
                     </div>
-                    {{ link.label }}
                 </a>
 
                 <ul ng-if="link.childLinks.length > 0"
