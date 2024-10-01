@@ -30,7 +30,7 @@ require(['js/qlik'], function (qlik) {
     // Constants
     angularApp.constant('qlik', qlik);
     angularApp.constant('isSipr', window.location.href.includes('smil'));
-    angularApp.constant('polarisAppId', '8d04cc88-83c2-400a-a891-f2a07111d6bc');
+    angularApp.constant('polarisAppId', 'c6106274-0193-4299-8772-d93a4043b604');
     angularApp.constant(
         'notionalAppId',
         'a02ee546-bb4f-41d3-a3d0-1a93f0aed2cc'
