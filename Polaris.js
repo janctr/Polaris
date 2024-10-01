@@ -515,7 +515,7 @@ require(['js/qlik'], function (qlik) {
 
             $scope.pacomToggles = [
                 {
-                    title: 'USINDOPACOM',
+                    title: 'Recenter to AOR',
                     label: 'usindopacom',
                     varName: 'v_map_usindopacom',
                     qlikDropdownId: polaris.isSipr ? '' : 'yRuKjT',
