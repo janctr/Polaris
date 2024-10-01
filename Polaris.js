@@ -99,8 +99,10 @@ require(['js/qlik'], function (qlik) {
             self.getVariable = getVariable;
             self.setVariable = setVariable;
             self.select = select;
+            self.selectValues = selectValues;
             self.search = search;
             self.createHypercube = createHypercube;
+            self.createList = createList;
 
             // Methods
             self.insertObject = insertObject;
@@ -339,6 +341,12 @@ require(['js/qlik'], function (qlik) {
                     .selectValues([{ qText }], true, true);
             }
 
+            function selectValues(columnName, values) {
+                values.map((val) => ({ qText: val }));
+
+                self.app.field(columnName).selectValues(values, true, true);
+            }
+
             function createHypercube({
                 dimensions = [],
                 measures = [],
@@ -371,6 +379,50 @@ require(['js/qlik'], function (qlik) {
                 };
 
                 self.app.createCube(hypercubeDefinition, callback);
+            }
+
+            function createList({ field, currentSelections }) {
+                currentSelections = currentSelections
+                    .split(',')
+                    .map((s) => s.trim());
+
+                console.log('createList called: ', field, currentSelections);
+
+                return new Promise((resolve, reject) => {
+                    self.app.createList(
+                        {
+                            qDef: {
+                                qFieldDefs: [field],
+                            },
+                            qInitialDataFetch: [
+                                {
+                                    qTop: 0,
+                                    qLeft: 0,
+                                    qHeight: 10000,
+                                    qWidth: 1,
+                                },
+                            ],
+                        },
+                        function (reply) {
+                            const list =
+                                reply.qListObject.qDataPages[0].qMatrix.map(
+                                    (row) => {
+                                        return {
+                                            label: row[0].qText,
+                                            isSelected:
+                                                currentSelections.indexOf(
+                                                    row[0].qText
+                                                ) < 0
+                                                    ? false
+                                                    : true,
+                                        };
+                                    }
+                                );
+
+                            resolve(list);
+                        }
+                    );
+                });
             }
         },
     ]);
@@ -1046,9 +1098,8 @@ require(['js/qlik'], function (qlik) {
             selectionItem: '<',
         },
         template: `
-        <div class="selection-item"
-            ng-click="">
-            <div class="selection-info">
+        <div class="selection-item" >
+            <div class="selection-info" ng-click="isDropdownOpen = true">
                 <p class="selection-item-fieldname">
                     {{$ctrl.selectionItem.fieldName.length > 26 ? $ctrl.selectionItem.fieldName.slice(0, 23) + '...' :
                     $ctrl.selectionItem.fieldName}}
@@ -1071,18 +1122,117 @@ require(['js/qlik'], function (qlik) {
                 </path>
             </svg>
             </button>
+            <div ng-if="isDropdownOpen" class="selection-item-dropdown" ng-if="list.length > 0">
+                <div class="dropdown-header">
+                    <h4>{{ $ctrl.selectionItem.fieldName }}</h4>
+                    <button ng-if="isChangeMade" ng-click="cancelChanges()">Cancel</button>
+                    <button ng-if="isChangeMade" ng-click="confirmChanges()">Confirm</button>
+                    <button class="close-button" ng-click="toggleDropdown($event)">
+                        <svg fill="#000000"
+                        height="100%"
+                        width="100%"
+                        version="1.1"
+                        id="Layer_1"
+                        xmlns="http://www.w3.org/2000/svg"
+                        xmlns:xlink="http://www.w3.org/1999/xlink"
+                        viewBox="0 0 512 512"
+                        xml:space="preserve">
+                            <g>
+                                <g>
+                                    <polygon points="512,59.076 452.922,0 256,196.922 59.076,0 0,59.076 196.922,256 0,452.922 59.076,512 256,315.076 452.922,512 
+                                    512,452.922 315.076,256 		"></polygon>
+                                </g>
+                            </g>
+                        </svg>
+                    </button>
+                </div>
+                <ul class="dropdown-items scrollbar">
+                    <li ng-repeat="listItem in list" 
+                        ng-click="isChangeMade = true"
+                        class="dropdown-item">
+                        <div class="dropdown-item-inner">
+                            <input
+                                ng-model="listItem.isSelected"
+                                ng-change="addChange(listItem.label)"
+                                name="{{$ctrl.selection.fieldName}}-{{listItem.label}}" 
+                                id="{{$ctrl.selection.fieldName}}-{{listItem.label}}" 
+                                type="checkbox" />
+                            <label for="{{$ctrl.selection.fieldName}}-{{listItem.label}}">
+                                {{ listItem.label }}
+                            </label>
+                        </div>
+                    </li>
+                </ul>
+            </div>
         </div>`,
         controller: [
             '$scope',
             'polaris',
             function ($scope, polaris) {
+                $scope.polaris = polaris;
                 $scope.selectionItem = $scope.$ctrl.selectionItem;
-                console.log('$scope of selectionItem:', $scope);
-                console.log(
-                    '$scope.$ctrl.selectionItem: ',
-                    $scope.$ctrl.selectionItem
-                );
-                console.log('$scope.selectionItem: ', $scope.selectionItem);
+                $scope.isDropdownOpen = false;
+                $scope.toggleDropdown = function (event) {
+                    $scope.isDropdownOpen = !$scope.isDropdownOpen;
+                };
+                $scope.originalList = [];
+                $scope.list = [];
+                $scope.changes = [];
+                $scope.isChangeMade = false;
+                $scope.addChange = function (label) {
+                    $scope.isChangeMade = true;
+
+                    if ($scope.changes.includes(label)) {
+                        $scope.changes = $scope.changes.filter(
+                            (change) => change !== label
+                        );
+                    } else {
+                        $scope.changes.push(label);
+                    }
+                };
+
+                $scope.cancelChanges = function () {
+                    $scope.isChangeMade = false;
+                    console.log('canceling changes: ', [
+                        ...$scope.originalList,
+                    ]);
+                    $scope.changes = [];
+                    $scope.list = JSON.parse(
+                        JSON.stringify($scope.originalList)
+                    );
+                };
+                $scope.confirmChanges = function () {
+                    console.log('confirming selections: ', $scope.changes);
+
+                    polaris.selectValues(
+                        $scope.$ctrl.selectionItem.fieldName,
+                        $scope.changes
+                    );
+                };
+
+                angular.element(document).ready(function () {
+                    console.log(
+                        '$scope.$ctrl.selectionItem: ',
+                        $scope.$ctrl.selectionItem
+                    );
+
+                    polaris
+                        .createList({
+                            field: $scope.$ctrl.selectionItem.fieldName,
+                            currentSelections:
+                                $scope.$ctrl.selectionItem.qSelected,
+                        })
+                        .then((list) => {
+                            console.log('list: ', list);
+                            const sortedList = list.sort((a, b) => {
+                                return b.isSelected - a.isSelected;
+                            });
+                            $scope.originalList = JSON.parse(
+                                JSON.stringify(sortedList)
+                            );
+                            $scope.list = sortedList;
+                        });
+                });
             },
         ],
     });

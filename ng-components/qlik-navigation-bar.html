@@ -194,6 +194,7 @@
         border-radius: 4px;
 
         width: 200px;
+        height: 100%;
 
         display: flex;
         align-items: center;
@@ -237,6 +238,69 @@
     .selection-item .qlik-action:hover {
         background-color: rgba(64, 64, 64, 0.15);
     }
+
+    .selection-item-dropdown {
+        position: absolute;
+        bottom: 0;
+        transform: translateY(100%);
+        width: 250px;
+        min-height: 100px;
+        /* max-height: 400px; */
+        z-index: 5;
+        background: white;
+        border-radius: 6px;
+        box-shadow: var(--box-shadow-3);
+
+    }
+
+    .selection-item-dropdown>.dropdown-header {
+        display: flex;
+        gap: 0.5rem;
+        padding: 0.5rem;
+    }
+
+    .selection-item-dropdown>.dropdown-header>h4 {
+        flex: 1;
+    }
+
+    .selection-item-dropdown>.dropdown-header>.close-button {
+        width: 20px;
+        height: 20px;
+
+        background-color: inherit;
+        border: none;
+        padding: 3px;
+    }
+
+    .selection-item-dropdown>.dropdown-header>.close-button:hover {
+        cursor: pointer;
+    }
+
+    .selection-item-dropdown .dropdown-items {
+        padding: 0.5rem;
+        overflow-x: hidden;
+        overflow-y: auto;
+
+        max-height: 400px;
+    }
+
+    .selection-item-dropdown .dropdown-item {
+        padding: 0.25rem 0;
+    }
+
+    .selection-item-dropdown .dropdown-item .dropdown-item-inner {
+        display: flex;
+    }
+
+    .selection-item-dropdown .dropdown-item .dropdown-item-inner>input {
+        display: block;
+    }
+
+    .selection-item-dropdown .dropdown-item .dropdown-item-inner>label {
+        display: block;
+        flex: 1;
+    }
+
 
     .open-qlik-navbar-wrapper {
         display: flex;
