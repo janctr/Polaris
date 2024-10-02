@@ -5,49 +5,49 @@ const angularLinks = [
         label: 'Log Functions',
         classNames: ['link'],
     },
-    {
-        href: '#/classes-of-supply',
-        label: 'Classes of Supply',
-        classNames: ['link'],
-        childLinks: [
-            {
-                href: '#',
-                label: 'Class I',
-                classNames: ['child-link'],
-                anchorClassNames: [],
-            },
-            {
-                href: '#',
-                label: 'Class III',
-                classNames: ['child-link'],
-                anchorClassNames: [],
-            },
-            {
-                href: '#',
-                label: 'Class IV',
-                classNames: ['child-link'],
-                anchorClassNames: [],
-            },
-            {
-                href: '#',
-                label: 'Class V',
-                classNames: ['child-link'],
-                anchorClassNames: [],
-            },
-            {
-                href: '#',
-                label: 'Class VIII',
-                classNames: ['child-link'],
-                anchorClassNames: [],
-            },
-            {
-                href: '#',
-                label: 'Class IX',
-                classNames: ['child-link'],
-                anchorClassNames: [],
-            },
-        ],
-    },
+    // {
+    //     href: '#/classes-of-supply',
+    //     label: 'Classes of Supply',
+    //     classNames: ['link'],
+    //     childLinks: [
+    //         {
+    //             href: '#',
+    //             label: 'Class I',
+    //             classNames: ['child-link'],
+    //             anchorClassNames: [],
+    //         },
+    //         {
+    //             href: '#',
+    //             label: 'Class III',
+    //             classNames: ['child-link'],
+    //             anchorClassNames: [],
+    //         },
+    //         {
+    //             href: '#',
+    //             label: 'Class IV',
+    //             classNames: ['child-link'],
+    //             anchorClassNames: [],
+    //         },
+    //         {
+    //             href: '#',
+    //             label: 'Class V',
+    //             classNames: ['child-link'],
+    //             anchorClassNames: [],
+    //         },
+    //         {
+    //             href: '#',
+    //             label: 'Class VIII',
+    //             classNames: ['child-link'],
+    //             anchorClassNames: [],
+    //         },
+    //         {
+    //             href: '#',
+    //             label: 'Class IX',
+    //             classNames: ['child-link'],
+    //             anchorClassNames: [],
+    //         },
+    //     ],
+    // },
     // { href: 'cop.html', label: 'COP', classNames: ['link'] },
     // {
     //     href: '',
@@ -227,7 +227,7 @@ const siprObjects = {
             // Logistics Nodes
             label: 'Logistics Nodes',
             elementId: 'QV2',
-            objectId: 'FJpzh',
+            objectId: 'QxFN',
         },
         {
             // PDDOC

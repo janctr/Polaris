@@ -724,7 +724,7 @@ require(['js/qlik'], function (qlik) {
                     label: 'Class III',
                     fieldName: 'plant_desc',
                     varName: 'isClass3Selected',
-                    objectId: 'ppfj',
+                    objectId: 'RnwWt',
                     isOpen: false,
                     onClose: function () {
                         polaris.clear();
@@ -1098,7 +1098,7 @@ require(['js/qlik'], function (qlik) {
             selectionItem: '<',
         },
         template: `
-        <div class="selection-item" >
+        <div class="selection-item">
             <div class="selection-info" ng-click="isDropdownOpen = true">
                 <p class="selection-item-fieldname">
                     {{$ctrl.selectionItem.fieldName.length > 26 ? $ctrl.selectionItem.fieldName.slice(0, 23) + '...' :
@@ -1111,24 +1111,36 @@ require(['js/qlik'], function (qlik) {
             </div>
             <button ng-click="polaris.clearField($ctrl.selectionItem.fieldName)"
                 class="qlik-action">
-            <svg xmlns="http://www.w3.org/2000/svg"
-                 viewBox="0 0 16 16"
-                 height="12px"
-                 fill="currentColor"
-                 aria-hidden="true"
-                 role="img">
-                <path
-                      d="m9.345 8 3.982 3.982a.951.951 0 0 1-1.345 1.345L8 9.345l-3.982 3.982a.951.951 0 0 1-1.345-1.345L6.655 8 2.673 4.018a.951.951 0 0 1 1.345-1.345L8 6.655l3.982-3.982a.951.951 0 1 1 1.345 1.345z">
-                </path>
-            </svg>
+                <svg xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 16 16"
+                    height="12px"
+                    fill="currentColor"
+                    aria-hidden="true"
+                    role="img">
+                    <path
+                        d="m9.345 8 3.982 3.982a.951.951 0 0 1-1.345 1.345L8 9.345l-3.982 3.982a.951.951 0 0 1-1.345-1.345L6.655 8 2.673 4.018a.951.951 0 0 1 1.345-1.345L8 6.655l3.982-3.982a.951.951 0 1 1 1.345 1.345z">
+                    </path>
+                </svg>
             </button>
-            <div ng-if="isDropdownOpen" class="selection-item-dropdown" ng-if="list.length > 0">
+            <div ng-if="isDropdownOpen" ng-if="list.length > 0" class="selection-item-dropdown">
                 <div class="dropdown-header">
                     <h4>{{ $ctrl.selectionItem.fieldName }}</h4>
-                    <button ng-if="isChangeMade" ng-click="cancelChanges()">Cancel</button>
-                    <button ng-if="isChangeMade" ng-click="confirmChanges()">Confirm</button>
+                    <button ng-if="isChangeMade" 
+                            ng-click="cancelChanges()"
+                            title="Discard changes"
+                            class="cancel-button">
+                        <trash-icon></trash-icon>
+                    </button>
+                    <button ng-if="isChangeMade"
+                            ng-click="confirmChanges()"
+                            title="Confirm changes"
+                            class="confirm-button">
+                        <svg width="100%" height="100%" viewBox="0 0 48 48" version="1" enable-background="new 0 0 48 48">
+                            <polygon fill="#595959" points="40.6,12.1 17,35.7 7.4,26.1 4.6,29 17,41.3 43.4,14.9"/>
+                        </svg>
+                    </button>
                     <button class="close-button" ng-click="toggleDropdown($event)">
-                        <svg fill="#000000"
+                        <svg fill="#595959"
                         height="100%"
                         width="100%"
                         version="1.1"
@@ -1147,19 +1159,20 @@ require(['js/qlik'], function (qlik) {
                     </button>
                 </div>
                 <ul class="dropdown-items scrollbar">
+                    <li ng-if="isLoading">Loading...</li>
                     <li ng-repeat="listItem in list" 
                         ng-click="isChangeMade = true"
                         class="dropdown-item">
                         <div class="dropdown-item-inner">
+                            <label for="{{$ctrl.selection.fieldName}}-{{listItem.label}}">
+                                {{ listItem.label }}
+                            </label>
                             <input
                                 ng-model="listItem.isSelected"
                                 ng-change="addChange(listItem.label)"
                                 name="{{$ctrl.selection.fieldName}}-{{listItem.label}}" 
                                 id="{{$ctrl.selection.fieldName}}-{{listItem.label}}" 
                                 type="checkbox" />
-                            <label for="{{$ctrl.selection.fieldName}}-{{listItem.label}}">
-                                {{ listItem.label }}
-                            </label>
                         </div>
                     </li>
                 </ul>
@@ -1216,6 +1229,7 @@ require(['js/qlik'], function (qlik) {
                         $scope.$ctrl.selectionItem
                     );
 
+                    $scope.isLoading = true;
                     polaris
                         .createList({
                             field: $scope.$ctrl.selectionItem.fieldName,
@@ -1231,6 +1245,8 @@ require(['js/qlik'], function (qlik) {
                                 JSON.stringify(sortedList)
                             );
                             $scope.list = sortedList;
+
+                            $scope.isLoading = false;
                         });
                 });
             },
@@ -1432,6 +1448,10 @@ require(['js/qlik'], function (qlik) {
         },
     });
 
+    angularApp.component('trashIcon', {
+        template: trashIconTemplate,
+    });
+
     angularApp.component('classificationBanner', {
         template: `<div class="classification-banner {{$ctrl.color}}">{{ $ctrl.label }}</div>`,
         bindings: {
@@ -1508,5 +1528,24 @@ const arrowIconTemplate = `
     <path id="XMLID_225_" d="M325.607,79.393c-5.857-5.857-15.355-5.858-21.213,0.001l-139.39,139.393L25.607,79.393
     c-5.857-5.857-15.355-5.858-21.213,0.001c-5.858,5.858-5.858,15.355,0,21.213l150.004,150c2.813,2.813,6.628,4.393,10.606,4.393
     s7.794-1.581,10.606-4.394l149.996-150C331.465,94.749,331.465,85.251,325.607,79.393z" />
+</svg>
+`;
+
+const trashIconTemplate = `
+<svg fill="#7a0012" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+	 width="100%" height="100%" viewBox="0 0 408.483 408.483"
+	 xml:space="preserve">
+    <g>
+        <g>
+            <path d="M87.748,388.784c0.461,11.01,9.521,19.699,20.539,19.699h191.911c11.018,0,20.078-8.689,20.539-19.699l13.705-289.316
+                H74.043L87.748,388.784z M247.655,171.329c0-4.61,3.738-8.349,8.35-8.349h13.355c4.609,0,8.35,3.738,8.35,8.349v165.293
+                c0,4.611-3.738,8.349-8.35,8.349h-13.355c-4.61,0-8.35-3.736-8.35-8.349V171.329z M189.216,171.329
+                c0-4.61,3.738-8.349,8.349-8.349h13.355c4.609,0,8.349,3.738,8.349,8.349v165.293c0,4.611-3.737,8.349-8.349,8.349h-13.355
+                c-4.61,0-8.349-3.736-8.349-8.349V171.329L189.216,171.329z M130.775,171.329c0-4.61,3.738-8.349,8.349-8.349h13.356
+                c4.61,0,8.349,3.738,8.349,8.349v165.293c0,4.611-3.738,8.349-8.349,8.349h-13.356c-4.61,0-8.349-3.736-8.349-8.349V171.329z"/>
+            <path d="M343.567,21.043h-88.535V4.305c0-2.377-1.927-4.305-4.305-4.305h-92.971c-2.377,0-4.304,1.928-4.304,4.305v16.737H64.916
+                c-7.125,0-12.9,5.776-12.9,12.901V74.47h304.451V33.944C356.467,26.819,350.692,21.043,343.567,21.043z"/>
+        </g>
+    </g>
 </svg>
 `;
