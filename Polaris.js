@@ -882,9 +882,10 @@ require(['js/qlik'], function (qlik) {
                 'CUOPS_VESSEL', // AWS Vessels
                 'tasked_flights.Airport', // Taskable Aircraft
                 'enemy_vessel', // Enemy Vessels
-                'vessel_key', //Vessels
-                'asset_id', // Aircraft, Land Vehicles
+                'asset_id', // Aircraft, Land Vehicles, Vessels
             ];
+            $scope.getNiceColumnName = (columnName) =>
+                COLUMN_ALIAS[columnName] || columnName;
             $scope.search = function (searchStr) {
                 if (searchStr.length <= 3) {
                     return;
@@ -902,7 +903,7 @@ require(['js/qlik'], function (qlik) {
                 polaris
                     .search(searchStr, {
                         qSearchFields: polaris.isSipr
-                            ? $scope.siprSearchFieldsf
+                            ? $scope.siprSearchFields
                             : $scope.niprSearchFields,
                     })
                     .then((results) => {
@@ -1357,7 +1358,8 @@ require(['js/qlik'], function (qlik) {
         template: `
         <div class="polaris-map-box {{ position }}" ng-show="$ctrl.isShowing" ng-style="{'height': $ctrl.height, 'width': $ctrl.width}">       
             <div class="object-header">
-                <h3> {{ polaris.selectionState.selections[0].qSelected }}</h3>
+                <h3></h3>
+                <!-- <h3> {{ polaris.selectionState.selections[0].qSelected }}</h3> -->
                 <button ng-click="$ctrl.close()" class="tile-header-fullscreen-btn">
                     <close-icon></close-icon>
                 </button>

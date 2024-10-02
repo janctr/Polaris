@@ -203,7 +203,7 @@
                     </li>
                     <li class="search-result"
                         ng-repeat="result in searchResults">
-                        <h3 ng-bind="result.columnName"></h3>
+                        <h3 ng-bind="getNiceColumnName(result.columnName)"></h3>
                         <p ng-repeat="text in result.matches"
                            ng-bind="text"
                            ng-click="polaris.select(result.columnName, text)"

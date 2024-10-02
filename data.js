@@ -371,3 +371,23 @@ const SearchState = Object.freeze({
     NOT_LOADING: 0,
     LOADING: 1,
 });
+
+const COLUMN_ALIAS = {
+    // NIPR
+    org: 'Organization',
+    soccerTeam: 'Soccer Team',
+    nbaTeam: 'NBA Team',
+    mlsTeam: 'MLS Team',
+    // SIPR
+    dodaac_nomen_cli: 'Class I', // Class I
+    plant_desc: 'Class III', // Class III
+    base_name_muns: 'Class V', // Class V
+    PRIMARY_DEPLOYED_DUTY_STATION_CITY: 'OCS', // OCS
+    'engineers.uic': 'Engineers', // Combat/Civil Engineers
+    Airport: 'APOD', // APODS
+    seaport: 'SPOD', // SPODS
+    CUOPS_VESSEL: 'AWS Vessel', // AWS Vessels
+    'tasked_flights.Airport': 'no_vis', // Taskable Aircraft
+    enemy_vessel: 'Enemy Vessel', // Enemy Vessels
+    asset_id: 'Aircraft, Vessel, Land Vehicle ID', // Aircraft, Land Vehicles, Vessels
+};
