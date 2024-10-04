@@ -53,6 +53,13 @@
                     J4 Landing Page
                 </a>
             </li>
+            <li class="link"
+                style="position: absolute; right: 1rem;">
+                <p class="current-as-of">Last Refresh: {{ currentAsOf }}<span ng-if="currentAsOf.length === 0"
+                          class="current-as-of-loader">
+                        <loader></loader>
+                    </span></p>
+            </li>
             <!-- <li class="link export"
                 ng-click="printWindow()">
                 <svg fill="#FFF"
@@ -262,5 +269,19 @@
 
     .link.export:hover {
         cursor: pointer;
+    }
+
+    .current-as-of {
+        display: flex;
+        gap: 0.5rem;
+    }
+
+    .current-as-of-loader {
+        width: 20px;
+        height: 20px;
+    }
+
+    .current-as-of-loader svg {
+        stroke: #FFF !important;
     }
 </style>

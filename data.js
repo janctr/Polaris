@@ -227,7 +227,7 @@ const siprObjects = {
             // Logistics Nodes
             label: 'Logistics Nodes',
             elementId: 'QV2',
-            objectId: 'QxFN',
+            objectId: 'XapTPt',
         },
         {
             // PDDOC

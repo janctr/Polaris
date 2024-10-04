@@ -452,6 +452,18 @@ require(['js/qlik'], function (qlik) {
             $scope.printWindow = function () {
                 $window.print();
             };
+            $scope.currentAsOf = '';
+            polaris.app.createGenericObject(
+                {
+                    currentAsOf: {
+                        qStringExpression: `=Timestamp(ConvertToLocalTime(Max(ReloadTime()), 'HST'), 'MM/DD/YYYY HH:mm:ss') & ' HST'`,
+                    },
+                },
+                function (reply) {
+                    console.log('reply.currentAsOf: ', reply);
+                    $scope.currentAsOf = reply.currentAsOf;
+                }
+            );
         },
     ]);
 
@@ -731,12 +743,13 @@ require(['js/qlik'], function (qlik) {
                     },
                 },
                 {
-                    label: 'Class III Subtoggle 1 Detailed Map Viz',
-                    fieldName: '',
-                    varName: '',
-                    objectIds: [],
+                    label: 'Class IV',
+                    fieldName: 'master.dodaac_nomen',
+                    varName: 'isClass4Selected',
+                    objectId: 'LrM',
                     isOpen: false,
                     onClose: function () {
+                        console.log('Clearing Class IV DMV');
                         polaris.clear();
                     },
                 },
@@ -876,7 +889,7 @@ require(['js/qlik'], function (qlik) {
                 //   'poi_name', // Class III
                 'base_name_muns', // Class V
                 'PRIMARY_DEPLOYED_DUTY_STATION_CITY', // OCS
-                'engineers.uic', // Combat/Civi; Engineers
+                'engineers.uic', // Combat/Civil Engineers
                 'Airport', // APODS
                 'seaport', // SPODS
                 'CUOPS_VESSEL', // AWS Vessels
@@ -905,6 +918,7 @@ require(['js/qlik'], function (qlik) {
                         qSearchFields: polaris.isSipr
                             ? $scope.siprSearchFields
                             : $scope.niprSearchFields,
+                        qContext: 'Cleared',
                     })
                     .then((results) => {
                         $scope.searchResults = results;
@@ -1160,9 +1174,10 @@ require(['js/qlik'], function (qlik) {
                     </button>
                 </div>
                 <ul class="dropdown-items scrollbar">
-                    <li ng-if="isLoading">Loading...</li>
+                    <li ng-if="isLoading" class="dropdown-item loader"><loader></loader></li>
                     <li ng-repeat="listItem in list" 
                         ng-click="isChangeMade = true"
+                        ng-style="listItem.isSelected ? 'selected': ''"
                         class="dropdown-item">
                         <div class="dropdown-item-inner">
                             <label for="{{$ctrl.selection.fieldName}}-{{listItem.label}}">
@@ -1314,7 +1329,7 @@ require(['js/qlik'], function (qlik) {
         },
         template: `
             <div class="polaris-toggle">
-                <h3 class="polaris-toggle-title">{{ $ctrl.label }}</h3>
+                <h3 class="polaris-toggle-title">{{ $ctrl.label === 'Real World Data' ? 'Daily Operations' : $ctrl.label }}</h3>
                 <div ng-if="$ctrl.qlikDropdownId.length" class="polaris-toggle-dropdown" id="{{$ctrl.id}}-dropdown"></div>
                 <label 
                     class="polaris-toggle-box" 
