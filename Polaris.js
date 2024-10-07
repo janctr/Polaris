@@ -1140,20 +1140,19 @@ require(['js/qlik'], function (qlik) {
             <div ng-if="isDropdownOpen" ng-if="list.length > 0" class="selection-item-dropdown">
                 <div class="dropdown-header">
                     <h4>{{ $ctrl.selectionItem.fieldName }}</h4>
-                    <button ng-if="isChangeMade" 
-                            ng-click="cancelChanges()"
+                    <div class="actions-container" ng-show="isChangeMade" >
+                        <button ng-click="confirmChanges()"
+                                title="Confirm changes"
+                                class="confirm-button">
+                            <simple-checkmark-icon fill="#595959"></simple-checkmark-icon>
+                        </button>
+                        <button ng-click="cancelChanges()"
                             title="Discard changes"
                             class="cancel-button">
-                        <trash-icon></trash-icon>
-                    </button>
-                    <button ng-if="isChangeMade"
-                            ng-click="confirmChanges()"
-                            title="Confirm changes"
-                            class="confirm-button">
-                        <svg width="100%" height="100%" viewBox="0 0 48 48" version="1" enable-background="new 0 0 48 48">
-                            <polygon fill="#595959" points="40.6,12.1 17,35.7 7.4,26.1 4.6,29 17,41.3 43.4,14.9"/>
-                        </svg>
-                    </button>
+                            <trash-icon fill="#595959"></trash-icon>
+                        </button>
+                    </div>
+                    
                     <button class="close-button" ng-click="toggleDropdown($event)">
                         <svg fill="#595959"
                         height="100%"
@@ -1177,7 +1176,7 @@ require(['js/qlik'], function (qlik) {
                     <li ng-if="isLoading" class="dropdown-item loader"><loader></loader></li>
                     <li ng-repeat="listItem in list" 
                         ng-click="isChangeMade = true"
-                        ng-style="listItem.isSelected ? 'selected': ''"
+                        ng-class="listItem.isSelected ? 'selected': ''"
                         class="dropdown-item">
                         <div class="dropdown-item-inner">
                             <label for="{{$ctrl.selection.fieldName}}-{{listItem.label}}">
@@ -1189,6 +1188,7 @@ require(['js/qlik'], function (qlik) {
                                 name="{{$ctrl.selection.fieldName}}-{{listItem.label}}" 
                                 id="{{$ctrl.selection.fieldName}}-{{listItem.label}}" 
                                 type="checkbox" />
+                            <checkmark-icon ng-show="listItem.isSelected"></checkmark-icon>
                         </div>
                     </li>
                 </ul>
@@ -1467,6 +1467,20 @@ require(['js/qlik'], function (qlik) {
 
     angularApp.component('trashIcon', {
         template: trashIconTemplate,
+        bindings: {
+            fill: '@',
+        },
+    });
+
+    angularApp.component('checkmarkIcon', {
+        template: checkmarkTemplate,
+    });
+
+    angularApp.component('simpleCheckmarkIcon', {
+        template: simpleCheckmarkTemplate,
+        bindings: {
+            fill: '@',
+        },
     });
 
     angularApp.component('classificationBanner', {
@@ -1549,7 +1563,7 @@ const arrowIconTemplate = `
 `;
 
 const trashIconTemplate = `
-<svg fill="#7a0012" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+<svg fill="{{$ctrl.fill || '#7a0012'}}" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
 	 width="100%" height="100%" viewBox="0 0 408.483 408.483"
 	 xml:space="preserve">
     <g>
@@ -1564,5 +1578,24 @@ const trashIconTemplate = `
                 c-7.125,0-12.9,5.776-12.9,12.901V74.47h304.451V33.944C356.467,26.819,350.692,21.043,343.567,21.043z"/>
         </g>
     </g>
+</svg>
+`;
+
+const checkmarkTemplate = `
+<svg version="1.0" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 1280.000000 1185.000000" preserveAspectRatio="xMidYMid meet">
+    <g transform="translate(0.000000,1185.000000) scale(0.100000,-0.100000)" fill="#000000" stroke="none">
+        <path d="M12525 11747 c-1052 -607 -2241 -1476 -3359 -2456 -901 -790 -1862
+        -1742 -2752 -2726 -614 -680 -1276 -1471 -1874 -2240 -208 -268 -746 -986
+        -915 -1223 -87 -122 -135 -181 -145 -178 -8 2 -769 430 -1690 950 l-1675 947
+        -38 -43 c-20 -24 -42 -50 -47 -59 -9 -16 133 -182 3754 -4381 l291 -338 40 0
+        40 0 227 453 c1121 2231 2222 4068 3471 5792 1377 1899 2936 3648 4690 5259
+        125 115 227 212 227 216 0 5 -69 103 -82 116 -2 1 -75 -39 -163 -89z"/>
+</g>
+</svg>
+`;
+
+const simpleCheckmarkTemplate = `
+<svg width="100%" height="100%" viewBox="0 0 48 48" version="1" enable-background="new 0 0 48 48">
+    <polygon fill="{{$ctrl.fill || '#595959'}}" points="40.6,12.1 17,35.7 7.4,26.1 4.6,29 17,41.3 43.4,14.9"/>
 </svg>
 `;
