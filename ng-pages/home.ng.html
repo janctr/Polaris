@@ -203,7 +203,7 @@
                     </li>
                     <li class="search-result"
                         ng-repeat="result in searchResults">
-                        <h3 ng-bind="result.columnName"></h3>
+                        <h3 ng-bind="getNiceColumnName(result.columnName)"></h3>
                         <p ng-repeat="text in result.matches"
                            ng-bind="text"
                            ng-click="polaris.select(result.columnName, text)"
@@ -429,7 +429,7 @@
         position: absolute;
         background-color: #FFF;
         box-shadow: var(--box-shadow-3);
-        width: 260px;
+        width: 280px;
         height: 35px;
 
         margin: 0.5rem;
@@ -483,5 +483,12 @@
         background-color: inherit;
         box-shadow: var(--box-shadow-3);
         border-radius: 0.5rem;
+    }
+
+    /* TODO: Remove; these are temp styles for sliders*/
+    #xrbUWr-container,
+    #kgfBs-container {
+        height: 45px;
+        flex: initial !important;
     }
 </style>

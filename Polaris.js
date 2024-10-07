@@ -30,7 +30,7 @@ require(['js/qlik'], function (qlik) {
     // Constants
     angularApp.constant('qlik', qlik);
     angularApp.constant('isSipr', window.location.href.includes('smil'));
-    angularApp.constant('polarisAppId', '8d04cc88-83c2-400a-a891-f2a07111d6bc');
+    angularApp.constant('polarisAppId', 'c6106274-0193-4299-8772-d93a4043b604');
     angularApp.constant(
         'notionalAppId',
         'a02ee546-bb4f-41d3-a3d0-1a93f0aed2cc'
@@ -99,8 +99,10 @@ require(['js/qlik'], function (qlik) {
             self.getVariable = getVariable;
             self.setVariable = setVariable;
             self.select = select;
+            self.selectValues = selectValues;
             self.search = search;
             self.createHypercube = createHypercube;
+            self.createList = createList;
 
             // Methods
             self.insertObject = insertObject;
@@ -339,6 +341,12 @@ require(['js/qlik'], function (qlik) {
                     .selectValues([{ qText }], true, true);
             }
 
+            function selectValues(columnName, values) {
+                values.map((val) => ({ qText: val }));
+
+                self.app.field(columnName).selectValues(values, true, true);
+            }
+
             function createHypercube({
                 dimensions = [],
                 measures = [],
@@ -372,6 +380,50 @@ require(['js/qlik'], function (qlik) {
 
                 self.app.createCube(hypercubeDefinition, callback);
             }
+
+            function createList({ field, currentSelections }) {
+                currentSelections = currentSelections
+                    .split(',')
+                    .map((s) => s.trim());
+
+                console.log('createList called: ', field, currentSelections);
+
+                return new Promise((resolve, reject) => {
+                    self.app.createList(
+                        {
+                            qDef: {
+                                qFieldDefs: [field],
+                            },
+                            qInitialDataFetch: [
+                                {
+                                    qTop: 0,
+                                    qLeft: 0,
+                                    qHeight: 10000,
+                                    qWidth: 1,
+                                },
+                            ],
+                        },
+                        function (reply) {
+                            const list =
+                                reply.qListObject.qDataPages[0].qMatrix.map(
+                                    (row) => {
+                                        return {
+                                            label: row[0].qText,
+                                            isSelected:
+                                                currentSelections.indexOf(
+                                                    row[0].qText
+                                                ) < 0
+                                                    ? false
+                                                    : true,
+                                        };
+                                    }
+                                );
+
+                            resolve(list);
+                        }
+                    );
+                });
+            }
         },
     ]);
 
@@ -400,6 +452,18 @@ require(['js/qlik'], function (qlik) {
             $scope.printWindow = function () {
                 $window.print();
             };
+            $scope.currentAsOf = '';
+            polaris.app.createGenericObject(
+                {
+                    currentAsOf: {
+                        qStringExpression: `=Timestamp(ConvertToLocalTime(Max(ReloadTime()), 'HST'), 'MM/DD/YYYY HH:mm:ss') & ' HST'`,
+                    },
+                },
+                function (reply) {
+                    console.log('reply.currentAsOf: ', reply);
+                    $scope.currentAsOf = reply.currentAsOf;
+                }
+            );
         },
     ]);
 
@@ -463,7 +527,7 @@ require(['js/qlik'], function (qlik) {
 
             $scope.pacomToggles = [
                 {
-                    title: 'USINDOPACOM',
+                    title: 'Recenter to AOR',
                     label: 'usindopacom',
                     varName: 'v_map_usindopacom',
                     qlikDropdownId: polaris.isSipr ? '' : 'yRuKjT',
@@ -672,19 +736,20 @@ require(['js/qlik'], function (qlik) {
                     label: 'Class III',
                     fieldName: 'plant_desc',
                     varName: 'isClass3Selected',
-                    objectId: 'ppfj',
+                    objectId: 'RnwWt',
                     isOpen: false,
                     onClose: function () {
                         polaris.clear();
                     },
                 },
                 {
-                    label: 'Class III Subtoggle 1 Detailed Map Viz',
-                    fieldName: '',
-                    varName: '',
-                    objectIds: [],
+                    label: 'Class IV',
+                    fieldName: 'master.dodaac_nomen',
+                    varName: 'isClass4Selected',
+                    objectId: 'LrM',
                     isOpen: false,
                     onClose: function () {
+                        console.log('Clearing Class IV DMV');
                         polaris.clear();
                     },
                 },
@@ -824,15 +889,16 @@ require(['js/qlik'], function (qlik) {
                 //   'poi_name', // Class III
                 'base_name_muns', // Class V
                 'PRIMARY_DEPLOYED_DUTY_STATION_CITY', // OCS
-                'engineers.uic', // Combat/Civi; Engineers
+                'engineers.uic', // Combat/Civil Engineers
                 'Airport', // APODS
                 'seaport', // SPODS
                 'CUOPS_VESSEL', // AWS Vessels
                 'tasked_flights.Airport', // Taskable Aircraft
                 'enemy_vessel', // Enemy Vessels
-                'vessel_key', //Vessels
-                'asset_id', // Aircraft, Land Vehicles
+                'asset_id', // Aircraft, Land Vehicles, Vessels
             ];
+            $scope.getNiceColumnName = (columnName) =>
+                COLUMN_ALIAS[columnName] || columnName;
             $scope.search = function (searchStr) {
                 if (searchStr.length <= 3) {
                     return;
@@ -850,8 +916,9 @@ require(['js/qlik'], function (qlik) {
                 polaris
                     .search(searchStr, {
                         qSearchFields: polaris.isSipr
-                            ? $scope.siprSearchFieldsf
+                            ? $scope.siprSearchFields
                             : $scope.niprSearchFields,
+                        qContext: 'Cleared',
                     })
                     .then((results) => {
                         $scope.searchResults = results;
@@ -1046,9 +1113,8 @@ require(['js/qlik'], function (qlik) {
             selectionItem: '<',
         },
         template: `
-        <div class="selection-item"
-            ng-click="">
-            <div class="selection-info">
+        <div class="selection-item">
+            <div class="selection-info" ng-click="isDropdownOpen = true">
                 <p class="selection-item-fieldname">
                     {{$ctrl.selectionItem.fieldName.length > 26 ? $ctrl.selectionItem.fieldName.slice(0, 23) + '...' :
                     $ctrl.selectionItem.fieldName}}
@@ -1060,29 +1126,145 @@ require(['js/qlik'], function (qlik) {
             </div>
             <button ng-click="polaris.clearField($ctrl.selectionItem.fieldName)"
                 class="qlik-action">
-            <svg xmlns="http://www.w3.org/2000/svg"
-                 viewBox="0 0 16 16"
-                 height="12px"
-                 fill="currentColor"
-                 aria-hidden="true"
-                 role="img">
-                <path
-                      d="m9.345 8 3.982 3.982a.951.951 0 0 1-1.345 1.345L8 9.345l-3.982 3.982a.951.951 0 0 1-1.345-1.345L6.655 8 2.673 4.018a.951.951 0 0 1 1.345-1.345L8 6.655l3.982-3.982a.951.951 0 1 1 1.345 1.345z">
-                </path>
-            </svg>
+                <svg xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 16 16"
+                    height="12px"
+                    fill="currentColor"
+                    aria-hidden="true"
+                    role="img">
+                    <path
+                        d="m9.345 8 3.982 3.982a.951.951 0 0 1-1.345 1.345L8 9.345l-3.982 3.982a.951.951 0 0 1-1.345-1.345L6.655 8 2.673 4.018a.951.951 0 0 1 1.345-1.345L8 6.655l3.982-3.982a.951.951 0 1 1 1.345 1.345z">
+                    </path>
+                </svg>
             </button>
+            <div ng-if="isDropdownOpen" ng-if="list.length > 0" class="selection-item-dropdown">
+                <div class="dropdown-header">
+                    <h4>{{ $ctrl.selectionItem.fieldName }}</h4>
+                    <div class="actions-container" ng-show="isChangeMade" >
+                        <button ng-click="confirmChanges()"
+                                title="Confirm changes"
+                                class="confirm-button">
+                            <simple-checkmark-icon fill="#595959"></simple-checkmark-icon>
+                        </button>
+                        <button ng-click="cancelChanges()"
+                            title="Discard changes"
+                            class="cancel-button">
+                            <trash-icon fill="#595959"></trash-icon>
+                        </button>
+                    </div>
+                    
+                    <button class="close-button" ng-click="toggleDropdown($event)">
+                        <svg fill="#595959"
+                        height="100%"
+                        width="100%"
+                        version="1.1"
+                        id="Layer_1"
+                        xmlns="http://www.w3.org/2000/svg"
+                        xmlns:xlink="http://www.w3.org/1999/xlink"
+                        viewBox="0 0 512 512"
+                        xml:space="preserve">
+                            <g>
+                                <g>
+                                    <polygon points="512,59.076 452.922,0 256,196.922 59.076,0 0,59.076 196.922,256 0,452.922 59.076,512 256,315.076 452.922,512 
+                                    512,452.922 315.076,256 		"></polygon>
+                                </g>
+                            </g>
+                        </svg>
+                    </button>
+                </div>
+                <ul class="dropdown-items scrollbar">
+                    <li ng-if="isLoading" class="dropdown-item loader"><loader></loader></li>
+                    <li ng-repeat="listItem in list" 
+                        ng-click="isChangeMade = true"
+                        ng-class="listItem.isSelected ? 'selected': ''"
+                        class="dropdown-item">
+                        <div class="dropdown-item-inner">
+                            <label for="{{$ctrl.selection.fieldName}}-{{listItem.label}}">
+                                {{ listItem.label }}
+                            </label>
+                            <input
+                                ng-model="listItem.isSelected"
+                                ng-change="addChange(listItem.label)"
+                                name="{{$ctrl.selection.fieldName}}-{{listItem.label}}" 
+                                id="{{$ctrl.selection.fieldName}}-{{listItem.label}}" 
+                                type="checkbox" />
+                            <checkmark-icon ng-show="listItem.isSelected"></checkmark-icon>
+                        </div>
+                    </li>
+                </ul>
+            </div>
         </div>`,
         controller: [
             '$scope',
             'polaris',
             function ($scope, polaris) {
+                $scope.polaris = polaris;
                 $scope.selectionItem = $scope.$ctrl.selectionItem;
-                console.log('$scope of selectionItem:', $scope);
-                console.log(
-                    '$scope.$ctrl.selectionItem: ',
-                    $scope.$ctrl.selectionItem
-                );
-                console.log('$scope.selectionItem: ', $scope.selectionItem);
+                $scope.isDropdownOpen = false;
+                $scope.toggleDropdown = function (event) {
+                    $scope.isDropdownOpen = !$scope.isDropdownOpen;
+                };
+                $scope.originalList = [];
+                $scope.list = [];
+                $scope.changes = [];
+                $scope.isChangeMade = false;
+                $scope.addChange = function (label) {
+                    $scope.isChangeMade = true;
+
+                    if ($scope.changes.includes(label)) {
+                        $scope.changes = $scope.changes.filter(
+                            (change) => change !== label
+                        );
+                    } else {
+                        $scope.changes.push(label);
+                    }
+                };
+
+                $scope.cancelChanges = function () {
+                    $scope.isChangeMade = false;
+                    console.log('canceling changes: ', [
+                        ...$scope.originalList,
+                    ]);
+                    $scope.changes = [];
+                    $scope.list = JSON.parse(
+                        JSON.stringify($scope.originalList)
+                    );
+                };
+                $scope.confirmChanges = function () {
+                    console.log('confirming selections: ', $scope.changes);
+
+                    polaris.selectValues(
+                        $scope.$ctrl.selectionItem.fieldName,
+                        $scope.changes
+                    );
+                };
+
+                angular.element(document).ready(function () {
+                    console.log(
+                        '$scope.$ctrl.selectionItem: ',
+                        $scope.$ctrl.selectionItem
+                    );
+
+                    $scope.isLoading = true;
+                    polaris
+                        .createList({
+                            field: $scope.$ctrl.selectionItem.fieldName,
+                            currentSelections:
+                                $scope.$ctrl.selectionItem.qSelected,
+                        })
+                        .then((list) => {
+                            console.log('list: ', list);
+                            const sortedList = list.sort((a, b) => {
+                                return b.isSelected - a.isSelected;
+                            });
+                            $scope.originalList = JSON.parse(
+                                JSON.stringify(sortedList)
+                            );
+                            $scope.list = sortedList;
+
+                            $scope.isLoading = false;
+                        });
+                });
             },
         ],
     });
@@ -1147,7 +1329,7 @@ require(['js/qlik'], function (qlik) {
         },
         template: `
             <div class="polaris-toggle">
-                <h3 class="polaris-toggle-title">{{ $ctrl.label }}</h3>
+                <h3 class="polaris-toggle-title">{{ $ctrl.label === 'Real World Data' ? 'Daily Operations' : $ctrl.label }}</h3>
                 <div ng-if="$ctrl.qlikDropdownId.length" class="polaris-toggle-dropdown" id="{{$ctrl.id}}-dropdown"></div>
                 <label 
                     class="polaris-toggle-box" 
@@ -1191,7 +1373,8 @@ require(['js/qlik'], function (qlik) {
         template: `
         <div class="polaris-map-box {{ position }}" ng-show="$ctrl.isShowing" ng-style="{'height': $ctrl.height, 'width': $ctrl.width}">       
             <div class="object-header">
-                <h3> {{ polaris.selectionState.selections[0].qSelected }}</h3>
+                <h3></h3>
+                <!-- <h3> {{ polaris.selectionState.selections[0].qSelected }}</h3> -->
                 <button ng-click="$ctrl.close()" class="tile-header-fullscreen-btn">
                     <close-icon></close-icon>
                 </button>
@@ -1282,6 +1465,24 @@ require(['js/qlik'], function (qlik) {
         },
     });
 
+    angularApp.component('trashIcon', {
+        template: trashIconTemplate,
+        bindings: {
+            fill: '@',
+        },
+    });
+
+    angularApp.component('checkmarkIcon', {
+        template: checkmarkTemplate,
+    });
+
+    angularApp.component('simpleCheckmarkIcon', {
+        template: simpleCheckmarkTemplate,
+        bindings: {
+            fill: '@',
+        },
+    });
+
     angularApp.component('classificationBanner', {
         template: `<div class="classification-banner {{$ctrl.color}}">{{ $ctrl.label }}</div>`,
         bindings: {
@@ -1358,5 +1559,43 @@ const arrowIconTemplate = `
     <path id="XMLID_225_" d="M325.607,79.393c-5.857-5.857-15.355-5.858-21.213,0.001l-139.39,139.393L25.607,79.393
     c-5.857-5.857-15.355-5.858-21.213,0.001c-5.858,5.858-5.858,15.355,0,21.213l150.004,150c2.813,2.813,6.628,4.393,10.606,4.393
     s7.794-1.581,10.606-4.394l149.996-150C331.465,94.749,331.465,85.251,325.607,79.393z" />
+</svg>
+`;
+
+const trashIconTemplate = `
+<svg fill="{{$ctrl.fill || '#7a0012'}}" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+	 width="100%" height="100%" viewBox="0 0 408.483 408.483"
+	 xml:space="preserve">
+    <g>
+        <g>
+            <path d="M87.748,388.784c0.461,11.01,9.521,19.699,20.539,19.699h191.911c11.018,0,20.078-8.689,20.539-19.699l13.705-289.316
+                H74.043L87.748,388.784z M247.655,171.329c0-4.61,3.738-8.349,8.35-8.349h13.355c4.609,0,8.35,3.738,8.35,8.349v165.293
+                c0,4.611-3.738,8.349-8.35,8.349h-13.355c-4.61,0-8.35-3.736-8.35-8.349V171.329z M189.216,171.329
+                c0-4.61,3.738-8.349,8.349-8.349h13.355c4.609,0,8.349,3.738,8.349,8.349v165.293c0,4.611-3.737,8.349-8.349,8.349h-13.355
+                c-4.61,0-8.349-3.736-8.349-8.349V171.329L189.216,171.329z M130.775,171.329c0-4.61,3.738-8.349,8.349-8.349h13.356
+                c4.61,0,8.349,3.738,8.349,8.349v165.293c0,4.611-3.738,8.349-8.349,8.349h-13.356c-4.61,0-8.349-3.736-8.349-8.349V171.329z"/>
+            <path d="M343.567,21.043h-88.535V4.305c0-2.377-1.927-4.305-4.305-4.305h-92.971c-2.377,0-4.304,1.928-4.304,4.305v16.737H64.916
+                c-7.125,0-12.9,5.776-12.9,12.901V74.47h304.451V33.944C356.467,26.819,350.692,21.043,343.567,21.043z"/>
+        </g>
+    </g>
+</svg>
+`;
+
+const checkmarkTemplate = `
+<svg version="1.0" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 1280.000000 1185.000000" preserveAspectRatio="xMidYMid meet">
+    <g transform="translate(0.000000,1185.000000) scale(0.100000,-0.100000)" fill="#000000" stroke="none">
+        <path d="M12525 11747 c-1052 -607 -2241 -1476 -3359 -2456 -901 -790 -1862
+        -1742 -2752 -2726 -614 -680 -1276 -1471 -1874 -2240 -208 -268 -746 -986
+        -915 -1223 -87 -122 -135 -181 -145 -178 -8 2 -769 430 -1690 950 l-1675 947
+        -38 -43 c-20 -24 -42 -50 -47 -59 -9 -16 133 -182 3754 -4381 l291 -338 40 0
+        40 0 227 453 c1121 2231 2222 4068 3471 5792 1377 1899 2936 3648 4690 5259
+        125 115 227 212 227 216 0 5 -69 103 -82 116 -2 1 -75 -39 -163 -89z"/>
+</g>
+</svg>
+`;
+
+const simpleCheckmarkTemplate = `
+<svg width="100%" height="100%" viewBox="0 0 48 48" version="1" enable-background="new 0 0 48 48">
+    <polygon fill="{{$ctrl.fill || '#595959'}}" points="40.6,12.1 17,35.7 7.4,26.1 4.6,29 17,41.3 43.4,14.9"/>
 </svg>
 `;
