@@ -30,6 +30,7 @@
                     <ul>
                         <li ng-repeat="toggle in classesOfSupplyToggles"
                             class="polaris-checkbox {{toggle.label}}"
+                            ng-class="{'has-subtoggles': toggle.subToggles.length > 0}"
                             style="list-style: none; padding-left: 1rem;">
 
                             <polaris-toggle is-checked="getVariable(toggle.varName)"
@@ -39,17 +40,17 @@
                                             qlik-dropdown-id="{{toggle.qlikDropdownId}}">
                             </polaris-toggle>
 
-                            <ul ng-if="toggle.subToggles && v_map_class_iii"
-                                class="class-iii-subtoggles">
+                            <ul ng-if="toggle.subToggles && getVariable(toggle.varName)"
+                                class="subtoggles">
                                 <li class="polaris-checkbox"
                                     style="list-style: none; padding-left: 1rem; padding-right: 0"
                                     ng-repeat="subToggle in toggle.subToggles">
 
                                     <polaris-toggle is-checked="getVariable(subToggle.varName)"
-                                                    toggle="toggleSubToggle(subToggle.varName)"
+                                                    toggle="toggle.label === 'class-iii' : toggleSubToggle(subToggle.varName) : toggleVariable(subToggle.varName)"
                                                     label="{{subToggle.title}}"
                                                     id="{{subToggle.label}}"
-                                                    qlik-dropdown-id="{{toggle.qlikDropdownId}}">
+                                                    qlik-dropdown-id="{{subToggle.qlikDropdownId}}">
                                     </polaris-toggle>
                                 </li>
                             </ul>
@@ -323,21 +324,21 @@
     }
 
     /********** Class III **********/
-    #home-page .class-iii {
+    #home-page .has-subtoggles {
         padding: 0 !important;
     }
 
-    #home-page .class-iii>polaris-toggle>.polaris-toggle {
+    #home-page .has-subtoggles>polaris-toggle>.polaris-toggle {
         padding: 0.25rem 0.5rem 0.25rem 1rem;
     }
 
-    #home-page .class-iii-subtoggles {
+    #home-page .subtoggles {
         padding-left: 1rem;
         padding-right: 0.5rem;
         background-color: #FFF;
     }
 
-    #home-page .class-iii-subtoggles .polaris-checkbox:hover {
+    #home-page .subtoggles .polaris-checkbox:hover {
         background-color: #FFF;
     }
 

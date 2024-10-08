@@ -570,6 +570,23 @@ require(['js/qlik'], function (qlik) {
                     varName: 'v_map_class_v',
                     qlikDropdownId: 'fYkxMwf',
                 },
+                {
+                    title: 'Class VIII',
+                    label: 'class-viii',
+                    varName: 'v_map_class_viii',
+                    subToggles: [
+                        {
+                            title: 'Blood',
+                            label: 'blood',
+                            varName: 'v_class_viii_blood',
+                        },
+                        {
+                            title: 'Medical Equipment',
+                            label: 'medical-equipment',
+                            varName: 'v_class_viii_equip',
+                        },
+                    ],
+                },
                 // {
                 //     title: 'Class IX',
                 //     label: 'class-ix',
@@ -1329,7 +1346,7 @@ require(['js/qlik'], function (qlik) {
         },
         template: `
             <div class="polaris-toggle">
-                <h3 class="polaris-toggle-title">{{ $ctrl.label === 'Real World Data' ? 'Daily Operations' : $ctrl.label }}</h3>
+                <h3 class="polaris-toggle-title">{{ $ctrl.label }}</h3>
                 <div ng-if="$ctrl.qlikDropdownId.length" class="polaris-toggle-dropdown" id="{{$ctrl.id}}-dropdown"></div>
                 <label 
                     class="polaris-toggle-box" 
@@ -1429,6 +1446,25 @@ require(['js/qlik'], function (qlik) {
                 });
             },
         ],
+    });
+
+    angularApp.component('polarisLegend', {
+        bindings: {
+            legendTitle: '@',
+            legendItems: '<',
+        },
+        template: `
+            <div class="polaris-legend">
+                <h3>{{ $ctrl.legendTitle || 'Legend' }}</h3>
+                <ul class="legend-items">
+                    <li ng-repeat="legendItem in $ctrl.legendItems">
+                        <img src="{{legendItem.imageUrl}}"/>
+                        <span>{{ legendItem.label }}</span>
+                    </li>
+                </ul>
+            </div>
+        `,
+        controller: ['$scope', 'polaris', function ($scope, polaris) {}],
     });
 
     angularApp.component('burgerMenuIcon', {
