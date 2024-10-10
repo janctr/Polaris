@@ -114,11 +114,11 @@ a:visited {
 }
 
 .classification-banner.green {
-    background-color: green;
+    background-color: #007a33;
 }
 
 .classification-banner.red {
-    background-color: red;
+    background-color: #c8102e;
 }
 
 /**************************************/

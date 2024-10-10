@@ -35,6 +35,7 @@ require(['js/qlik'], function (qlik) {
         'notionalAppId',
         'a02ee546-bb4f-41d3-a3d0-1a93f0aed2cc'
     );
+    angularApp.constant('mapLegendSections', MAP_LEGEND_SECTIONS);
     angularApp.constant('navbarLinks', angularLinks);
     angularApp.constant('landingPageLinks', {
         niprJ4LandingPageLink:
@@ -78,6 +79,7 @@ require(['js/qlik'], function (qlik) {
         'isSipr',
         'polarisAppId',
         'notionalAppId',
+        'mapLegendSections',
         function (qlik, isSipr, polarisAppId, notionalAppId) {
             const self = this;
 
@@ -113,6 +115,8 @@ require(['js/qlik'], function (qlik) {
             self.parseVariable = parseVariable;
             self.toggleVariable = toggleVariable;
             self.getContainerSize = getContainerSize;
+
+            self.mapLegendSections = MAP_LEGEND_SECTIONS;
 
             function insertObjects(objects) {
                 for (const o of objects) {
@@ -1448,23 +1452,60 @@ require(['js/qlik'], function (qlik) {
         ],
     });
 
-    angularApp.component('polarisLegend', {
+    angularApp.component('polarisMapLegend', {
         bindings: {
             legendTitle: '@',
             legendItems: '<',
         },
         template: `
-            <div class="polaris-legend">
-                <h3>{{ $ctrl.legendTitle || 'Legend' }}</h3>
-                <ul class="legend-items">
-                    <li ng-repeat="legendItem in $ctrl.legendItems">
-                        <img src="{{legendItem.imageUrl}}"/>
-                        <span>{{ legendItem.label }}</span>
+            <div class="polaris-map-legend">
+                <ul class="legend-sections">
+                    <li class="legend-section" ng-repeat="section in legendSections">
+                        <div class="legend-section-header" ng-click="section.isOpen = !section.isOpen">
+                            <div class="toggle">
+                                <arrow-icon direction="getArrowDirection(section.isOpen)"></arrow-icon>
+                            </div>
+                            <h3>{{ section.title }}</h3>
+                        </div>
+                        <ul class="legend-section-items" ng-show="section.isOpen">
+                            <li ng-repeat="legendItem in section.items"
+                                class="legend-item">
+                                <loader ng-if="!getVariable(legendItem.imageUrlVariable) && !legendItem.imageUrl"
+                                        style="width: 30px; height: 30px;"></loader>
+                                <img ng-if="getVariable(legendItem.imageUrlVariable) || legendItem.imageUrl" src="{{ getVariable(legendItem.imageUrlVariable) || legendItem.imageUrl }}"/>                                
+                                <span>{{ legendItem.label }}</span>
+                            </li>
+                        </ul>
                     </li>
                 </ul>
             </div>
         `,
-        controller: ['$scope', 'polaris', function ($scope, polaris) {}],
+        controller: [
+            '$scope',
+            'polaris',
+            function ($scope, polaris) {
+                $scope.isOpen = false;
+                $scope.getVariable = (varName) => $scope[varName];
+                $scope.getArrowDirection = (isOpen) => (isOpen ? 'up' : 'down');
+                $scope.legendSections = polaris.mapLegendSections.map(
+                    (section) => {
+                        section.isOpen = false;
+                        return section;
+                    }
+                );
+
+                angular.element(document).ready(function () {
+                    // Fetch all the image urls
+                    polaris.getVariable('class_i_image', $scope); // NIPR
+
+                    $scope.legendSections.forEach((section) => {
+                        section.items.forEach((item) => {
+                            polaris.getVariable(item.imageUrlVariable, $scope);
+                        });
+                    });
+                });
+            },
+        ],
     });
 
     angularApp.component('burgerMenuIcon', {

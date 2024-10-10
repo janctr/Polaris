@@ -391,3 +391,94 @@ const COLUMN_ALIAS = {
     enemy_vessel: 'Enemy Vessel', // Enemy Vessels
     asset_id: 'Aircraft, Vessel, Land Vehicle ID', // Aircraft, Land Vehicles, Vessels
 };
+
+const MAP_LEGEND_SECTIONS = [
+    {
+        title: 'Classes of Supply',
+        items: [
+            {
+                label: 'Class I',
+                imageUrlVariable: 'v_class_i_img',
+            },
+            {
+                label: 'Class III',
+                imageUrlVariable: 'v_class_iii_img',
+            },
+            {
+                label: 'Class IV',
+                imageUrlVariable: 'v_class_iv_img',
+            },
+            {
+                label: 'Class V',
+                imageUrlVariable: 'v_class_v_img',
+            },
+            {
+                label: 'Class VIII',
+                imageUrlVariable: '',
+            },
+        ],
+    },
+    {
+        title: 'PDDOC',
+        items: [
+            {
+                label: 'Vessels',
+                imageUrlVariable: '',
+                imageUrl: '/content/IR%20COP/us_cvn_blue.png',
+            },
+            {
+                label: 'Enemy Vessels',
+                imageUrlVariable: '',
+                imageUrl: '/content/IR%20COP/enemy_ddg.png',
+            },
+            {
+                label: 'Aircraft',
+                imageUrlVariable: 'v_icon_plane',
+            },
+            {
+                label: 'AWS',
+                imageUrlVariable: '',
+            },
+            {
+                label: 'Land Vehicles',
+                imageUrlVariable:
+                    '/appcontent/21fe9c1f-814e-459d-9d98-dd22769a63aa/Army.png',
+            },
+        ],
+    },
+    {
+        title: 'Nodal Health',
+        items: [
+            {
+                label: 'Seaports',
+                imageUrlVariable: 'v_icon_spod',
+            },
+            {
+                label: 'Airports',
+                imageUrlVariable: 'v_icon_apod',
+            },
+        ],
+    },
+    {
+        title: 'Engineer Units',
+        items: [
+            {
+                label: 'Combat Engineers',
+                imageUrlVariable: '',
+            },
+            {
+                label: 'Civil Engineers',
+                imageUrlVariable: '',
+            },
+        ],
+    },
+    {
+        title: 'OCS',
+        items: [
+            {
+                label: 'Contractors',
+                imageUrlVariable: '',
+            },
+        ],
+    },
+];
