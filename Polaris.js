@@ -765,7 +765,7 @@ require(['js/qlik'], function (qlik) {
                 },
                 {
                     label: 'Class IV',
-                    fieldName: 'master.dodaac_nomen',
+                    fieldName: 'dodaac_nomen_cliv',
                     varName: 'isClass4Selected',
                     objectId: 'LrM',
                     isOpen: false,
@@ -908,6 +908,7 @@ require(['js/qlik'], function (qlik) {
                 'dodaac_nomen_cli', // Class I
                 'plant_desc', // Class III
                 //   'poi_name', // Class III
+                'dodaac_nomen_cliv', // Class IV
                 'base_name_muns', // Class V
                 'PRIMARY_DEPLOYED_DUTY_STATION_CITY', // OCS
                 'engineers.uic', // Combat/Civil Engineers
