@@ -583,11 +583,13 @@ require(['js/qlik'], function (qlik) {
                             title: 'Blood',
                             label: 'blood',
                             varName: 'v_class_viii_blood',
+                            qlikDropdownId: 'pjXKSfn',
                         },
                         {
                             title: 'Medical Equipment',
                             label: 'medical-equipment',
                             varName: 'v_class_viii_equip',
+                            qlikDropdownId: 'xTJgWb',
                         },
                     ],
                 },
