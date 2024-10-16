@@ -799,17 +799,17 @@ require(['js/qlik'], function (qlik) {
                         polaris.clearField('seaport');
                     },
                 },
-                // TODO: Figure out aircraft detailed viz
-                // {
-                //     label: 'Aircraft',
-                //     fieldName: 'asset_subcategory',
-                //     varName: 'isAircraftSelected',
-                //     objectId: 'hJgyPNS',
-                //     isOpen: false,
-                //     onClose: function () {
-                //         polaris.clearField('asset_id');
-                //     },
-                // },
+                {
+                    label: 'Aircraft',
+                    fieldName: 'asset_id',
+                    varName: 'isAircraftSelected',
+                    customExpression: `=count({$<asset_category={'Air'}>}distinct [asset_id])`,
+                    objectId: 'hJgyPNS',
+                    isOpen: false,
+                    onClose: function () {
+                        polaris.clearField('asset_id');
+                    },
+                },
             ];
 
             const genericObject = $scope.drilldownBoxes.reduce(
