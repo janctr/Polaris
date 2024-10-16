@@ -738,6 +738,7 @@ require(['js/qlik'], function (qlik) {
                     label: 'Proof of Concept',
                     fieldName: 'soccerTeam',
                     varName: 'isSoccerTeamSelected',
+                    customExpression: `=count({$<league={'La Liga'}>}distinct [soccerTeam])`,
                     objectIds: ['frXbuh', 'fsHmHP', 'mKw'],
                     isOpen: false,
                     onClose: function () {
@@ -814,7 +815,9 @@ require(['js/qlik'], function (qlik) {
             const genericObject = $scope.drilldownBoxes.reduce(
                 (obj, drilldownBox) => {
                     obj[drilldownBox.varName] = {
-                        qStringExpression: `=count(distinct [${drilldownBox.fieldName}])`,
+                        qStringExpression:
+                            drilldownBox.customExpression ||
+                            `=count(distinct [${drilldownBox.fieldName}])`,
                     };
                     return obj;
                 },
@@ -885,7 +888,9 @@ require(['js/qlik'], function (qlik) {
                     const secretGenericObject = secretMapBoxes.reduce(
                         (obj, drilldownBox) => {
                             obj[drilldownBox.varName] = {
-                                qStringExpression: `=count(distinct [${drilldownBox.fieldName}])`,
+                                qStringExpression:
+                                    drilldownBox.customExpression ||
+                                    `=count(distinct [${drilldownBox.fieldName}])`,
                             };
                             return obj;
                         },
