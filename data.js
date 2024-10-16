@@ -381,7 +381,7 @@ const COLUMN_ALIAS = {
     // SIPR
     dodaac_nomen_cli: 'Class I', // Class I
     plant_desc: 'Class III', // Class III
-    dodaac_nomen_cliv: 'Class IV', // Class IV
+    dodaac_cliv: 'Class IV', // Class IV
     base_name_muns: 'Class V', // Class V
     PRIMARY_DEPLOYED_DUTY_STATION_CITY: 'OCS', // OCS
     'engineers.uic': 'Engineers', // Combat/Civil Engineers

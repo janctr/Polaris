@@ -492,6 +492,7 @@ require(['js/qlik'], function (qlik) {
                 'v_map_class_iii',
                 'v_map_class_iv',
                 'v_map_class_v',
+                'v_map_class_viii',
                 'v_map_class_ix',
                 // PDDOC
                 'v_map_deploy_dist_vessel_health',
@@ -768,13 +769,13 @@ require(['js/qlik'], function (qlik) {
                 },
                 {
                     label: 'Class IV',
-                    fieldName: 'dodaac_nomen_cliv',
+                    fieldName: 'dodaac_cliv',
                     varName: 'isClass4Selected',
                     objectId: 'LrM',
                     isOpen: false,
                     onClose: function () {
                         console.log('Clearing Class IV DMV');
-                        polaris.clear();
+                        polaris.clearField('dodaac_cliv');
                     },
                 },
                 {
@@ -922,7 +923,7 @@ require(['js/qlik'], function (qlik) {
                 'dodaac_nomen_cli', // Class I
                 'plant_desc', // Class III
                 //   'poi_name', // Class III
-                'dodaac_nomen_cliv', // Class IV
+                'dodaac_cliv', // Class IV
                 'base_name_muns', // Class V
                 'PRIMARY_DEPLOYED_DUTY_STATION_CITY', // OCS
                 'engineers.uic', // Combat/Civil Engineers
