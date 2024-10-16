@@ -560,7 +560,7 @@ require(['js/qlik'], function (qlik) {
                     title: 'Class III',
                     label: 'class-iii',
                     varName: 'v_map_class_iii',
-                    qlikDropdownId: 'pqjjPZ',
+                    qlikDropdownId: '',
                 },
                 {
                     title: 'Class IV',
@@ -602,11 +602,11 @@ require(['js/qlik'], function (qlik) {
 
             // Class III Subtoggles
             polaris.createHypercube({
-                dimensions: ['secretLabel', 'secretVarName'],
+                dimensions: ['secretLabel', 'secretVarName', 'qlikDropdownId'],
                 callback: function (reply) {
                     const subToggles = [];
                     for (const row of reply.qHyperCube.qDataPages[0].qMatrix) {
-                        const [label, varName] = row;
+                        const [label, varName, qlikDropdownId] = row;
 
                         const subToggle = {
                             title: label.qText,
@@ -615,6 +615,7 @@ require(['js/qlik'], function (qlik) {
                                 .split(' ')
                                 .join('-'),
                             varName: varName.qText,
+                            qlikDropdownId: qlikDropdownId.qText,
                         };
 
                         subToggles.push(subToggle);
@@ -796,6 +797,17 @@ require(['js/qlik'], function (qlik) {
                         polaris.clearField('seaport');
                     },
                 },
+                // TODO: Figure out aircraft detailed viz
+                // {
+                //     label: 'Aircraft',
+                //     fieldName: 'asset_subcategory',
+                //     varName: 'isAircraftSelected',
+                //     objectId: 'hJgyPNS',
+                //     isOpen: false,
+                //     onClose: function () {
+                //         polaris.clearField('asset_id');
+                //     },
+                // },
             ];
 
             const genericObject = $scope.drilldownBoxes.reduce(
