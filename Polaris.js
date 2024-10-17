@@ -1157,11 +1157,11 @@ require(['js/qlik'], function (qlik) {
         template: `
         <div class="selection-item">
             <div class="selection-info" ng-click="isDropdownOpen = true">
-                <p class="selection-item-fieldname">
+                <p class="selection-item-fieldname" title="{{ $ctrl.selectionItem.fieldName }}">
                     {{$ctrl.selectionItem.fieldName.length > 26 ? $ctrl.selectionItem.fieldName.slice(0, 23) + '...' :
                     $ctrl.selectionItem.fieldName}}
                 </p>
-                <p class="selection-item-values">
+                <p class="selection-item-values" title="{{ $ctrl.selectionItem.qSelected }}">
                     {{$ctrl.selectionItem.qSelected.length > 26 ? $ctrl.selectionItem.qSelected.slice(0, 23) + '...' :
                     $ctrl.selectionItem.qSelected}}
                 </p>
