@@ -499,6 +499,7 @@ require(['js/qlik'], function (qlik) {
                 'v_map_enemy_vessels',
                 'v_map_deploy_dist_aircraft_health',
                 'v_map_aws',
+                'v_map_epf',
                 'v_map_land_vehicles',
                 // Nodal Health
                 'v_map_seaports',
@@ -671,6 +672,12 @@ require(['js/qlik'], function (qlik) {
                     label: 'aws',
                     varName: 'v_map_aws',
                     qlikDropdownId: 'BcPALt',
+                },
+                {
+                    title: 'EPF',
+                    label: 'epf',
+                    varName: 'v_map_epf',
+                    qlikDropdownId: '',
                 },
                 {
                     title: 'Land Vehicles',

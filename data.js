@@ -451,6 +451,11 @@ const MAP_LEGEND_SECTIONS = [
                 imageUrlVariable: '',
             },
             {
+                label: 'EPF',
+                showConditionVariable: 'v_map_epf',
+                imageUrlVariable: '',
+            },
+            {
                 label: 'Land Vehicles',
                 showConditionVariable: 'v_map_land_vehicles',
                 imageUrlVariable:
