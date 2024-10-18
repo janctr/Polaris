@@ -396,25 +396,31 @@ const COLUMN_ALIAS = {
 const MAP_LEGEND_SECTIONS = [
     {
         title: 'Classes of Supply',
+        showConditionVariable: 'v_map_classes_of_supply',
         items: [
             {
                 label: 'Class I',
+                showConditionVariable: 'v_map_class_i',
                 imageUrlVariable: 'v_class_i_img',
             },
             {
                 label: 'Class III',
+                showConditionVariable: 'v_map_class_iii',
                 imageUrlVariable: 'v_class_iii_img',
             },
             {
                 label: 'Class IV',
+                showConditionVariable: 'v_map_class_iv',
                 imageUrlVariable: 'v_class_iv_img',
             },
             {
                 label: 'Class V',
+                showConditionVariable: 'v_map_class_v',
                 imageUrlVariable: 'v_class_v_img',
             },
             {
                 label: 'Class VIII',
+                showConditionVariable: 'v_map_class_viii',
                 imageUrlVariable: '',
             },
         ],
@@ -424,24 +430,29 @@ const MAP_LEGEND_SECTIONS = [
         items: [
             {
                 label: 'Vessels',
+                showConditionVariable: 'v_map_deploy_dist_vessel_health',
                 imageUrlVariable: '',
                 imageUrl: '/content/IR%20COP/us_cvn_blue.png',
             },
             {
                 label: 'Enemy Vessels',
+                showConditionVariable: 'v_map_enemy_vessels',
                 imageUrlVariable: '',
                 imageUrl: '/content/IR%20COP/enemy_ddg.png',
             },
             {
                 label: 'Aircraft',
+                showConditionVariable: 'v_map_deploy_dist_aircraft_health',
                 imageUrlVariable: 'v_icon_plane',
             },
             {
                 label: 'AWS',
+                showConditionVariable: 'v_map_aws',
                 imageUrlVariable: '',
             },
             {
                 label: 'Land Vehicles',
+                showConditionVariable: 'v_map_land_vehicles',
                 imageUrlVariable:
                     '/appcontent/21fe9c1f-814e-459d-9d98-dd22769a63aa/Army.png',
             },
@@ -452,10 +463,12 @@ const MAP_LEGEND_SECTIONS = [
         items: [
             {
                 label: 'Seaports',
+                showConditionVariable: 'v_map_seaports',
                 imageUrlVariable: 'v_icon_spod',
             },
             {
                 label: 'Airports',
+                showConditionVariable: 'v_map_airports',
                 imageUrlVariable: 'v_icon_apod',
             },
         ],
@@ -465,10 +478,12 @@ const MAP_LEGEND_SECTIONS = [
         items: [
             {
                 label: 'Combat Engineers',
+                showConditionVariable: 'v_map_combat_engineers',
                 imageUrlVariable: '',
             },
             {
                 label: 'Civil Engineers',
+                showConditionVariable: 'v_map_civil_engineers',
                 imageUrlVariable: '',
             },
         ],
@@ -478,6 +493,7 @@ const MAP_LEGEND_SECTIONS = [
         items: [
             {
                 label: 'Contractors',
+                showConditionVariable: 'v_map_ocs_cities',
                 imageUrlVariable: '',
             },
         ],

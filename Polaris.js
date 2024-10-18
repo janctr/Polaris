@@ -1480,20 +1480,27 @@ require(['js/qlik'], function (qlik) {
         },
         template: `
             <div class="polaris-map-legend">
-                <ul class="legend-sections">
+                <div class="polaris-map-legend-action" ng-click="isOpen = !isOpen">
+                    <div style="width: 10px; height: 20px;">
+                        <arrow-icon direction="getArrowDirection(!isOpen)"></arrow-icon>
+                    </div>
+                    <h3 class="polaris-map-legend-title">Legend</h3>
+                </div>
+                <ul class="legend-sections" ng-show="isOpen">
                     <li class="legend-section" ng-repeat="section in legendSections">
-                        <div class="legend-section-header" ng-click="section.isOpen = !section.isOpen">
-                            <div class="toggle">
-                                <arrow-icon direction="getArrowDirection(section.isOpen)"></arrow-icon>
-                            </div>
+                        <div class="legend-section-header">
                             <h3>{{ section.title }}</h3>
                         </div>
-                        <ul class="legend-section-items" ng-show="section.isOpen">
+                        <ul class="legend-section-items">
                             <li ng-repeat="legendItem in section.items"
                                 class="legend-item">
-                                <loader ng-if="!getVariable(legendItem.imageUrlVariable) && !legendItem.imageUrl"
+
+                                <img ng-if="!polaris.isSipr" src="{{ getVariable('class_i_image') }}"/>
+
+                                <loader ng-if="!getVariable(legendItem.imageUrlVariable) && !legendItem.imageUrl && polaris.isSipr"
                                         style="width: 30px; height: 30px;"></loader>
-                                <img ng-if="getVariable(legendItem.imageUrlVariable) || legendItem.imageUrl" src="{{ getVariable(legendItem.imageUrlVariable) || legendItem.imageUrl }}"/>                                
+                                <img ng-if="polaris.isSipr && (getVariable(legendItem.imageUrlVariable) || legendItem.imageUrl)" src="{{ getVariable(legendItem.imageUrlVariable) || legendItem.imageUrl }}"/>
+
                                 <span>{{ legendItem.label }}</span>
                             </li>
                         </ul>
@@ -1505,6 +1512,7 @@ require(['js/qlik'], function (qlik) {
             '$scope',
             'polaris',
             function ($scope, polaris) {
+                $scope.polaris = polaris;
                 $scope.isOpen = false;
                 $scope.getVariable = (varName) => $scope[varName];
                 $scope.getArrowDirection = (isOpen) => (isOpen ? 'up' : 'down');
