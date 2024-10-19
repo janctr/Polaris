@@ -419,9 +419,22 @@ const MAP_LEGEND_SECTIONS = [
                 imageUrlVariable: 'v_class_v_img',
             },
             {
-                label: 'Class VIII',
+                label: 'Class VIII - Blood',
                 showConditionVariable: 'v_map_class_viii',
                 imageUrlVariable: '',
+                icon: {
+                    type: 'bubble',
+                    color: 'red',
+                },
+            },
+            {
+                label: 'Class VIII - Medical Equipment',
+                showConditionVariable: 'v_map_class_viii',
+                imageUrlVariable: '',
+                icon: {
+                    type: 'bubble',
+                    color: 'blue',
+                },
             },
         ],
     },
@@ -449,11 +462,19 @@ const MAP_LEGEND_SECTIONS = [
                 label: 'AWS',
                 showConditionVariable: 'v_map_aws',
                 imageUrlVariable: '',
+                icon: {
+                    type: 'bubble',
+                    color: 'purple',
+                },
             },
             {
                 label: 'EPF',
                 showConditionVariable: 'v_map_epf',
                 imageUrlVariable: '',
+                icon: {
+                    type: 'bubble',
+                    color: 'yellow',
+                },
             },
             {
                 label: 'Land Vehicles',
@@ -485,11 +506,19 @@ const MAP_LEGEND_SECTIONS = [
                 label: 'Combat Engineers',
                 showConditionVariable: 'v_map_combat_engineers',
                 imageUrlVariable: '',
+                icon: {
+                    type: 'bubble',
+                    color: 'black',
+                },
             },
             {
                 label: 'Civil Engineers',
                 showConditionVariable: 'v_map_civil_engineers',
                 imageUrlVariable: '',
+                icon: {
+                    type: 'triangle',
+                    color: 'black',
+                },
             },
         ],
     },
@@ -500,6 +529,10 @@ const MAP_LEGEND_SECTIONS = [
                 label: 'Contractors',
                 showConditionVariable: 'v_map_ocs_cities',
                 imageUrlVariable: '',
+                icon: {
+                    type: 'bubble',
+                    color: 'blue',
+                },
             },
         ],
     },

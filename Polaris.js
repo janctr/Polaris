@@ -677,7 +677,7 @@ require(['js/qlik'], function (qlik) {
                     title: 'EPF',
                     label: 'epf',
                     varName: 'v_map_epf',
-                    qlikDropdownId: '',
+                    qlikDropdownId: 'vtYQuKL',
                 },
                 {
                     title: 'Land Vehicles',
@@ -815,6 +815,16 @@ require(['js/qlik'], function (qlik) {
                     isOpen: false,
                     onClose: function () {
                         polaris.clearField('asset_id');
+                    },
+                },
+                {
+                    label: 'Enemy Vessels',
+                    fieldName: 'enemy_vessel',
+                    varName: 'isEnemyVesselSelected',
+                    objectId: 'GnuZE',
+                    isOpen: false,
+                    onClose: function () {
+                        polaris.clearField('enemy_vessel');
                     },
                 },
             ];
@@ -1502,11 +1512,11 @@ require(['js/qlik'], function (qlik) {
                             <li ng-repeat="legendItem in section.items"
                                 class="legend-item">
 
-                                <img ng-if="!polaris.isSipr" src="{{ getVariable('class_i_image') }}"/>
+                                <img ng-if="!polaris.isSipr" ng-src="{{ getVariable('class_i_image') }}"/>
 
                                 <loader ng-if="!getVariable(legendItem.imageUrlVariable) && !legendItem.imageUrl && polaris.isSipr"
                                         style="width: 30px; height: 30px;"></loader>
-                                <img ng-if="polaris.isSipr && (getVariable(legendItem.imageUrlVariable) || legendItem.imageUrl)" src="{{ getVariable(legendItem.imageUrlVariable) || legendItem.imageUrl }}"/>
+                                <img ng-if="polaris.isSipr && (getVariable(legendItem.imageUrlVariable) || legendItem.imageUrl)" ng-src="{{ getVariable(legendItem.imageUrlVariable) || legendItem.imageUrl }}"/>
 
                                 <span>{{ legendItem.label }}</span>
                             </li>

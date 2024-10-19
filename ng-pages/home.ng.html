@@ -3,7 +3,7 @@
 <main class="main"
       ng-class="{'fullscreen': !isSidebarShowing}"
       id="home-page">
-    <div class="sidebar"
+    <div class="polaris-map-sidebar"
          ng-show="isSidebarShowing">
         <div class="toggle-section">
             <div class="toggle-section-header"
@@ -278,7 +278,7 @@
         flex: 1;
     }
 
-    #home-page .sidebar {
+    #home-page .polaris-map-sidebar {
         grid-area: sidebar;
         box-shadow: var(--box-shadow-1);
         overflow: auto;
