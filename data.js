@@ -401,40 +401,56 @@ const MAP_LEGEND_SECTIONS = [
             {
                 label: 'Class I',
                 showConditionVariable: 'v_map_class_i',
-                imageUrlVariable: 'v_class_i_img',
+                icon: {
+                    iconType: 'qlikVariable',
+                    imageUrlVariable: 'v_class_i_img',
+                },
             },
             {
                 label: 'Class III',
                 showConditionVariable: 'v_map_class_iii',
-                imageUrlVariable: 'v_class_iii_img',
+                icon: {
+                    iconType: 'qlikVariable',
+                    imageUrlVariable: 'v_class_iii_img',
+                },
             },
             {
                 label: 'Class IV',
                 showConditionVariable: 'v_map_class_iv',
-                imageUrlVariable: 'v_class_iv_img',
+                icon: {
+                    iconType: 'qlikVariable',
+                    imageUrlVariable: 'v_class_iv_img',
+                },
             },
             {
                 label: 'Class V',
                 showConditionVariable: 'v_map_class_v',
-                imageUrlVariable: 'v_class_v_img',
-            },
-            {
-                label: 'Class VIII - Blood',
-                showConditionVariable: 'v_map_class_viii',
-                imageUrlVariable: '',
                 icon: {
-                    type: 'bubble',
-                    color: 'red',
+                    iconType: 'qlikVariable',
+                    imageUrlVariable: 'v_class_v_img',
                 },
             },
             {
-                label: 'Class VIII - Medical Equipment',
-                showConditionVariable: 'v_map_class_viii',
-                imageUrlVariable: '',
-                icon: {
-                    type: 'bubble',
-                    color: 'blue',
-                },
+                hasChildren: true,
+                label: 'Class VIII',
+                items: [
+                    {
+                        label: 'Blood',
+                        showConditionVariable: 'v_map_class_viii',
+                        icon: {
+                            iconType: 'bubble',
+                            color: 'red',
+                        },
+                    },
+                    {
+                        label: 'Medical Equipment',
+                        showConditionVariable: 'v_map_class_viii',
+                        icon: {
+                            iconType: 'bubble',
+                            color: 'blue',
+                        },
+                    },
+                ],
             },
         ],
     },
@@ -442,45 +458,134 @@ const MAP_LEGEND_SECTIONS = [
         title: 'PDDOC',
         items: [
             {
-                label: 'Vessels',
-                showConditionVariable: 'v_map_deploy_dist_vessel_health',
-                imageUrlVariable: '',
-                imageUrl: '/content/IR%20COP/us_cvn_blue.png',
-            },
-            {
                 label: 'Enemy Vessels',
                 showConditionVariable: 'v_map_enemy_vessels',
-                imageUrlVariable: '',
-                imageUrl: '/content/IR%20COP/enemy_ddg.png',
-            },
-            {
-                label: 'Aircraft',
-                showConditionVariable: 'v_map_deploy_dist_aircraft_health',
-                imageUrlVariable: 'v_icon_plane',
+                icon: {
+                    iconType: 'url',
+                    imageUrl: '/content/IR%20COP/enemy_ddg.png',
+                },
             },
             {
                 label: 'AWS',
                 showConditionVariable: 'v_map_aws',
-                imageUrlVariable: '',
                 icon: {
-                    type: 'bubble',
+                    iconType: 'bubble',
                     color: 'purple',
                 },
             },
             {
                 label: 'EPF',
                 showConditionVariable: 'v_map_epf',
-                imageUrlVariable: '',
                 icon: {
-                    type: 'bubble',
+                    iconType: 'bubble',
                     color: 'yellow',
                 },
             },
             {
+                hasChildren: true,
+                label: 'Vessels',
+                showConditionVariable: 'v_map_deploy_dist_vessel_health',
+                items: [
+                    {
+                        label: 'Unknown',
+                        icon: {
+                            iconType: 'qlikVariable',
+                            imageUrlVariable: 'v_icon_sea_vessel_null',
+                        },
+                    },
+                    {
+                        label: 'FMC',
+                        icon: {
+                            iconType: 'qlikVariable',
+                            imageUrlVariable: 'v_icon_sea_vessel_fmc',
+                        },
+                    },
+                    {
+                        label: 'PMC',
+                        icon: {
+                            iconType: 'qlikVariable',
+                            imageUrlVariable: 'v_icon_sea_vessel_pmc',
+                        },
+                    },
+                    {
+                        label: 'NMC',
+                        icon: {
+                            iconType: 'qlikVariable',
+                            imageUrlVariable: 'v_icon_sea_vessel_nmc',
+                        },
+                    },
+                ],
+            },
+            {
+                hasChildren: true,
+                label: 'Aircraft',
+                showConditionVariable: 'v_map_deploy_dist_aircraft_health',
+                items: [
+                    {
+                        label: 'UNK',
+                        icon: {
+                            iconType: 'qlikVariable',
+                            imageUrlVariable: 'v_icon_aircraft_null',
+                        },
+                    },
+                    {
+                        label: 'FMC',
+                        icon: {
+                            iconType: 'qlikVariable',
+                            imageUrlVariable: 'v_icon_aircraft_fmc',
+                        },
+                    },
+                    {
+                        label: 'PMC',
+                        icon: {
+                            iconType: 'qlikVariable',
+                            imageUrlVariable: 'v_icon_aircraft_pmc',
+                        },
+                    },
+                    {
+                        label: 'NMC',
+                        icon: {
+                            iconType: 'qlikVariable',
+                            imageUrlVariable: 'v_icon_aircraft_nmc',
+                        },
+                    },
+                ],
+            },
+
+            {
+                hasChildren: true,
                 label: 'Land Vehicles',
                 showConditionVariable: 'v_map_land_vehicles',
-                imageUrlVariable:
-                    '/appcontent/21fe9c1f-814e-459d-9d98-dd22769a63aa/Army.png',
+                items: [
+                    {
+                        label: 'UNK',
+                        icon: {
+                            iconType: 'qlikVariable',
+                            imageUrlVariable: 'v_icon_land_vehicle_null',
+                        },
+                    },
+                    {
+                        label: 'FMC',
+                        icon: {
+                            iconType: 'qlikVariable',
+                            imageUrlVariable: 'v_icon_land_vehicle_fmc',
+                        },
+                    },
+                    {
+                        label: 'PMC',
+                        icon: {
+                            iconType: 'qlikVariable',
+                            imageUrlVariable: 'v_icon_land_vehicle_pmc',
+                        },
+                    },
+                    {
+                        label: 'NMC',
+                        icon: {
+                            iconType: 'qlikVariable',
+                            imageUrlVariable: 'v_icon_land_vehicle_nmc',
+                        },
+                    },
+                ],
             },
         ],
     },
@@ -490,12 +595,18 @@ const MAP_LEGEND_SECTIONS = [
             {
                 label: 'Seaports',
                 showConditionVariable: 'v_map_seaports',
-                imageUrlVariable: 'v_icon_spod',
+                icon: {
+                    iconType: 'qlikVariable',
+                    imageUrlVariable: 'v_icon_spod',
+                },
             },
             {
                 label: 'Airports',
                 showConditionVariable: 'v_map_airports',
-                imageUrlVariable: 'v_icon_apod',
+                icon: {
+                    iconType: 'qlikVariable',
+                    imageUrlVariable: 'v_icon_apod',
+                },
             },
         ],
     },
@@ -503,22 +614,74 @@ const MAP_LEGEND_SECTIONS = [
         title: 'Engineer Units',
         items: [
             {
-                label: 'Combat Engineers',
+                hasChildren: true,
+                label: 'Combat Engineers - C Rating',
                 showConditionVariable: 'v_map_combat_engineers',
-                imageUrlVariable: '',
-                icon: {
-                    type: 'bubble',
-                    color: 'black',
-                },
+                items: [
+                    {
+                        label: '0',
+                        icon: {
+                            iconType: 'bubble',
+                            color: 'black',
+                        },
+                    },
+                    {
+                        label: '1 - 2',
+                        icon: {
+                            iconType: 'bubble',
+                            color: '#074c03', // dark green
+                        },
+                    },
+                    {
+                        label: '3',
+                        icon: {
+                            iconType: 'bubble',
+                            color: 'yellow',
+                        },
+                    },
+                    {
+                        label: '> 3',
+                        icon: {
+                            iconType: 'bubble',
+                            color: 'red',
+                        },
+                    },
+                ],
             },
             {
-                label: 'Civil Engineers',
+                hasChildren: true,
+                label: 'Civil Engineers - C Rating',
                 showConditionVariable: 'v_map_civil_engineers',
-                imageUrlVariable: '',
-                icon: {
-                    type: 'triangle',
-                    color: 'black',
-                },
+                items: [
+                    {
+                        label: '0',
+                        icon: {
+                            iconType: 'triangle',
+                            color: 'black',
+                        },
+                    },
+                    {
+                        label: '1 - 2',
+                        icon: {
+                            iconType: 'triangle',
+                            color: '#074c03', // dark green
+                        },
+                    },
+                    {
+                        label: '3',
+                        icon: {
+                            iconType: 'triangle',
+                            color: 'yellow',
+                        },
+                    },
+                    {
+                        label: '> 3',
+                        icon: {
+                            iconType: 'triangle',
+                            color: 'red',
+                        },
+                    },
+                ],
             },
         ],
     },
@@ -526,12 +689,11 @@ const MAP_LEGEND_SECTIONS = [
         title: 'OCS',
         items: [
             {
-                label: 'Contractors',
+                label: '# of Contractors',
                 showConditionVariable: 'v_map_ocs_cities',
-                imageUrlVariable: '',
                 icon: {
-                    type: 'bubble',
-                    color: 'blue',
+                    iconType: 'gradient',
+                    colors: ['#d3d7f8', '#2437db', '#162183', '#070b2c'],
                 },
             },
         ],

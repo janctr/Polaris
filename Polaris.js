@@ -1465,8 +1465,6 @@ require(['js/qlik'], function (qlik) {
                             break;
                     }
 
-                    console.log('position: ', $scope.$ctrl);
-
                     if ($scope.$ctrl.objectId?.length) {
                         // For single element
                         polaris.insertObject({
@@ -1497,32 +1495,41 @@ require(['js/qlik'], function (qlik) {
         },
         template: `
             <div class="polaris-map-legend">
-                <div class="polaris-map-legend-action" ng-click="isOpen = !isOpen">
-                    <div style="width: 10px; height: 20px;">
-                        <arrow-icon direction="getArrowDirection(!isOpen)"></arrow-icon>
-                    </div>
-                    <h3 class="polaris-map-legend-title">Legend</h3>
-                </div>
-                <ul class="legend-sections" ng-show="isOpen">
+                
+                <ul class="legend-sections" ng-class="{show: isOpen}">
                     <li class="legend-section" ng-repeat="section in legendSections">
                         <div class="legend-section-header">
-                            <h3>{{ section.title }}</h3>
+                            <h4>{{ section.title }}</h4>
                         </div>
                         <ul class="legend-section-items">
                             <li ng-repeat="legendItem in section.items"
+                                ng-class="{'has-children': legendItem.hasChildren, 'gradient': legendItem.icon.iconType === 'gradient'}"
+                                ng-switch="legendItem.icon.iconType"
                                 class="legend-item">
 
-                                <img ng-if="!polaris.isSipr" ng-src="{{ getVariable('class_i_image') }}"/>
-
-                                <loader ng-if="!getVariable(legendItem.imageUrlVariable) && !legendItem.imageUrl && polaris.isSipr"
-                                        style="width: 30px; height: 30px;"></loader>
-                                <img ng-if="polaris.isSipr && (getVariable(legendItem.imageUrlVariable) || legendItem.imageUrl)" ng-src="{{ getVariable(legendItem.imageUrlVariable) || legendItem.imageUrl }}"/>
-
-                                <span>{{ legendItem.label }}</span>
+                                <gradient ng-switch-when="gradient" colors="legendItem.icon.colors"></gradient>
+                                <legend-icon ng-switch-default ng-if="!legendItem.hasChildren" icon="legendItem.icon"></legend-icon>
+                                    
+                                <span ng-if="!legendItem.hasChildren" class="legend-label">{{ legendItem.label }}</span>
+                                
+                                <h4 ng-if="legendItem.hasChildren" class="legend-subitem-header">{{ legendItem.label }}</h4>
+                                <ul ng-if="legendItem.hasChildren" class="icon-list">
+                                    <li ng-repeat="legendSubItem in legendItem.items" class="legend-item">
+                                        <legend-icon icon="legendSubItem.icon"></legend-icon>
+                                        <span class="legend-label">{{ legendSubItem.label }}</span>
+                                    </li>
+                                </ul>
                             </li>
                         </ul>
                     </li>
                 </ul>
+
+                <div class="polaris-map-legend-action" ng-click="isOpen = !isOpen">
+                    <div style="width: 10px; height: 20px;">
+                        <arrow-icon direction="getArrowDirection(isOpen)"></arrow-icon>
+                    </div>
+                    <h3 class="polaris-map-legend-title">Legend</h3>
+                </div>
             </div>
         `,
         controller: [
@@ -1533,25 +1540,101 @@ require(['js/qlik'], function (qlik) {
                 $scope.isOpen = false;
                 $scope.getVariable = (varName) => $scope[varName];
                 $scope.getArrowDirection = (isOpen) => (isOpen ? 'up' : 'down');
+                $scope.testIcon = {
+                    // iconType: 'imageUrl',
+                    // imageUrl: '/content/Country_Flags/Philippines.png',
+                    iconType: 'triangle',
+                    color: 'teal',
+                };
                 $scope.legendSections = polaris.mapLegendSections.map(
                     (section) => {
                         section.isOpen = false;
                         return section;
                     }
                 );
+            },
+        ],
+    });
+
+    angularApp.component('legendIcon', {
+        template: `
+            <div class="legend-icon" ng-switch="$ctrl.icon.iconType">
+                <img ng-switch-when="qlikVariable" ng-src="{{ getVariable($ctrl.icon.imageUrlVariable) }}"/>
+                <img ng-switch-when="url" ng-src="{{ $ctrl.icon.imageUrl }}"/>
+                <shape-icon ng-switch-default icon-type="$ctrl.icon.iconType" icon-color="$ctrl.icon.color"></shape-icon>
+            </div>
+        `,
+        bindings: {
+            icon: '<',
+        },
+        controller: [
+            '$scope',
+            'polaris',
+            function ($scope, polaris) {
+                $scope.getVariable = (v) => $scope[v];
 
                 angular.element(document).ready(function () {
-                    // Fetch all the image urls
-                    polaris.getVariable('class_i_image', $scope); // NIPR
-
-                    $scope.legendSections.forEach((section) => {
-                        section.items.forEach((item) => {
-                            polaris.getVariable(item.imageUrlVariable, $scope);
-                        });
-                    });
+                    console.log('$scope.$ctrl.icon:', $scope.$ctrl.icon);
+                    polaris.getVariable(
+                        $scope.$ctrl.icon.imageUrlVariable,
+                        $scope
+                    );
                 });
             },
         ],
+    });
+
+    angularApp.component('legendItem', {
+        template: `
+        <legend-icon ng-if="!polaris.isSipr" icon="testIcon"></legend-icon>
+        <legend-icon ng-if="polaris.isSipr" icon="legendItem.icon"></legend-icon>
+        <span class="legend-label">{{ legendItem.label }}</span>
+        `,
+        bindings: {},
+        controller: ['$scope', 'polaris', function ($scope, polaris) {}],
+    });
+
+    angularApp.component('gradient', {
+        template: `<div class="legend-gradient" ng-style="gradientStyle"></div>`,
+        bindings: {
+            colors: '<',
+        },
+        controller: [
+            '$scope',
+            function ($scope) {
+                angular.element(document).ready(function () {
+                    $scope.gradientStyle = {
+                        background: `linear-gradient(90deg, ${$scope.$ctrl.colors
+                            .map((color, index) => {
+                                return `${color} ${index * 25}%`;
+                            })
+                            .join(', ')}`,
+                    };
+                    console.log('gradientStyle: ', $scope.gradientStyle);
+                });
+            },
+        ],
+    });
+
+    angularApp.component('shapeIcon', {
+        template: `
+            <div class="shape-icon" ng-switch="$ctrl.iconType">
+                <div ng-switch-when="bubble" xmlns="http://www.w3.org/2000/svg">
+                    <svg viewBox="0 0 100 100">
+                        <circle cx="50" cy="50" r="30" fill="{{ $ctrl.iconColor }}" />
+                    </svg>
+                </div>
+                <div ng-switch-when="triangle">
+                    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                        <polygon points="50,10 90,90 10,90" fill="{{ $ctrl.iconColor }}" />
+                    </svg>
+                </div>
+            </div>
+        `,
+        bindings: {
+            iconType: '<',
+            iconColor: '<',
+        },
     });
 
     angularApp.component('burgerMenuIcon', {
