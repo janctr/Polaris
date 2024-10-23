@@ -438,8 +438,8 @@ const MAP_LEGEND_SECTIONS = [
                         label: 'Blood',
                         showConditionVariable: 'v_map_class_viii',
                         icon: {
-                            iconType: 'bubble',
-                            color: 'red',
+                            iconType: 'qlikVariable',
+                            imageUrlVariable: 'v_icon_blood',
                         },
                     },
                     {
@@ -487,7 +487,7 @@ const MAP_LEGEND_SECTIONS = [
                 showConditionVariable: 'v_map_deploy_dist_vessel_health',
                 items: [
                     {
-                        label: 'Unknown',
+                        label: 'UNK',
                         icon: {
                             iconType: 'qlikVariable',
                             imageUrlVariable: 'v_icon_sea_vessel_null',
@@ -597,7 +597,7 @@ const MAP_LEGEND_SECTIONS = [
                 showConditionVariable: 'v_map_seaports',
                 icon: {
                     iconType: 'qlikVariable',
-                    imageUrlVariable: 'v_icon_spod',
+                    imageUrlVariable: 'v_icon_seaport_partner_nation',
                 },
             },
             {
@@ -605,7 +605,7 @@ const MAP_LEGEND_SECTIONS = [
                 showConditionVariable: 'v_map_airports',
                 icon: {
                     iconType: 'qlikVariable',
-                    imageUrlVariable: 'v_icon_apod',
+                    imageUrlVariable: 'v_icon_airport_null',
                 },
             },
         ],
