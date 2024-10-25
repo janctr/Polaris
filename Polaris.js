@@ -1116,23 +1116,28 @@ require(['js/qlik'], function (qlik) {
     ]);
 
     angularApp.controller('DataSourcesController', [
-        '$location',
-        '$anchorScroll',
-        '$timeout',
         '$scope',
         'polaris',
-        function ($location, $anchorScroll, $timeout, $scope, polaris) {
-            $scope.tableOfContents = polaris.dataSourceSections.map(
-                (section) => ({
+        function ($scope, polaris) {
+            $scope.tableOfContents = [
+                {
+                    title: 'All Data Sources',
+                    id: 'data-sources-all',
+                    onClick: function () {
+                        $scope.currentSelection = this.id;
+                    },
+                },
+                ...polaris.dataSourceSections.map((section) => ({
                     title: section.title,
                     id: section.sectionId,
                     onClick: function () {
                         $scope.currentSelection = section.sectionId;
                     },
-                })
-            );
+                })),
+            ];
+
             $scope.dataSourceSections = polaris.dataSourceSections;
-            $scope.currentSelection = 'class-iii';
+            $scope.currentSelection = 'data-sources-all';
 
             angular.element(document).ready(function () {
                 for (const section of polaris.dataSourceSections) {

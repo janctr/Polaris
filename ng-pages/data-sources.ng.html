@@ -19,7 +19,7 @@
     <div class="data-sources-container">
 
         <div class="data-source-section"
-             ng-show="currentSelection === section.sectionId"
+             ng-show="currentSelection === section.sectionId || currentSelection === 'data-sources-all'"
              id="{{ section.sectionId }}"
              ng-repeat="section in dataSourceSections">
             <h2 class="data-source-section-header">{{ section.title }} - Data Sources</h2>
