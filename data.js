@@ -5,6 +5,11 @@ const angularLinks = [
         label: 'Log Functions',
         classNames: ['link'],
     },
+    {
+        href: '#/data-sources',
+        label: 'Data Sources',
+        classNames: ['link'],
+    },
     // {
     //     href: '#/classes-of-supply',
     //     label: 'Classes of Supply',
@@ -699,3 +704,91 @@ const MAP_LEGEND_SECTIONS = [
         ],
     },
 ];
+
+const DATA_SOURCE_SECTIONS = [
+    {
+        title: 'Class III',
+        sectionId: 'class-iii',
+        dataSourceObjectIds: [
+            'fBbCwmP',
+            'CJuXjPw',
+            'KpKgsE',
+            'SBVftmC',
+            'ALxmq',
+            'RxDQ',
+            'RrFCGD',
+        ],
+    },
+    {
+        title: 'DMT & Daily Ops',
+        sectionId: 'dmt-daily-ops',
+        dataSourceObjectIds: [
+            'PSEqPc',
+            'ACbPYA',
+            'LAFqmc',
+            'mLXkFd',
+            'gFsjpH',
+            'haeUj',
+            'FNsmK',
+            'yjEuJ',
+            'mgpp',
+            'cVgyN',
+            'gaNtvr',
+            'jHdwgZ',
+            'RsLJDV',
+            'WAHGakx',
+            'jtCLtP',
+            'bznPCmC',
+            'eZbJC',
+            'qetkZM',
+            'GDMwbyB',
+            'PNdtyd',
+            'SVBWvj',
+            'pSFNkTJ',
+        ],
+    },
+    {
+        title: 'Vessel Tracker',
+        sectionId: 'vessel-tracker',
+        dataSourceObjectIds: [
+            'pWdyPfH',
+            'GbXud',
+            'hTAJQKP',
+            'YnzdsBP',
+            'QjWHu',
+            'PprpQa',
+        ],
+    },
+    {
+        title: 'Enemy Vessels',
+        sectionId: 'enemy-vessels',
+        dataSourceObjectIds: ['RaqbsGt'],
+    },
+    {
+        title: 'Aircraft Laydown',
+        sectionId: 'aircraft-laydown',
+        dataSourceObjectIds: ['jBXpe', 'bsRzsEV'],
+    },
+    {
+        title: 'Vehicle Laydown',
+        sectionId: 'vehicle-laydown',
+        dataSourceObjectIds: ['VaGuz', 'bYaFFuW'],
+    },
+    {
+        title: 'APOD/SPOD',
+        sectionId: 'apod-spod',
+        dataSourceObjectIds: ['DjxKk', 'CMjsp'],
+    },
+    {
+        title: 'Muns',
+        sectionId: 'muns',
+        dataSourceObjectIds: ['fAkgW'],
+    },
+].map((section) => {
+    section.dataSourceObjects = section.dataSourceObjectIds.map((id) => ({
+        elementId: `data-source-${id}`,
+        objectId: id,
+    }));
+
+    return section;
+});

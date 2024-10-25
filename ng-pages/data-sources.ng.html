@@ -1,0 +1,101 @@
+<qlik-navbar></qlik-navbar>
+<main class="main"
+      ng-class="{'fullscreen': !isSidebarShowing}"
+      id="data-sources-page">
+
+    <div class="table-of-contents">
+        <nav>
+            <ul>
+                <li ng-repeat="item in tableOfContents"
+                    ng-click="item.onClick();"
+                    ng-class="{active: currentSelection === item.id }"
+                    id="{{ section.sectionId }}">
+                    <h3>{{ item.title }}</h3>
+                </li>
+
+            </ul>
+        </nav>
+    </div>
+    <div class="data-sources-container">
+
+        <div class="data-source-section"
+             ng-show="currentSelection === section.sectionId"
+             id="{{ section.sectionId }}"
+             ng-repeat="section in dataSourceSections">
+            <h2 class="data-source-section-header">{{ section.title }} - Data Sources</h2>
+            <div class="data-section-container">
+                <div ng-repeat="dataSourceObject in section.dataSourceObjects"
+                     class="data-source"
+                     id="{{ dataSourceObject.elementId }}"></div>
+            </div>
+        </div>
+
+    </div>
+
+</main>
+
+<style type="text/css">
+    #data-sources-page {
+        height: var(--full-viewport-height-navbar-px);
+
+        display: grid;
+        grid-template-columns: 250px 1fr;
+        grid-template-rows: auto;
+        grid-template-areas:
+            'toc sources '
+            'toc sources'
+            'toc sources';
+
+    }
+
+    #data-sources-page .table-of-contents {
+        grid-area: toc;
+        padding: 1rem;
+        box-shadow: var(--box-shadow-1);
+    }
+
+    #data-sources-page .data-sources-container {
+        grid-area: sources;
+        height: 100%;
+        overflow: auto;
+    }
+
+    #data-sources-page .table-of-contents ul {
+        list-style: none;
+    }
+
+    #data-sources-page .table-of-contents ul li {
+        padding: 0.25rem 0.5rem;
+        margin-bottom: 0.25rem;
+        border-radius: 0.25rem;
+    }
+
+    #data-sources-page .table-of-contents ul li:hover,
+    #data-sources-page .table-of-contents ul li.active {
+        cursor: pointer;
+        background-color: #f1f1f1;
+    }
+
+
+    #data-sources-page .data-source-section {
+        padding: 2rem;
+    }
+
+    #data-sources-page .data-source-section .data-source-section-header {
+        margin-bottom: 1rem;
+    }
+
+    #data-sources-page .data-source-section .data-section-container {
+        width: 100%;
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+    }
+
+    #data-sources-page .data-source {
+        width: 335px;
+        height: 225px;
+        box-shadow: var(--box-shadow-3);
+        border-radius: 8px;
+    }
+</style>

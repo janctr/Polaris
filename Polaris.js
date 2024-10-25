@@ -35,7 +35,6 @@ require(['js/qlik'], function (qlik) {
         'notionalAppId',
         'a02ee546-bb4f-41d3-a3d0-1a93f0aed2cc'
     );
-    angularApp.constant('mapLegendSections', MAP_LEGEND_SECTIONS);
     angularApp.constant('navbarLinks', angularLinks);
     angularApp.constant('landingPageLinks', {
         niprJ4LandingPageLink:
@@ -62,6 +61,10 @@ require(['js/qlik'], function (qlik) {
                 templateUrl: 'classes-of-supply.ng.html',
                 controller: 'ClassesOfSupplyController',
             })
+            .when('/data-sources', {
+                templateUrl: 'data-sources.ng.html',
+                controller: 'DataSourcesController',
+            })
             .when('/test', {
                 templateUrl: 'test.ng.html',
                 controller: 'TestController',
@@ -79,7 +82,6 @@ require(['js/qlik'], function (qlik) {
         'isSipr',
         'polarisAppId',
         'notionalAppId',
-        'mapLegendSections',
         function (qlik, isSipr, polarisAppId, notionalAppId) {
             const self = this;
 
@@ -117,6 +119,7 @@ require(['js/qlik'], function (qlik) {
             self.getContainerSize = getContainerSize;
 
             self.mapLegendSections = MAP_LEGEND_SECTIONS;
+            self.dataSourceSections = DATA_SOURCE_SECTIONS;
 
             function insertObjects(objects) {
                 for (const o of objects) {
@@ -1109,6 +1112,33 @@ require(['js/qlik'], function (qlik) {
             $scope.select = function (column, text) {
                 polaris.select(column, text);
             };
+        },
+    ]);
+
+    angularApp.controller('DataSourcesController', [
+        '$location',
+        '$anchorScroll',
+        '$timeout',
+        '$scope',
+        'polaris',
+        function ($location, $anchorScroll, $timeout, $scope, polaris) {
+            $scope.tableOfContents = polaris.dataSourceSections.map(
+                (section) => ({
+                    title: section.title,
+                    id: section.sectionId,
+                    onClick: function () {
+                        $scope.currentSelection = section.sectionId;
+                    },
+                })
+            );
+            $scope.dataSourceSections = polaris.dataSourceSections;
+            $scope.currentSelection = 'class-iii';
+
+            angular.element(document).ready(function () {
+                for (const section of polaris.dataSourceSections) {
+                    polaris.insertObjects(section.dataSourceObjects);
+                }
+            });
         },
     ]);
 
