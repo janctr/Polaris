@@ -1530,6 +1530,13 @@ require(['js/qlik'], function (qlik) {
         },
         template: `
             <div class="polaris-map-legend">
+
+                <div class="polaris-map-legend-action" ng-click="isOpen = !isOpen">
+                    <div style="width: 10px; height: 20px;">
+                        <arrow-icon direction="getArrowDirection(isOpen)"></arrow-icon>
+                    </div>
+                    <h3 class="polaris-map-legend-title">Legend</h3>
+                </div>
                 
                 <ul class="legend-sections" ng-class="{show: isOpen}">
                     <li class="legend-section" ng-repeat="section in legendSections">
@@ -1559,12 +1566,7 @@ require(['js/qlik'], function (qlik) {
                     </li>
                 </ul>
 
-                <div class="polaris-map-legend-action" ng-click="isOpen = !isOpen">
-                    <div style="width: 10px; height: 20px;">
-                        <arrow-icon direction="getArrowDirection(isOpen)"></arrow-icon>
-                    </div>
-                    <h3 class="polaris-map-legend-title">Legend</h3>
-                </div>
+                
             </div>
         `,
         controller: [
