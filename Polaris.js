@@ -118,7 +118,10 @@ require(['js/qlik'], function (qlik) {
             self.toggleVariable = toggleVariable;
             self.getContainerSize = getContainerSize;
 
+            // Home Page
+            self.mapToggles = HOME_PAGE_TOGGLES;
             self.mapLegendSections = MAP_LEGEND_SECTIONS;
+            // Data Sources page
             self.dataSourceSections = DATA_SOURCE_SECTIONS;
 
             function insertObjects(objects) {
@@ -534,76 +537,14 @@ require(['js/qlik'], function (qlik) {
             $scope.isEngineerTogglesOpen = true;
             $scope.isOcsTogglesOpen = true;
 
-            $scope.pacomToggles = [
-                {
-                    title: 'Recenter to AOR',
-                    label: 'usindopacom',
-                    varName: 'v_map_usindopacom',
-                    qlikDropdownId: polaris.isSipr ? '' : 'yRuKjT',
-                },
-                {
-                    title: 'JOA Boundaries',
-                    label: 'joa',
-                    varName: 'v_map_joa',
-                    qlikDropdownId: 'PvXr',
-                },
-                {
-                    title: 'Classes of Supply',
-                    label: 'classes-of-supply',
-                    varName: 'v_map_classes_of_supply',
-                },
-            ];
-
-            $scope.classesOfSupplyToggles = [
-                {
-                    title: 'Class I',
-                    label: 'class-i',
-                    varName: 'v_map_class_i',
-                    qlikDropdownId: 'MEtjzmZ',
-                },
-                {
-                    title: 'Class III',
-                    label: 'class-iii',
-                    varName: 'v_map_class_iii',
-                    qlikDropdownId: '',
-                },
-                {
-                    title: 'Class IV',
-                    label: 'class-iv',
-                    varName: 'v_map_class_iv',
-                    qlikDropdownId: 'JnZQYx',
-                },
-                {
-                    title: 'Class V',
-                    label: 'class-v',
-                    varName: 'v_map_class_v',
-                    qlikDropdownId: 'fYkxMwf',
-                },
-                {
-                    title: 'Class VIII',
-                    label: 'class-viii',
-                    varName: 'v_map_class_viii',
-                    subToggles: [
-                        {
-                            title: 'Blood',
-                            label: 'blood',
-                            varName: 'v_class_viii_blood',
-                            qlikDropdownId: 'pjXKSfn',
-                        },
-                        {
-                            title: 'Medical Equipment',
-                            label: 'medical-equipment',
-                            varName: 'v_class_viii_equip',
-                            qlikDropdownId: 'xTJgWb',
-                        },
-                    ],
-                },
-                // {
-                //     title: 'Class IX',
-                //     label: 'class-ix',
-                //     varName: 'v_map_class_ix',
-                // },
-            ];
+            $scope.pacomToggles = polaris.mapToggles.pacomToggles;
+            $scope.classesOfSupplyToggles =
+                polaris.mapToggles.classesOfSupplyToggles;
+            $scope.pddocToggles = polaris.mapToggles.pddocToggles;
+            $scope.nodalHealthToggles = polaris.mapToggles.nodalHealthToggles;
+            $scope.engineerUnitsToggles =
+                polaris.mapToggles.engineerUnitsToggles;
+            $scope.ocsToggles = polaris.mapToggles.ocsToggles;
 
             // Class III Subtoggles
             polaris.createHypercube({
@@ -650,84 +591,6 @@ require(['js/qlik'], function (qlik) {
                     };
                 },
             });
-
-            $scope.pddocToggles = [
-                {
-                    title: 'Vessels',
-                    label: 'vessels',
-                    varName: 'v_map_deploy_dist_vessel_health',
-                    qlikDropdownId: 'LPGRT',
-                },
-                {
-                    title: 'Enemy Vessels',
-                    label: 'enemy-vessels',
-                    varName: 'v_map_enemy_vessels',
-                    qlikDropdownId: 'eFpAKzG',
-                },
-                {
-                    title: 'Aircraft',
-                    label: 'aircraft',
-                    varName: 'v_map_deploy_dist_aircraft_health',
-                    qlikDropdownId: 'ZMWxmF',
-                },
-                {
-                    title: 'AWS',
-                    label: 'aws',
-                    varName: 'v_map_aws',
-                    qlikDropdownId: 'BcPALt',
-                },
-                {
-                    title: 'EPF',
-                    label: 'epf',
-                    varName: 'v_map_epf',
-                    qlikDropdownId: 'vtYQuKL',
-                },
-                {
-                    title: 'Land Vehicles',
-                    label: 'land-vehicles',
-                    varName: 'v_map_land_vehicles',
-                    qlikDropdownId: 'qZbxy',
-                },
-            ];
-
-            $scope.nodalHealthToggles = [
-                {
-                    title: 'Seaports',
-                    label: 'seaports',
-                    varName: 'v_map_seaports',
-                    qlikDropdownId: 'WPbSPF',
-                },
-                {
-                    title: 'Airports',
-                    label: 'airports',
-                    varName: 'v_map_airports',
-                    qlikDropdownId: 'hWvUq',
-                },
-            ];
-
-            $scope.engineerUnitsToggles = [
-                {
-                    title: 'Combat Engineers',
-                    label: 'combat-engineers',
-                    varName: 'v_map_combat_engineers',
-                    qlikDropdownId: 'qekyX',
-                },
-                {
-                    title: 'Civil Engineers',
-                    label: 'civil-engineers',
-                    varName: 'v_map_civil_engineers',
-                    qlikDropdownId: 'HzDHVu',
-                },
-            ];
-
-            $scope.ocsToggles = [
-                {
-                    title: 'Contractors',
-                    label: 'contractors',
-                    varName: 'v_map_ocs_cities',
-                    qlikDropdownId: 'yjprNQT',
-                },
-            ];
 
             // Dynamic map drilldown boxes
             $scope.drilldownBoxes = [
