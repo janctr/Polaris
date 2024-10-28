@@ -790,6 +790,16 @@ require(['js/qlik'], function (qlik) {
                     },
                 },
                 {
+                    label: 'Class V',
+                    fieldName: 'base_name_muns',
+                    varName: 'isClassVSelected',
+                    objectId: 'ppJjJMC',
+                    isOpen: false,
+                    onClose: function () {
+                        polaris.clearField('base_name_muns');
+                    },
+                },
+                {
                     label: 'Airports',
                     fieldName: 'Airport',
                     varName: 'isApodSelected',
