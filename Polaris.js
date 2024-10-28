@@ -794,9 +794,11 @@ require(['js/qlik'], function (qlik) {
                     fieldName: 'base_name_muns',
                     varName: 'isClassVSelected',
                     objectId: 'ppJjJMC',
+                    position: 'bottom',
+                    height: '230px',
                     isOpen: false,
                     onClose: function () {
-                        polaris.clearField('base_name_muns');
+                        polaris.clear();
                     },
                 },
                 {
