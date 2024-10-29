@@ -809,15 +809,18 @@ require(['js/qlik'], function (qlik) {
                 //   'poi_name', // Class III
                 'dodaac_cliv', // Class IV
                 'base_name_muns', // Class V
+                'dodaac_blood', // Class VIII - Blood
+                'dodaac_equip', // Class VIII - Medical Equipment
                 'PRIMARY_DEPLOYED_DUTY_STATION_CITY', // OCS
                 'engineers.uic', // Combat/Civil Engineers
                 'Airport', // APODS
                 'seaport', // SPODS
                 'CUOPS_VESSEL', // AWS Vessels
-                'tasked_flights.Airport', // Taskable Aircraft
+                //'tasked_flights.Airport', // Taskable Aircraft
                 'enemy_vessel', // Enemy Vessels
                 'asset_id', // Aircraft, Land Vehicles, Vessels
             ];
+
             $scope.getNiceColumnName = (columnName) =>
                 COLUMN_ALIAS[columnName] || columnName;
             $scope.search = function (searchStr) {
