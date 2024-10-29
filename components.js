@@ -8,8 +8,47 @@
             links: '<',
         },
         templateUrl: 'navigation.html',
-        controller: 'NavController',
-        controllerAs: 'self',
+        controller: [
+            '$scope',
+            '$window',
+            'polaris',
+            'navbarLinks',
+            'landingPageLinks',
+            function (
+                $scope,
+                $window,
+                polaris,
+                navbarLinks,
+                { niprJ4LandingPageLink, siprJ4LandingPageLink }
+            ) {
+                $scope.links = navbarLinks;
+                $scope.j4LandingPageLink = polaris.isSipr
+                    ? siprJ4LandingPageLink
+                    : niprJ4LandingPageLink;
+                $scope.classificationBannerLabel = polaris.isSipr
+                    ? 'SECRET'
+                    : 'UNCLASSIFIED';
+                $scope.classificationBannerColor = polaris.isSipr
+                    ? 'red'
+                    : 'green';
+                $scope.printWindow = function () {
+                    $window.print();
+                };
+                $scope.currentAsOf = '';
+                polaris.app.createGenericObject(
+                    {
+                        currentAsOf: {
+                            qStringExpression: `=Timestamp(ConvertToLocalTime(Max(ReloadTime()), 'HST'), 'MM/DD/YYYY HH:mm:ss') & ' HST'`,
+                        },
+                    },
+                    function (reply) {
+                        console.log('reply.currentAsOf: ', reply);
+                        $scope.currentAsOf = reply.currentAsOf;
+                    }
+                );
+            },
+        ],
+        // controllerAs: 'self',
     });
 
     angularApp.component('qlikNavbar', {

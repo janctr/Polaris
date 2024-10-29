@@ -23,7 +23,14 @@
     <div ng-view></div>
     
     <script src="../../resources/assets/external/requirejs/require.js"></script>
-    <script src="app-module.js"></script>
+    <script>
+        (function () {
+            'use strict';
+
+            // Register
+            angular.module('angularApp', ['ngRoute']);
+        })();
+    </script>
     <script src="components.js"></script>
     <script src="data.js"></script>
     <script src="Polaris.js"></script>

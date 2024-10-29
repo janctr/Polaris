@@ -2,6 +2,24 @@
 
 ### Files that are included in the mashup named "Polaris" in the Dev Hub
 
+#### All Files
+
+-   `Polaris.qext`
+-   `Polaris.html`
+-   `app-module.js`
+-   `Polaris.js`
+-   `components.js`
+-   `data.js`
+-   `styles.css`
+-   `home.ng.html`
+-   `navigation.html`
+-   `qlik-navigation-bar.html`
+-   `log-functions.ng.html`
+-   `classes-of-supply.ng.html`
+-   `data-sources.ng.html`
+-   `advana.png`
+-   `advana_favicon.ico`
+
 #### Main files
 
 -   `Polaris.qext`
@@ -10,7 +28,7 @@
 -   `data.js`
 -   `styles.css`
 
-#### Component Templates
+#### Main Component Templates
 
 -   `navigation.html`
 -   `qlik-navigation-bar.html`
@@ -20,6 +38,7 @@
 -   `home.ng.html`
 -   `log-functions.ng.html`
 -   `classes-of-supply.ng.html`
+-   `data-sources.ng.html`
 
 #### Assets
 

@@ -65,10 +65,6 @@ require(['js/qlik'], function (qlik) {
                 templateUrl: 'data-sources.ng.html',
                 controller: 'DataSourcesController',
             })
-            .when('/test', {
-                templateUrl: 'test.ng.html',
-                controller: 'TestController',
-            })
             .otherwise({
                 redirectTo: '/home',
             });
@@ -438,45 +434,6 @@ require(['js/qlik'], function (qlik) {
     ]);
 
     //Controllers
-    angularApp.controller('NavController', [
-        '$scope',
-        '$window',
-        'polaris',
-        'navbarLinks',
-        'landingPageLinks',
-        function (
-            $scope,
-            $window,
-            polaris,
-            navbarLinks,
-            { niprJ4LandingPageLink, siprJ4LandingPageLink }
-        ) {
-            $scope.links = navbarLinks;
-            $scope.j4LandingPageLink = polaris.isSipr
-                ? siprJ4LandingPageLink
-                : niprJ4LandingPageLink;
-            $scope.classificationBannerLabel = polaris.isSipr
-                ? 'SECRET'
-                : 'UNCLASSIFIED';
-            $scope.classificationBannerColor = polaris.isSipr ? 'red' : 'green';
-            $scope.printWindow = function () {
-                $window.print();
-            };
-            $scope.currentAsOf = '';
-            polaris.app.createGenericObject(
-                {
-                    currentAsOf: {
-                        qStringExpression: `=Timestamp(ConvertToLocalTime(Max(ReloadTime()), 'HST'), 'MM/DD/YYYY HH:mm:ss') & ' HST'`,
-                    },
-                },
-                function (reply) {
-                    console.log('reply.currentAsOf: ', reply);
-                    $scope.currentAsOf = reply.currentAsOf;
-                }
-            );
-        },
-    ]);
-
     angularApp.controller('HomeController', [
         '$scope',
         'polaris',
@@ -997,26 +954,6 @@ require(['js/qlik'], function (qlik) {
         },
     ]);
 
-    angularApp.controller('TestController', [
-        '$scope',
-        'polaris',
-        function ($scope, polaris) {
-            $scope.searchStr = '';
-            $scope.results = [];
-
-            $scope.search = function (str) {
-                console.log('str: ', str);
-                polaris.search(str).then((results) => {
-                    $scope.results = results;
-                });
-            };
-
-            $scope.select = function (column, text) {
-                polaris.select(column, text);
-            };
-        },
-    ]);
-
     angularApp.controller('DataSourcesController', [
         '$scope',
         'polaris',
@@ -1049,6 +986,5 @@ require(['js/qlik'], function (qlik) {
         },
     ]);
 
-    // Components
     angular.bootstrap(document, ['angularApp', 'qlik-angular']);
 });
