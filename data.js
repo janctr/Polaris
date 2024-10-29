@@ -590,15 +590,15 @@ const MAP_LEGEND_SECTIONS = [
                         showConditionVariable: 'v_map_class_viii',
                         icon: {
                             iconType: 'qlikVariable',
-                            imageUrlVariable: 'v_icon_blood',
+                            imageUrlVariable: 'v_icon_Blood',
                         },
                     },
                     {
                         label: 'Medical Equipment',
                         showConditionVariable: 'v_map_class_viii',
                         icon: {
-                            iconType: 'bubble',
-                            color: 'blue',
+                            iconType: 'false',
+                            imageUrlVariable: 'v_icon_Med_Equip',
                         },
                     },
                 ],
@@ -863,6 +863,8 @@ const DATA_SOURCE_SECTIONS = [
             'ALxmq',
             'RxDQ',
             'RrFCGD',
+            'RhrpVKJ',
+            'Zme',
         ],
     },
     {
