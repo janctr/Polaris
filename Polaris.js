@@ -30,18 +30,6 @@ require(['js/qlik'], function (qlik) {
     // Constants
     angularApp.constant('qlik', qlik);
     angularApp.constant('isSipr', window.location.href.includes('smil'));
-    angularApp.constant('polarisAppId', 'c6106274-0193-4299-8772-d93a4043b604');
-    angularApp.constant(
-        'notionalAppId',
-        'a02ee546-bb4f-41d3-a3d0-1a93f0aed2cc'
-    );
-    angularApp.constant('navbarLinks', angularLinks);
-    angularApp.constant('landingPageLinks', {
-        niprJ4LandingPageLink:
-            'https://qlik.advana.data.mil/sense/app/e2f5d8b5-998b-4fcd-b7d7-d8bed97a8695/sheet/dcf05bd5-985e-4bcc-b14e-988f86049a51/state/analysis',
-        siprJ4LandingPageLink:
-            'https://qlik.advana.data.smil.mil/sense/app/7b45d060-eb7d-4764-acc9-240e057176ad/sheet/546baeed-7818-4bf2-9308-afed26880120/state/analysis',
-    });
 
     // Routes
     angularApp.config(function ($routeProvider, $locationProvider) {
@@ -615,7 +603,7 @@ require(['js/qlik'], function (qlik) {
                     varName: 'isClassVSelected',
                     objectId: 'ppJjJMC',
                     position: 'bottom',
-                    height: '230px',
+                    height: '300px',
                     isOpen: false,
                     onClose: function () {
                         polaris.clear();

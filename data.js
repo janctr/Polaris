@@ -1,66 +1,36 @@
-const angularLinks = [
-    { href: 'Polaris.html', label: 'Home', classNames: ['link'] },
-    {
-        href: '#/log-functions',
-        label: 'Log Functions',
-        classNames: ['link'],
+const POLARIS_CONSTANTS = {
+    polarisAppId: 'c6106274-0193-4299-8772-d93a4043b604',
+    notionalAppId: 'a02ee546-bb4f-41d3-a3d0-1a93f0aed2cc',
+    navbarLinks: [
+        { href: 'Polaris.html', label: 'Home', classNames: ['link'] },
+        {
+            href: '#/log-functions',
+            label: 'Log Functions',
+            classNames: ['link'],
+        },
+        {
+            href: '#/data-sources',
+            label: 'Data Sources',
+            classNames: ['link'],
+        },
+    ],
+    landingPageLinks: {
+        niprJ4LandingPageLink:
+            'https://qlik.advana.data.mil/sense/app/e2f5d8b5-998b-4fcd-b7d7-d8bed97a8695/sheet/dcf05bd5-985e-4bcc-b14e-988f86049a51/state/analysis',
+        siprJ4LandingPageLink:
+            'https://qlik.advana.data.smil.mil/sense/app/7b45d060-eb7d-4764-acc9-240e057176ad/sheet/546baeed-7818-4bf2-9308-afed26880120/state/analysis',
     },
-    {
-        href: '#/data-sources',
-        label: 'Data Sources',
-        classNames: ['link'],
-    },
-    // {
-    //     href: '#/classes-of-supply',
-    //     label: 'Classes of Supply',
-    //     classNames: ['link'],
-    //     childLinks: [
-    //         {
-    //             href: '#',
-    //             label: 'Class I',
-    //             classNames: ['child-link'],
-    //             anchorClassNames: [],
-    //         },
-    //         {
-    //             href: '#',
-    //             label: 'Class III',
-    //             classNames: ['child-link'],
-    //             anchorClassNames: [],
-    //         },
-    //         {
-    //             href: '#',
-    //             label: 'Class IV',
-    //             classNames: ['child-link'],
-    //             anchorClassNames: [],
-    //         },
-    //         {
-    //             href: '#',
-    //             label: 'Class V',
-    //             classNames: ['child-link'],
-    //             anchorClassNames: [],
-    //         },
-    //         {
-    //             href: '#',
-    //             label: 'Class VIII',
-    //             classNames: ['child-link'],
-    //             anchorClassNames: [],
-    //         },
-    //         {
-    //             href: '#',
-    //             label: 'Class IX',
-    //             classNames: ['child-link'],
-    //             anchorClassNames: [],
-    //         },
-    //     ],
-    // },
-    // { href: 'cop.html', label: 'COP', classNames: ['link'] },
-    // {
-    //     href: '',
-    //     label: 'J4 Landing Page',
-    //     classNames: ['link'],
-    //     anchorClassNames: ['j4-landing-page-link'],
-    // },
-];
+};
+(function () {
+    'use strict';
+
+    const angularApp = angular.module('angularApp');
+
+    for (const [key, value] of Object.entries(POLARIS_CONSTANTS)) {
+        console.log('Setting ng constant: ', key);
+        angularApp.constant(key, value);
+    }
+})();
 
 const logFunctionsPage = {
     objectElements: [
