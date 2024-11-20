@@ -225,7 +225,7 @@ const POLARIS_CONSTANTS = {
                                 label: 'Medical Equipment',
                                 showConditionVariable: 'v_map_class_viii',
                                 icon: {
-                                    iconType: 'false',
+                                    iconType: 'qlikVariable',
                                     imageUrlVariable: 'v_icon_Med_Equip',
                                 },
                             },
@@ -248,16 +248,16 @@ const POLARIS_CONSTANTS = {
                         label: 'AWS',
                         showConditionVariable: 'v_map_aws',
                         icon: {
-                            iconType: 'bubble',
-                            color: 'purple',
+                            iconType: 'qlikVariable',
+                            imageUrlVariable: 'v_icon_AWS',
                         },
                     },
                     {
                         label: 'EPF',
                         showConditionVariable: 'v_map_epf',
                         icon: {
-                            iconType: 'bubble',
-                            color: 'yellow',
+                            iconType: 'qlikVariable',
+                            imageUrlVariable: 'v_icon_EPF',
                         },
                     },
                     {
@@ -636,7 +636,7 @@ const POLARIS_CONSTANTS = {
             },
         ],
     },
-    classesofSupplyPage: {
+    classesOfSupplyPage: {
         siprObjects: {
             classesOfSupply: [
                 {
@@ -711,70 +711,56 @@ const POLARIS_CONSTANTS = {
                 },
             ],
         },
-        objectElements: {
-            objectElements: [
-                {
-                    classes: ['class-i'],
-                    title: 'Class I',
-                    bodyId: 'QV1',
-                    sources: ['DLA EBS', 'GCSS-A'],
-                    refreshRate: { label: '~Daily', color: 'green' },
-                    quality: { label: 'Partial', color: 'yellow' },
-                },
-                {
-                    classes: ['class-iii'],
-                    title: 'Class III',
-                    bodyId: 'QV2',
-                    sources: ['DLA-EBS', 'IAWT'],
-                    refreshRate: { label: '~Daily', color: 'green' },
-                    quality: { label: 'Partial', color: 'yellow' },
-                },
-                {
-                    classes: [' class-iv'],
-                    title: 'Class IV',
-                    bodyId: 'QV3',
-                    sources: [
-                        'DLA EBS',
-                        'GCSS-A',
-                        'GCSS-MC',
-                        'LMP',
-                        'Navy ERP',
-                    ],
-                    refreshRate: { label: '~Daily', color: 'green' },
-                    quality: { label: 'Partial', color: 'yellow' },
-                },
-                {
-                    classes: ['class-v'],
-                    title: 'Class V',
-                    bodyId: 'QV4',
-                    sources: ['AESIP', 'DAAS', 'LMP', 'OIS', 'SAAS', 'TICIMS'],
-                    refreshRate: { label: '~Daily', color: 'green' },
-                    quality: { label: 'Good', color: 'green' },
-                },
-                {
-                    classes: ['class-viii'],
-                    title: 'Class VIII',
-                    bodyId: 'QV5',
-                    sources: ['MEDCOP', 'CarePoint'],
-                    refreshRate: { label: 'N/A', color: '' },
-                    quality: { label: 'N/A', color: '' },
-                },
-                {
-                    classes: ['class-ix'],
-                    title: 'Class IX',
-                    bodyId: 'QV6',
-                    sources: [
-                        'DLA EBS',
-                        'GCSS-A',
-                        'GCSS-MC',
-                        'LMP',
-                        'Navy ERP',
-                    ],
-                    refreshRate: { label: '~Daily', color: 'green' },
-                    quality: { label: 'Partial', color: 'yellow' },
-                },
-            ],
-        },
+        objectElements: [
+            {
+                classes: ['class-i'],
+                title: 'Class I',
+                bodyId: 'QV1',
+                sources: ['DLA EBS', 'GCSS-A'],
+                refreshRate: { label: '~Daily', color: 'green' },
+                quality: { label: 'Partial', color: 'yellow' },
+            },
+            {
+                classes: ['class-iii'],
+                title: 'Class III',
+                bodyId: 'QV2',
+                sources: ['DLA-EBS', 'IAWT'],
+                refreshRate: { label: '~Daily', color: 'green' },
+                quality: { label: 'Partial', color: 'yellow' },
+            },
+            {
+                classes: [' class-iv'],
+                title: 'Class IV',
+                bodyId: 'QV3',
+                sources: ['DLA EBS', 'GCSS-A', 'GCSS-MC', 'LMP', 'Navy ERP'],
+                refreshRate: { label: '~Daily', color: 'green' },
+                quality: { label: 'Partial', color: 'yellow' },
+            },
+            {
+                classes: ['class-v'],
+                title: 'Class V',
+                bodyId: 'QV4',
+                sources: ['AESIP', 'DAAS', 'LMP', 'OIS', 'SAAS', 'TICIMS'],
+                refreshRate: { label: '~Daily', color: 'green' },
+                quality: { label: 'Good', color: 'green' },
+            },
+            {
+                classes: ['class-viii'],
+                title: 'Class VIII',
+                bodyId: 'QV5',
+                sources: ['MEDCOP', 'CarePoint'],
+                refreshRate: { label: 'N/A', color: '' },
+                quality: { label: 'N/A', color: '' },
+            },
+            {
+                classes: ['class-ix'],
+                title: 'Class IX',
+                bodyId: 'QV6',
+                sources: ['DLA EBS', 'GCSS-A', 'GCSS-MC', 'LMP', 'Navy ERP'],
+                refreshRate: { label: '~Daily', color: 'green' },
+                quality: { label: 'Partial', color: 'yellow' },
+            },
+        ],
     },
     dataSourcesPage: {
         DATA_SOURCE_SECTIONS: [
