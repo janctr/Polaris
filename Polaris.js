@@ -102,12 +102,6 @@ require(['js/qlik'], function (qlik) {
             self.toggleVariable = toggleVariable;
             self.getContainerSize = getContainerSize;
 
-            // Home Page
-            self.mapToggles = HOME_PAGE_TOGGLES;
-            self.mapLegendSections = MAP_LEGEND_SECTIONS;
-            // Data Sources page
-            self.dataSourceSections = DATA_SOURCE_SECTIONS;
-
             function insertObjects(objects) {
                 for (const o of objects) {
                     self.insertObject(o);
@@ -425,7 +419,12 @@ require(['js/qlik'], function (qlik) {
     angularApp.controller('HomeController', [
         '$scope',
         'polaris',
-        function ($scope, polaris) {
+        'homePage',
+        'COLUMN_ALIAS',
+        function ($scope, polaris, homePage, COLUMN_ALIAS) {
+            const { siprObjects, notionalAppObjects, HOME_PAGE_TOGGLES } =
+                homePage;
+
             $scope.polaris = polaris;
 
             $scope.isSidebarShowing = true;
@@ -482,14 +481,14 @@ require(['js/qlik'], function (qlik) {
             $scope.isEngineerTogglesOpen = false;
             $scope.isOcsTogglesOpen = false;
 
-            $scope.pacomToggles = polaris.mapToggles.pacomToggles;
+            $scope.pacomToggles = HOME_PAGE_TOGGLES.pacomToggles;
             $scope.classesOfSupplyToggles =
-                polaris.mapToggles.classesOfSupplyToggles;
-            $scope.pddocToggles = polaris.mapToggles.pddocToggles;
-            $scope.nodalHealthToggles = polaris.mapToggles.nodalHealthToggles;
+                HOME_PAGE_TOGGLES.classesOfSupplyToggles;
+            $scope.pddocToggles = HOME_PAGE_TOGGLES.pddocToggles;
+            $scope.nodalHealthToggles = HOME_PAGE_TOGGLES.nodalHealthToggles;
             $scope.engineerUnitsToggles =
-                polaris.mapToggles.engineerUnitsToggles;
-            $scope.ocsToggles = polaris.mapToggles.ocsToggles;
+                HOME_PAGE_TOGGLES.engineerUnitsToggles;
+            $scope.ocsToggles = HOME_PAGE_TOGGLES.ocsToggles;
 
             // Class III Subtoggles
             polaris.createHypercube({
@@ -850,7 +849,10 @@ require(['js/qlik'], function (qlik) {
     angularApp.controller('LogFunctionsController', [
         '$scope',
         'polaris',
-        function ($scope, polaris) {
+        'logFunctionsPage',
+        function ($scope, polaris, logFunctionsPage) {
+            const { objectElements, siprObjects, notionalAppObjects } =
+                logFunctionsPage;
             $scope.polaris = polaris;
 
             const appObjects = polaris.isSipr
@@ -875,7 +877,7 @@ require(['js/qlik'], function (qlik) {
                     !$scope.modalElements[index].isOpen;
             };
 
-            $scope.objectElements = logFunctionsPage.objectElements.map(
+            $scope.objectElements = objectElements.map(
                 (objectElement, index) => ({
                     ...objectElement,
                     isShowing: true,
@@ -899,8 +901,13 @@ require(['js/qlik'], function (qlik) {
     angularApp.controller('ClassesOfSupplyController', [
         '$scope',
         'polaris',
-        function ($scope, polaris) {
+        'classesOfSupplyPage',
+        function ($scope, polaris, classesOfSupplyPage) {
+            console.log('classesOfSupplyPage: ', classesOfSupplyPage);
             $scope.polaris = polaris;
+
+            const { siprObjects, notionalAppObjects, objectElements } =
+                classesOfSupplyPage;
 
             const appObjects = polaris.isSipr
                 ? siprObjects.classesOfSupply
@@ -924,7 +931,7 @@ require(['js/qlik'], function (qlik) {
                     !$scope.modalElements[index].isOpen;
             };
 
-            $scope.objectElements = classesOfSupplyPage.objectElements.map(
+            $scope.objectElements = objectElements.map(
                 (objectElement, index) => ({
                     ...objectElement,
                     isShowing: true,
@@ -948,7 +955,10 @@ require(['js/qlik'], function (qlik) {
     angularApp.controller('DataSourcesController', [
         '$scope',
         'polaris',
-        function ($scope, polaris) {
+        'dataSourcesPage',
+        function ($scope, polaris, dataSourcesPage) {
+            const { DATA_SOURCE_SECTIONS } = dataSourcesPage;
+
             $scope.tableOfContents = [
                 {
                     title: 'All Data Sources',
@@ -957,7 +967,7 @@ require(['js/qlik'], function (qlik) {
                         $scope.currentSelection = this.id;
                     },
                 },
-                ...polaris.dataSourceSections.map((section) => ({
+                ...DATA_SOURCE_SECTIONS.map((section) => ({
                     title: section.title,
                     id: section.sectionId,
                     onClick: function () {
@@ -966,11 +976,11 @@ require(['js/qlik'], function (qlik) {
                 })),
             ];
 
-            $scope.dataSourceSections = polaris.dataSourceSections;
+            $scope.dataSourceSections = DATA_SOURCE_SECTIONS;
             $scope.currentSelection = 'data-sources-all';
 
             angular.element(document).ready(function () {
-                for (const section of polaris.dataSourceSections) {
+                for (const section of DATA_SOURCE_SECTIONS) {
                     polaris.insertObjects(section.dataSourceObjects);
                 }
             });

@@ -462,7 +462,10 @@
         controller: [
             '$scope',
             'polaris',
-            function ($scope, polaris) {
+            'homePage',
+            function ($scope, polaris, homePage) {
+                const { MAP_LEGEND_SECTIONS } = homePage;
+
                 $scope.polaris = polaris;
                 $scope.isOpen = true;
                 $scope.getVariable = (varName) => $scope[varName];
@@ -473,12 +476,10 @@
                     iconType: 'triangle',
                     color: 'teal',
                 };
-                $scope.legendSections = polaris.mapLegendSections.map(
-                    (section) => {
-                        section.isOpen = false;
-                        return section;
-                    }
-                );
+                $scope.legendSections = MAP_LEGEND_SECTIONS.map((section) => {
+                    section.isOpen = false;
+                    return section;
+                });
             },
         ],
     });
