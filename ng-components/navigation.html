@@ -53,8 +53,7 @@
                     J4 Landing Page
                 </a>
             </li>
-            <li class="link"
-                style="position: absolute; right: 1rem;">
+            <li style="position: absolute; right: 1rem;">
                 <p class="current-as-of">Last Refresh: {{ currentAsOf }}<span ng-if="currentAsOf.length === 0"
                           class="current-as-of-loader">
                         <loader></loader>
@@ -152,12 +151,41 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        font-weight: bold;
         position: relative;
 
+        /* font-weight: bold; */
         /* color: #000; */
 
         transition: color 0.25s ease-in-out;
+    }
+
+    .link.separator::before {
+        /* border-right: 1px solid white; */
+        content: '';
+        position: absolute;
+        right: -8px;
+        top: 58%;
+        height: 50%;
+        transform: translateY(-50%);
+        width: 1px;
+        background-color: white;
+    }
+
+    .link:not(.no-underline):after {
+        content: '';
+        position: absolute;
+        bottom: -5px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 0px;
+        height: 1px;
+        background-color: white;
+
+        transition: width 0.25s ease-in-out;
+    }
+
+    .link:hover::after {
+        width: 75%;
     }
 
     .link.active:after {
@@ -181,10 +209,6 @@
         padding: 0 0.5rem;
 
         transition: color 0.25s ease-in-out;
-    }
-
-    .link>a:hover {
-        color: var(--blue-4);
     }
 
     .no-underline:hover {

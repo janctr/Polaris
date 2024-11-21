@@ -2,16 +2,20 @@ const POLARIS_CONSTANTS = {
     polarisAppId: 'c6106274-0193-4299-8772-d93a4043b604',
     notionalAppId: 'a02ee546-bb4f-41d3-a3d0-1a93f0aed2cc',
     navbarLinks: [
-        { href: 'Polaris.html', label: 'Home', classNames: ['link'] },
+        {
+            href: 'Polaris.html',
+            label: 'Home',
+            classNames: ['link', 'separator'],
+        },
         {
             href: '#/log-functions',
             label: 'Log Functions',
-            classNames: ['link'],
+            classNames: ['link', 'separator'],
         },
         {
             href: '#/data-sources',
             label: 'Data Sources',
-            classNames: ['link'],
+            classNames: ['link', 'separator'],
         },
     ],
     landingPageLinks: {
