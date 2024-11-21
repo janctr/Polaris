@@ -383,6 +383,11 @@
 
                 console.log('map box created: ', $scope);
                 // Only if objectIds is defined
+
+                $scope.$watch('$ctrl.isShowing', function () {
+                    polaris.resize(500);
+                });
+
                 angular.element(document).ready(function () {
                     switch ($scope.$ctrl.position) {
                         case 'bottom':
