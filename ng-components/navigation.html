@@ -14,7 +14,8 @@
                 </a>
             </li>
             <li class="{{link.classNames.join(' ')}}"
-                ng-repeat="link in links">
+                ng-repeat="link in links"
+                ng-class="{'is-active': checkIsActive(link.href)}">
                 <a href="{{link.href}}"
                    class="{{link.anchorClassNames.join(' ')}}">
                     {{ link.label }}
@@ -184,8 +185,12 @@
         transition: width 0.25s ease-in-out;
     }
 
+    .link.is-active::after {
+        width: 25%;
+    }
+
     .link:hover::after {
-        width: 75%;
+        width: 50%;
     }
 
     .link.active:after {

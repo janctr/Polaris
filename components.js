@@ -11,16 +11,21 @@
         controller: [
             '$scope',
             '$window',
+            '$location',
             'polaris',
             'navbarLinks',
             'landingPageLinks',
             function (
                 $scope,
                 $window,
+                $location,
                 polaris,
                 navbarLinks,
                 { niprJ4LandingPageLink, siprJ4LandingPageLink }
             ) {
+                $scope.checkIsActive = (href) =>
+                    href.slice(1) === $location.path();
+
                 $scope.links = navbarLinks;
                 $scope.j4LandingPageLink = polaris.isSipr
                     ? siprJ4LandingPageLink

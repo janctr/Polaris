@@ -3,7 +3,7 @@ const POLARIS_CONSTANTS = {
     notionalAppId: 'a02ee546-bb4f-41d3-a3d0-1a93f0aed2cc',
     navbarLinks: [
         {
-            href: 'Polaris.html',
+            href: '#/home',
             label: 'Home',
             classNames: ['link', 'separator'],
         },
