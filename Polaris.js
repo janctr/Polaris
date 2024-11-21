@@ -62,11 +62,12 @@ require(['js/qlik'], function (qlik) {
 
     // Services
     angularApp.service('polaris', [
+        '$timeout',
         'qlik',
         'isSipr',
         'polarisAppId',
         'notionalAppId',
-        function (qlik, isSipr, polarisAppId, notionalAppId) {
+        function ($timeout, qlik, isSipr, polarisAppId, notionalAppId) {
             const self = this;
 
             self.qlik = qlik;
@@ -138,9 +139,16 @@ require(['js/qlik'], function (qlik) {
                 return self.app.forward();
             }
 
-            function resize() {
-                console.log('resizing');
-                self.qlik.resize();
+            function resize(timeout) {
+                if (typeof timeout !== 'undefined') {
+                    $timeout(function () {
+                        console.log('resizing');
+                        self.qlik.resize();
+                    }, timeout);
+                } else {
+                    console.log('resizing');
+                    self.qlik.resize();
+                }
             }
 
             function hideNavbar() {
