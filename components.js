@@ -572,12 +572,12 @@
             <div class="shape-icon" ng-switch="$ctrl.iconType">
                 <div ng-switch-when="bubble" xmlns="http://www.w3.org/2000/svg">
                     <svg viewBox="0 0 100 100">
-                        <circle cx="50" cy="50" r="30" fill="{{ $ctrl.iconColor }}" />
+                        <circle cx="50" cy="50" r="30" fill="{{ $ctrl.iconColor }}" stoke="#7b7a78" stroke-width="3px"/>
                     </svg>
                 </div>
                 <div ng-switch-when="triangle">
                     <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                        <polygon points="50,10 90,90 10,90" fill="{{ $ctrl.iconColor }}" />
+                        <polygon points="50,10 90,90 10,90" fill="{{ $ctrl.iconColor }}" stoke="#7b7a78" stroke-width="3px"/>
                     </svg>
                 </div>
             </div>
