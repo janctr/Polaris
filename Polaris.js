@@ -554,7 +554,7 @@ require(['js/qlik'], function (qlik) {
                     objectId: 'XJwxAG',
                     isOpen: false,
                     position: 'bottom',
-                    height: '100px',
+                    // height: '100px',
                     onClose: function () {
                         polaris.clearField('org');
                     },
@@ -566,6 +566,7 @@ require(['js/qlik'], function (qlik) {
                     customExpression: `=count({$<league={'La Liga'}>}distinct [soccerTeam])`,
                     objectIds: ['frXbuh', 'fsHmHP', 'mKw'],
                     isOpen: false,
+                    position: 'right',
                     onClose: function () {
                         polaris.clear();
                     },
@@ -598,6 +599,8 @@ require(['js/qlik'], function (qlik) {
                     fieldName: 'dodaac_cliv',
                     varName: 'isClass4Selected',
                     objectId: 'JYusjn',
+                    position: 'bottom',
+                    height: '400px',
                     isOpen: false,
                     onClose: function () {
                         console.log('Clearing Class IV DMV');
@@ -610,7 +613,7 @@ require(['js/qlik'], function (qlik) {
                     varName: 'isClassVSelected',
                     objectId: 'ppJjJMC',
                     position: 'bottom',
-                    height: '300px',
+                    height: '260px',
                     isOpen: false,
                     onClose: function () {
                         polaris.clear();
@@ -669,7 +672,7 @@ require(['js/qlik'], function (qlik) {
                     height: '300px',
                     isOpen: false,
                     onClose: function () {
-                        polaris.clearField('dodaac_blood');
+                        polaris.clearField('dodaac_nomen_blood');
                     },
                 },
                 {
@@ -717,11 +720,22 @@ require(['js/qlik'], function (qlik) {
                     'secretMapBoxFieldName',
                     'secretMapBoxVarName',
                     'secretMapBoxObjectIds',
+                    'position',
+                    'width',
+                    'height',
                 ],
                 callback: function (reply) {
                     const secretMapBoxes =
                         reply.qHyperCube.qDataPages[0].qMatrix.map((row) => {
-                            const [label, fieldName, varName, objectIds] = row;
+                            const [
+                                label,
+                                fieldName,
+                                varName,
+                                objectIds,
+                                position,
+                                width,
+                                height,
+                            ] = row;
                             const objectIdsParsed = objectIds.qText.split(' ');
 
                             console.log('objectIdsParsed: ', objectIdsParsed);
@@ -738,6 +752,9 @@ require(['js/qlik'], function (qlik) {
                                         ? objectIdsParsed
                                         : undefined,
                                 isOpen: false,
+                                position: position.qText,
+                                width: width.qText,
+                                height: height.qText,
                                 onClose: function () {
                                     polaris.clearField(fieldName.qText);
                                 },

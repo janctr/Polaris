@@ -219,28 +219,37 @@
     </div>
 
     <polaris-map-box ng-repeat="box in drilldownBoxes"
+                     ng-show="box.isOpen"
                      is-showing="box.isOpen"
                      position="{{box.position}}"
+                     width="{{box.width}}"
                      height="{{box.height}}"
                      close="box.onClose()"
                      object-id="{{box.objectId}}"
-                     object-ids="box.objectIds"></polaris-map-box>
+                     object-ids="box.objectIds"
+                     class="{{box.position}} || 'right'"
+                     ng-style="{'height': '{{box.height}}', 'width': '{{box.width}}'}"></polaris-map-box>
 
     <polaris-map-box ng-repeat="box in secretDrilldownBoxes"
+                     ng-show="box.isOpen"
                      is-showing="box.isOpen"
+                     position="{{box.position}}"
+                     width="{{box.width}}"
+                     height="{{box.height}}"
                      close="box.onClose()"
                      object-id="{{box.objectId}}"
                      object-ids="box.objectIds"
-                     width="420px"></polaris-map-box>
+                     class="{{box.position || 'right'}}"
+                     ng-style="{'height': '{{box.height}}', 'width': '{{box.width}}'}"></polaris-map-box>
 
 </main>
 
 <style type="text/css">
     #home-page {
+        --sidebar-width: 400px;
         height: var(--full-viewport-height-navbar-px);
-
         display: grid;
-        grid-template-columns: 400px 1fr 1fr 1fr 1fr;
+        grid-template-columns: var(--sidebar-width) 1fr 1fr 1fr 1fr;
         grid-template-rows: auto;
         grid-template-areas:
             'sidebar map map map map'
@@ -370,26 +379,37 @@
 
     #home-page polaris-map-box {
         position: absolute;
-        bottom: 0;
-        right: 0;
+        bottom: 0.5rem;
+        right: 0.5rem;
         z-index: 2;
+        border-radius: 8px;
+        box-shadow: var(--box-shadow-2);
+        overflow: hidden;
+    }
+
+    #home-page polaris-map-box.bottom {
+        bottom: 0.5rem;
+        right: 0.5rem;
+        left: calc(var(--sidebar-width) + 0.5rem);
+        height: 300px;
+    }
+
+    #home-page polaris-map-box.right {
+        bottom: 0.5rem;
+        right: 0.5rem;
+        width: 420px;
+        height: calc(var(--full-viewport-height-navbar-px) - 1rem);
     }
 
     #home-page .polaris-map-box {
-        width: 300px;
-        height: var(--full-viewport-height-navbar-px);
+        box-shadow: var(--box-shadow-2);
+        border-radius: 8px;
+        width: 100%;
+        height: 100%;
         background-color: #fff;
-        /* box-shadow: var(--box-shadow-2); */
-        /* border-radius: 6px; */
         padding: 0.25rem;
-
         display: flex;
         flex-direction: column;
-    }
-
-    #home-page .polaris-map-box.bottom {
-        width: calc(100vw - 400px);
-        height: 300px;
     }
 
     #home-page .polaris-map-box .objects-container {

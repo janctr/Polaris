@@ -360,7 +360,7 @@
             position: '@',
         },
         template: `
-        <div class="polaris-map-box {{ position }}" ng-show="$ctrl.isShowing" ng-style="{'height': $ctrl.height, 'width': $ctrl.width}">       
+        <div class="polaris-map-box {{ position }}" ng-show="$ctrl.isShowing">       
             <div class="object-header">
                 <h3></h3>
                 <!-- <h3> {{ polaris.selectionState.selections[0].qSelected }}</h3> -->
