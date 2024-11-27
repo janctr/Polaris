@@ -451,6 +451,8 @@ require(['js/qlik'], function (qlik) {
                 'v_map_class_iv',
                 'v_map_class_v',
                 'v_map_class_viii',
+                'v_class_viii_blood',
+                'v_class_viii_equip',
                 'v_map_class_ix',
                 // PDDOC
                 'v_map_deploy_dist_vessel_health',
