@@ -227,7 +227,7 @@
                      close="box.onClose()"
                      object-id="{{box.objectId}}"
                      object-ids="box.objectIds"
-                     class="{{box.position}} || 'right'"
+                     class="{{box.position || 'right'}} "
                      ng-style="{'height': '{{box.height}}', 'width': '{{box.width}}'}"></polaris-map-box>
 
     <polaris-map-box ng-repeat="box in secretDrilldownBoxes"
