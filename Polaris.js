@@ -53,6 +53,10 @@ require(['js/qlik'], function (qlik) {
                 templateUrl: 'data-sources.ng.html',
                 controller: 'DataSourcesController',
             })
+            .when('/app-summary', {
+                templateUrl: 'app-summary.ng.html',
+                controller: 'AppSummaryController',
+            })
             .otherwise({
                 redirectTo: '/home',
             });

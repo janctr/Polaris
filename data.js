@@ -558,7 +558,7 @@ const POLARIS_CONSTANTS = {
                 },
                 { label: 'PDDOC', elementId: 'QV3', objectId: 'fsHmHP' },
                 {
-                    label: 'Readiness - Airframes',
+                    label: 'Aircraft Maintenance Status',
                     elementId: 'QV4',
                     objectId: 'mKw',
                 },
@@ -603,7 +603,7 @@ const POLARIS_CONSTANTS = {
             },
             {
                 classes: ['readiness-airframes'],
-                title: 'Readiness - Airframes',
+                title: 'Aircraft Maintenance Status',
                 bodyId: 'QV4',
                 sources: ['AMSRR', 'G081', 'IMDS'],
                 refreshRate: { label: '~Daily', color: 'green' },
