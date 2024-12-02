@@ -660,6 +660,18 @@ require(['js/qlik'], function (qlik) {
                     },
                 },
                 {
+                    label: 'Vessels',
+                    fieldName: 'asset_id',
+                    customExpression:
+                        "=count({$<asset_category={'Sea'}>}distinct [asset_id])",
+                    varName: 'isVesselSelected',
+                    objectId: 'YdCug',
+                    isOpen: false,
+                    onClose: function () {
+                        polaris.clearField('vessel');
+                    },
+                },
+                {
                     label: 'Enemy Vessels',
                     fieldName: 'enemy_vessel',
                     varName: 'isEnemyVesselSelected',
