@@ -375,6 +375,18 @@ a:visited {
 /**************************************/
 
 /********** polaris-modal ************/
+
+polaris-modal {
+    position: fixed;
+    content: '';
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 2;
+}
+
 .polaris-modal {
     position: fixed;
     top: 50%;
@@ -393,6 +405,7 @@ a:visited {
     box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
         rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
 }
+
 .polaris-modal-actions {
     padding: 0.5rem 0.5rem 0.5rem 1rem;
     display: flex;
