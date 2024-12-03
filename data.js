@@ -876,6 +876,7 @@ const POLARIS_CONSTANTS = {
         Airport: 'APOD', // APODS
         seaport: 'SPOD', // SPODS
         CUOPS_VESSEL: 'AWS Vessel', // AWS Vessels
+        cuops_vessel: 'EPF Vessel',
         'tasked_flights.Airport': 'no_vis', // Taskable Aircraft
         enemy_vessel: 'Enemy Vessel', // Enemy Vessels
         asset_id: 'Aircraft, Vessel, Land Vehicle ID', // Aircraft, Land Vehicles, Vessels

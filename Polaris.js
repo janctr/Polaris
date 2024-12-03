@@ -846,10 +846,91 @@ require(['js/qlik'], function (qlik) {
                 'Airport', // APODS
                 'seaport', // SPODS
                 'CUOPS_VESSEL', // AWS Vessels
+                'cuops_vessel', // EPF Vessels
                 //'tasked_flights.Airport', // Taskable Aircraft
                 'enemy_vessel', // Enemy Vessels
                 'asset_id', // Aircraft, Land Vehicles, Vessels
             ];
+
+            $scope.toggleVariableBySearchField = function (searchField) {
+                const searchFieldToVariableMap = {
+                    '': 'v_map_classes_of_supply',
+                    '': 'v_map_class_i',
+                    // 'v_map_class_iii', TODO Figure out class 3
+                    '': 'v_map_class_iv',
+                    '': 'v_map_class_v',
+                    '': 'v_map_class_viii',
+                    '': 'v_class_viii_blood',
+                    '': 'v_class_viii_equip',
+
+                    // Classes of Supply
+                    dodaac_nomen_cli: [
+                        'v_map_classes_of_supply',
+                        'v_map_class_i',
+                    ],
+                    plant_desc: ['v_map_classes_of_supply', 'v_map_class_iii'],
+                    dodaac_cliv: ['v_map_classes_of_supply', 'v_map_class_iv'],
+                    base_name_muns: [
+                        'v_map_classes_of_supply',
+                        'v_map_class_v',
+                    ],
+
+                    dodaac_blood: [
+                        'v_map_classes_of_supply',
+                        'v_map_class_viii',
+                        'v_class_viii_blood',
+                    ],
+                    dodaac_equip: [
+                        'v_map_classes_of_supply',
+                        'v_map_class_viii',
+                        'v_class_viii_equip',
+                    ],
+
+                    // TODO: Do classified fields
+
+                    asset_id: [
+                        'v_map_deploy_dist_aircraft_health',
+                        'v_map_land_vehicles',
+                        'v_map_deploy_dist_vessel_health',
+                    ],
+
+                    enemy_vessel: 'v_map_enemy_vessels',
+                    CUOPS_VESSEL: 'v_map_aws',
+                    '': 'v_map_epf',
+
+                    seaport: 'v_map_seaports',
+                    Airport: 'v_map_airports',
+
+                    'engineers.uic': [
+                        'v_map_combat_engineers',
+                        'v_map_civil_engineers',
+                    ],
+
+                    PRIMARY_DEPLOYED_DUTY_STATION_CITY: 'v_map_ocs_cities',
+                };
+
+                const mapVariable = searchFieldToVariableMap[searchField];
+
+                if (
+                    typeof mapVariable === 'string' &&
+                    !$scope.getVariable(mapVariable)
+                ) {
+                    $scope.toggleVariable(mapVariable);
+                }
+
+                if (typeof mapVariable === 'object') {
+                    // Mapped to multiple layers
+                    for (const v of mapVariable) {
+                        if (!$scope.getVariable(v)) {
+                            $scope.toggleVariable(v);
+                        }
+                    }
+                }
+
+                if (mapVariable && !scope.getVariable[mapVariable]) {
+                    $scope.toggleVariable(mapVariable);
+                }
+            };
 
             $scope.getNiceColumnName = (columnName) =>
                 COLUMN_ALIAS[columnName] || columnName;

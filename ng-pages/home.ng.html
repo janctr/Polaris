@@ -201,7 +201,7 @@
                 </svg>
             </div>
             <div class="results scrollbar"
-                 ng-if="searchStr.length > 3 && searchState === 0">
+                 ng-if="searchStr.length > 0 && searchState === 0">
                 <ul>
                     <li ng-if="searchStr.length > 3 && searchResults.length === 0 && searchState === 0">No results</li>
                     </li>
@@ -210,7 +210,7 @@
                         <h3 ng-bind="getNiceColumnName(result.columnName)"></h3>
                         <p ng-repeat="text in result.matches"
                            ng-bind="text"
-                           ng-click="polaris.select(result.columnName, text)"
+                           ng-click="polaris.select(result.columnName, text); toggleVariableBySearchField(result.columnName);"
                            class="result-text"></p>
                     </li>
                 </ul>
