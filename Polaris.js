@@ -53,7 +53,11 @@ require(['js/qlik'], function (qlik) {
                 templateUrl: 'data-sources.ng.html',
                 controller: 'DataSourcesController',
             })
-            .when('/app-summary', {
+            .when('/app-overview', {
+                templateUrl: 'app-summary.ng.html',
+                controller: 'AppSummaryController',
+            })
+            .when('/app-overview-2', {
                 templateUrl: 'app-summary.ng.html',
                 controller: 'AppSummaryController',
             })
@@ -1108,6 +1112,57 @@ require(['js/qlik'], function (qlik) {
                     polaris.insertObjects(section.dataSourceObjects);
                 }
             });
+        },
+    ]);
+
+    angularApp.controller('AppSummaryController', [
+        '$scope',
+        'polaris',
+        'appSummaryPage',
+        function ($scope, polaris, appSummaryPage) {
+            const { CREDITS_SECTIONS } = appSummaryPage;
+
+            $scope.dateLastReloaded = '1/1/2024';
+            $scope.lastModified = '1/2/2024';
+            $scope.published = '1/3/2024';
+
+            $scope.glossary = [];
+            $scope.changeLog = [];
+
+            polaris.createHypercube({
+                dimensions: ['Term', 'Definition'],
+                callback: function (reply) {
+                    const changes = reply.qHyperCube.qDataPages[0].qMatrix.map(
+                        (row) => {
+                            const term = row[0].qText;
+                            const definition = row[1].qText;
+
+                            return { term, definition };
+                        }
+                    );
+
+                    $scope.glossary = changes;
+                },
+            });
+
+            polaris.createHypercube({
+                dimensions: ['Version Number', 'Date', 'ChangeMade'],
+                callback: function (reply) {
+                    const changes = reply.qHyperCube.qDataPages[0].qMatrix.map(
+                        (row) => {
+                            const version = row[0].qText;
+                            const date = row[1].qText;
+                            const change = row[2].qText;
+
+                            return { version, date, change };
+                        }
+                    );
+
+                    $scope.changeLog = changes;
+                },
+            });
+
+            $scope.creditsSections = CREDITS_SECTIONS;
         },
     ]);
 

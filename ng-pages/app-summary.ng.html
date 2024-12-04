@@ -1,4 +1,245 @@
-<qlik-navbar></qlik-navbar>
 <main class="main"
       id="app-summary-page">
+      <section class="hero-section">
+            <div>
+                  <h2>App Overview</h2>
+                  <div class="app-summary">
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. In ac imperdiet dui, sit amet luctus
+                              enim. Fusce arcu ipsum, vulputate non arcu a, dictum lacinia metus. Mauris tempor cursus
+                              sapien, in feugiat est condimentum id. Sed varius dui tellus, eu efficitur augue dictum
+                              id. Vivamus quis finibus felis. Vestibulum scelerisque lectus a augue scelerisque
+                              scelerisque. Proin at nulla finibus, pulvinar velit sed, porta dolor. Donec in nunc
+                              viverra massa tincidunt dignissim eu vitae massa. Aenean venenatis dignissim lacus, ac
+                              blandit nisi varius non.
+
+                              Cras ac ex accumsan, dapibus erat vitae, consequat neque. Ut malesuada mollis nisl, non
+                              lobortis mauris. Fusce varius mauris ac nisi consectetur, malesuada ullamcorper purus
+                              interdum. Maecenas aliquet sagittis augue, id placerat urna sollicitudin at. Pellentesque
+                              feugiat mattis metus. Proin dictum justo vel enim hendrerit commodo. Donec sed ipsum
+                              metus. Phasellus ut pharetra lacus. Fusce eget lectus elementum, dictum arcu ut, bibendum
+                              mi. Nunc viverra laoreet mi ac venenatis. Etiam iaculis libero a ornare volutpat.
+                              Curabitur eget nulla et nibh porttitor dictum non eu sem. Nulla dictum, enim at posuere
+                              eleifend, mauris purus eleifend lacus, ut sollicitudin mauris arcu et sem. Phasellus sed
+                              tempor massa, posuere vehicula tellus.</p>
+                        <p>Ut sed dapibus risus, nec laoreet enim. Cras vulputate leo in lobortis vehicula. Donec
+                              semper, orci sed aliquet sagittis, diam mi rhoncus purus, ac aliquam dui ipsum vel nibh.
+                              Mauris dapibus auctor purus, id eleifend eros cursus a. Praesent justo sapien, consectetur
+                              nec lorem nec, tincidunt hendrerit tellus. In purus massa, molestie nec leo nec, maximus
+                              sodales tellus. Quisque eget faucibus nisi. Ut vestibulum suscipit sem ac malesuada. Sed
+                              at varius purus. Donec elit magna, vestibulum eget augue in, tincidunt volutpat sem. Duis
+                              aliquam maximus erat, eu consectetur odio congue in. In hac habitasse platea dictumst.
+
+                              Integer ut sodales lacus. Sed rhoncus rutrum euismod. Vivamus in lacinia nibh, ac cursus
+                              purus. Etiam volutpat scelerisque neque, a vehicula ante imperdiet sed. Duis aliquet
+                              viverra nulla ac fermentum. Vivamus placerat cursus erat sed cursus. Nunc nunc augue,
+                              laoreet at posuere pharetra, interdum sit amet massa. Praesent odio eros, interdum vel
+                              lectus nec, convallis molestie eros. Cras porttitor sagittis magna id dapibus. Sed
+                              convallis pellentesque tortor, sit amet laoreet arcu vehicula vitae. Maecenas vel eros ac
+                              nulla ultricies pretium. Maecenas ultrices tellus id volutpat fermentum. Quisque eget
+                              viverra nunc. Ut congue pellentesque nulla, at sollicitudin libero.
+
+                              Pellentesque et odio id velit vestibulum tempus. Proin quis elit sit amet mi vestibulum
+                              feugiat. Vestibulum finibus egestas justo, nec blandit massa. Donec id risus sit amet
+                              libero iaculis dignissim pharetra in eros. Ut consequat elit nulla, ac pellentesque est
+                              pretium sed. Etiam imperdiet, est eget venenatis egestas, justo lacus sollicitudin ante,
+                              vel congue metus massa eget libero.</p>
+                  </div>
+
+                  <div class="dates">
+                        <div><span>Data Last Reloaded: </span><time>{{ dateLastReloaded }}</time></div>
+                        <div><span>Last Modified: </span><time>{{ lastModified }}</time></div>
+                        <div><span>Published: </span><time>{{ published }}</time></div>
+                  </div>
+            </div>
+      </section>
+
+      <section class="logo-section">
+            <div class="logo-container"
+                 ng-repeat="logo in ['1st logo', '2nd logo', '3rd logo', '4th logo']"></div>
+      </section>
+
+      <section class="credits-section">
+            <ul ng-repeat="creditSection in creditsSections">
+                  <h3>{{creditSection.label}}</h3>
+                  <li ng-repeat="person in creditSection.people">
+                        <p>{{person.name}}</p>
+                        <p>{{person.title}}</p>
+                        <p>{{person.contact}}</p>
+                  </li>
+            </ul>
+      </section>
+
+      <section class="glossary-change-log-section">
+
+            <div class="glossary">
+                  <h3>Glossary</h3>
+                  <table>
+                        <thead>
+                              <tr>
+                                    <th>Term</th>
+                                    <th>Definition</th>
+                              </tr>
+                        </thead>
+                        <tbody>
+                              <tr ng-repeat="entry in glossary">
+                                    <td>{{ entry.term}}</td>
+                                    <td>{{ entry.definition}}</td>
+                              </tr>
+                        </tbody>
+                  </table>
+            </div>
+            <div class="change-log">
+                  <h3>Change Log</h3>
+                  <table>
+                        <thead>
+                              <tr>
+                                    <th>Version</th>
+                                    <th>Date</th>
+                                    <th>Change</th>
+                              </tr>
+                        </thead>
+                        <tbody>
+                              <tr ng-repeat="change in changeLog">
+                                    <td>{{ change.version}}</td>
+                                    <td>{{ change.date}}</td>
+                                    <td>{{ change.change}}</td>
+                              </tr>
+                        </tbody>
+                  </table>
+            </div>
+      </section>
 </main>
+
+<style type="text/css">
+      #app-summary-page * {
+            /* outline: 1px solid pink; */
+      }
+
+      #app-summary-page>.hero-section {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            padding: 5rem 10rem;
+            padding-bottom: 2rem;
+      }
+
+      #app-summary-page>.hero-section>div {}
+
+      #app-summary-page>.hero-section>div>h2 {
+            padding: 1rem;
+            padding-left: 0;
+      }
+
+      #app-summary-page>.hero-section>div>.app-summary {
+            display: flex;
+            gap: 2rem;
+
+      }
+
+      #app-summary-page>.hero-section>div>.app-summary>p {
+            flex: 1;
+      }
+
+      #app-summary-page .dates {
+            margin-top: 2rem;
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+      }
+
+      #app-summary-page .dates>div {
+            padding: 0.5rem 1rem;
+      }
+
+      #app-summary-page .dates>div time {
+            font-style: italic;
+      }
+
+      #app-summary-page>.logo-section {
+            background-color: var(--blue-2);
+            color: white;
+            padding: 3rem;
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+      }
+
+      #app-summary-page>.logo-section>.logo-container {
+            height: 100px;
+            width: 200px;
+
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            background-color: #FFF;
+
+            border-radius: 8px;
+            box-shadow: var(--box-shadow-3);
+            outline: none;
+      }
+
+      #app-summary-page>.credits-section {
+            padding: 5rem 10rem;
+
+            display: flex;
+            justify-content: center;
+            gap: 4rem;
+            outline: none;
+      }
+
+      #app-summary-page>.credits-section * {
+            outline: none;
+      }
+
+      #app-summary-page>.credits-section>ul {
+            list-style: none;
+      }
+
+      #app-summary-page>.credits-section>ul>li {
+            margin-top: 0.5rem;
+      }
+
+      #app-summary-page>.credits-section>ul>li>p:nth-child(2) {
+            font-style: italic;
+      }
+
+      #app-summary-page>.glossary-change-log-section {
+            background-color: var(--blue-2);
+
+            padding: 5rem 10rem;
+
+            display: flex;
+            justify-content: center;
+
+            gap: 1rem;
+      }
+
+      #app-summary-page>.glossary-change-log-section>.glossary,
+      #app-summary-page>.glossary-change-log-section>.change-log {
+            width: 500px;
+            min-height: 400px;
+
+            background-color: white;
+            box-shadow: var(--box-shadow-2);
+            padding: 1rem;
+      }
+
+      #app-summary-page>.glossary-change-log-section>.glossary {}
+
+      #app-summary-page>.glossary-change-log-section>.change-log {}
+
+      #app-summary-page>.glossary-change-log-section table {
+            margin-top: 1rem;
+      }
+
+      #app-summary-page>.glossary-change-log-section tr {
+            border-bottom: 1px solid rgba(0, 0, 0, 0.25);
+      }
+
+      #app-summary-page>.glossary-change-log-section th,
+      #app-summary-page>.glossary-change-log-section td {
+            text-align: left;
+            padding: 0.25rem 0.5rem;
+      }
+</style>

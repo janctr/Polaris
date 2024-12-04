@@ -859,6 +859,60 @@ const POLARIS_CONSTANTS = {
             return section;
         }),
     },
+    appSummaryPage: {
+        CREDITS_SECTIONS: [
+            {
+                label: 'Points of Contact',
+                people: [
+                    {
+                        name: 'Anthony Mollison',
+                        title: 'Colonel',
+                        contact: 'anthony.r.mollison@pacom.smil.mil',
+                    },
+                    {
+                        name: 'Edward Maddox',
+                        title: 'Information Systems Division Chief',
+                        contact: 'edward.maddox@pacom.smil.mil',
+                    },
+                ],
+            },
+            {
+                label: 'Key Contributors',
+                people: [
+                    {
+                        name: 'Megan Kobayashi',
+                        title: 'Data Scientist',
+                        contact: 'megan.s.kobayashi.ctr@pacom.smil.mil',
+                    },
+                ],
+            },
+            {
+                label: 'Primary Developer',
+                people: [
+                    {
+                        name: 'Matthew Higa',
+                        title: 'Logistics Analyst',
+                        contact: 'matthew.a.higa.ctr@pacom.smil.mil',
+                    },
+                    {
+                        name: 'Thomas Childress',
+                        title: 'Data Engineer',
+                        contact: 'thomas.childress.ctr@pacom.smil.mil',
+                    },
+                    {
+                        name: 'Ryan Hamamura',
+                        title: 'Data Engineer',
+                        contact: 'ryan.hamamuar.ctr@pacom.smil.mil',
+                    },
+                    {
+                        name: 'Daniel Carter',
+                        title: 'Data Engineer',
+                        contact: 'daniel.z.carter.ctr@pacom.smil.mil',
+                    },
+                ],
+            },
+        ],
+    },
     /* Tells Qlik which columns to search for when using Qlik search. */
     COLUMN_ALIAS: {
         // NIPR
