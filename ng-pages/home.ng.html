@@ -8,7 +8,7 @@
         <div class="toggle-section">
             <div class="toggle-section-header"
                  ng-click="isPacomTogglesOpen = !isPacomTogglesOpen">
-                <h2>Classes of Supply</h2>
+                <h2>USINDOPACOM</h2>
                 <div class="toggle">
                     <arrow-icon direction="getArrowDirection(isPacomTogglesOpen)"></arrow-icon>
                 </div>
@@ -144,7 +144,8 @@
             </ul>
         </div>
 
-        <polaris-map-legend legend-title="Legend"></polaris-map-legend>
+        <polaris-map-legend legend-title="Legend"
+                            get-map-variable="getVariable(v)"></polaris-map-legend>
 
     </div>
     <div id="map"
@@ -289,11 +290,13 @@
 
     #home-page .polaris-map-sidebar {
         grid-area: sidebar;
-        box-shadow: var(--box-shadow-1);
+        box-shadow: var(--box-shadow-2);
         overflow: auto;
 
         display: flex;
         flex-direction: column;
+
+        z-index: 2;
     }
 
     #home-page .toggle-section .toggle-section-header {
@@ -334,10 +337,6 @@
         padding: 0.25rem 0.5rem;
         transition: all 0.125s ease-in-out;
         border-bottom: 1px solid #f1f1f1;
-    }
-
-    #home-page .checkbox-group .polaris-checkbox:hover {
-        background-color: #d3d3d3;
     }
 
     #home-page .has-subtoggles {
@@ -533,20 +532,27 @@
 
     /* Map Legend */
     polaris-map-legend {
-        background-color: #FFF;
-        width: 100%;
-        display: flex;
-        flex-direction: column;
-        flex: 1;
-        justify-content: flex-end;
-    }
-
-    polaris-map-legend ul {
-        list-style: none;
+        position: absolute;
+        bottom: 0;
+        right: 0;
     }
 
     .polaris-map-legend-action {
-        padding: 0.25rem;
+        position: absolute;
+        bottom: 0;
+        right: 0.5rem;
+
+        border-top-left-radius: 6px;
+        border-top-right-radius: 6px;
+
+        box-shadow: var(--box-shadow-3);
+        background-color: var(--blujan);
+        color: #FFF;
+        font-size: 0.75rem;
+
+        font-weight: normal;
+
+        padding: 0.25rem 0.5rem;
         display: flex;
         gap: 0.25rem;
         align-items: center;
@@ -557,8 +563,39 @@
     }
 
     .polaris-map-legend-action:hover {
+        box-shadow: var(--box-shadow-2);
         cursor: pointer;
-        background-color: var(--gray);
+        background-color: var(--blue-3);
+    }
+
+    polaris-map-legend ul {
+        list-style: none;
+    }
+
+    .polaris-map-legend .actions {
+        display: flex;
+        padding: 0.5rem;
+        gap: 0.5rem;
+        justify-content: flex-end;
+        position: sticky;
+        top: 0;
+    }
+
+    .no-layer-selected {
+        flex: 1;
+        text-align: center;
+        font-style: italic;
+        font-weight: bold;
+    }
+
+    .polaris-map-legend .actions .rotate-icon:hover {
+        cursor: pointer;
+    }
+
+    .polaris-map-legend .actions .close-icon {
+        width: 1rem;
+        height: 1rem;
+        padding: 1px;
     }
 
     .polaris-map-legend-title {
@@ -569,10 +606,42 @@
         max-height: 0;
         overflow: hidden;
         transition: max-height 0.25s ease-in-out;
+
+        position: absolute;
+
+        background: white;
+        width: 300px;
+        box-shadow: var(--box-shadow-2);
+        border-radius: 6px;
+    }
+
+    .legend-sections.bottom-right {
+        bottom: 2.25rem;
+        right: 0.5rem;
+    }
+
+    .legend-sections.bottom-left {
+        bottom: 0.5rem;
+        right: calc(100vw - var(--sidebar-width));
+        transform: translateX(103%);
+        transform: translateX(calc(100% + 0.5rem));
+    }
+
+    .legend-sections.top-left {
+        bottom: var(--full-viewport-height-navbar-px);
+        right: calc(100vw - var(--sidebar-width));
+        transform: translate(103%, calc(100% + 35px + 1rem));
+    }
+
+    .legend-sections.top-right {
+        bottom: var(--full-viewport-height-navbar-px);
+        right: 0.5rem;
+        transform: translateY(calc(100% + 0.5rem));
     }
 
     .legend-sections.show {
-        max-height: 300vh;
+        overflow: auto;
+        max-height: 30vh;
     }
 
     .legend-section-header {

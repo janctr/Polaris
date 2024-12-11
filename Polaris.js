@@ -490,7 +490,9 @@ require(['js/qlik'], function (qlik) {
 
             $scope.toggleVariable = (varName) =>
                 polaris.toggleVariable(varName, $scope);
-            $scope.getVariable = (varName) => $scope[varName];
+            $scope.getVariable = (varName) => {
+                return $scope[varName];
+            };
             $scope.getArrowDirection = (isOpen) => (isOpen ? 'up' : 'down');
 
             $scope.isPacomTogglesOpen = true;

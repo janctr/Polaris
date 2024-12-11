@@ -426,20 +426,23 @@
     angularApp.component('polarisMapLegend', {
         bindings: {
             legendTitle: '@',
-            legendItems: '<',
+            getMapVariable: '&',
         },
         template: `
             <div class="polaris-map-legend">
 
                 <div class="polaris-map-legend-action" ng-click="isOpen = !isOpen">
-                    <div style="width: 10px; height: 20px;">
-                        <arrow-icon direction="getArrowDirection(isOpen)"></arrow-icon>
-                    </div>
                     <h3 class="polaris-map-legend-title">Legend</h3>
                 </div>
                 
-                <ul class="legend-sections" ng-class="{show: isOpen}">
-                    <li class="legend-section" ng-repeat="section in legendSections">
+                <ul class="legend-sections" ng-class="[{show: isOpen}, legendPosition]">
+                    <div class="actions">
+                        <rotate-icon handle-click="rotateLegend(legendPosition)"></rotate-icon>
+                        <div class="no-layer-selected">{{ isLegendSectionShowing() ? '' : 'NO LAYERS SELECTED' }}</div>
+                        <close-icon handle-click="isOpen = !isOpen"></close-icon>
+                    </div>
+                    
+                    <li class="legend-section" ng-repeat="section in legendSections" ng-show="getVariable(section.showConditionVariable, section.items)">
                         <div class="legend-section-header">
                             <h4>{{ section.title }}</h4>
                         </div>
@@ -447,7 +450,8 @@
                             <li ng-repeat="legendItem in section.items"
                                 ng-class="{'has-children': legendItem.hasChildren, 'gradient': legendItem.icon.iconType === 'gradient'}"
                                 ng-switch="legendItem.icon.iconType"
-                                class="legend-item">
+                                class="legend-item"
+                                ng-show="getVariable(legendItem.showConditionVariable, legendItem.items)">
 
                                 <gradient ng-switch-when="gradient" colors="legendItem.icon.colors"></gradient>
                                 <legend-icon ng-switch-default ng-if="!legendItem.hasChildren" icon="legendItem.icon"></legend-icon>
@@ -466,7 +470,6 @@
                     </li>
                 </ul>
 
-                
             </div>
         `,
         controller: [
@@ -477,8 +480,26 @@
                 const { MAP_LEGEND_SECTIONS } = homePage;
 
                 $scope.polaris = polaris;
-                $scope.isOpen = true;
-                $scope.getVariable = (varName) => $scope[varName];
+                $scope.isOpen = false;
+                $scope.legendPosition = 'bottom-right';
+                $scope.rotateLegend = function (currentPosition) {
+                    switch (currentPosition) {
+                        case 'bottom-right':
+                            $scope.legendPosition = 'bottom-left';
+                            break;
+                        case 'bottom-left':
+                            $scope.legendPosition = 'top-left';
+                            break;
+                        case 'top-left':
+                            $scope.legendPosition = 'top-right';
+                            break;
+                        case 'top-right':
+                            $scope.legendPosition = 'bottom-right';
+                            break;
+                    }
+                };
+                $scope.legendSections = [];
+                $scope.isLegendSectionShowing = false;
                 $scope.getArrowDirection = (isOpen) => (isOpen ? 'up' : 'down');
                 $scope.testIcon = {
                     // iconType: 'imageUrl',
@@ -486,9 +507,103 @@
                     iconType: 'triangle',
                     color: 'teal',
                 };
-                $scope.legendSections = MAP_LEGEND_SECTIONS.map((section) => {
-                    section.isOpen = false;
-                    return section;
+
+                angular.element(document).ready(function () {
+                    $scope.getVariable = (mapVariable, legendItems) => {
+                        console.log(
+                            'getmapvariable called: ',
+                            mapVariable,
+                            legendItems
+                        );
+                        if (!mapVariable && legendItems) {
+                            console.log(
+                                'no mapvariable legendItems: ',
+                                legendItems
+                            );
+                            // This means it doesn't have a showConditionVariable
+                            for (const item of legendItems) {
+                                if (
+                                    $scope.$ctrl.getMapVariable({
+                                        v: item.showConditionVariable,
+                                    })
+                                ) {
+                                    return true;
+                                }
+                            }
+
+                            return false;
+                        }
+
+                        if (legendItems) {
+                            if (
+                                $scope.$ctrl.getMapVariable({ v: mapVariable })
+                            ) {
+                                for (const item of legendItems) {
+                                    if (!item.showConditionVariable) {
+                                        return true;
+                                    }
+
+                                    if (
+                                        $scope.$ctrl.getMapVariable({
+                                            v: item.showConditionVariable,
+                                        })
+                                    ) {
+                                        return true;
+                                    }
+                                }
+
+                                return false;
+                            }
+                        }
+
+                        return $scope.$ctrl.getMapVariable({ v: mapVariable });
+                    };
+
+                    $scope.legendSections = MAP_LEGEND_SECTIONS.map(
+                        (section) => {
+                            if (section.showConditionVariable) {
+                                section.isOpen = !!$scope.getVariable(
+                                    section.showConditionVariable
+                                );
+                            } else {
+                                section.isOpen = true;
+                            }
+
+                            section.items = section.items.map((item) => {
+                                item.isOpen = $scope.getVariable(
+                                    item.showConditionVariable
+                                );
+                                return item;
+                            });
+
+                            return section;
+                        }
+                    );
+
+                    $scope.isLegendSectionShowing = () =>
+                        MAP_LEGEND_SECTIONS.filter((legendSection) => {
+                            console.log('legendSection blah: ', legendSection);
+                            if (legendSection.showConditionVariable) {
+                                return $scope.getVariable(
+                                    legendSection.showConditionVariable
+                                );
+                            }
+
+                            if (legendSection.items.length) {
+                                for (const item of legendSection.items) {
+                                    return $scope.getVariable(
+                                        item.showConditionVariable
+                                    );
+                                }
+                            }
+
+                            return false;
+                        }).length;
+
+                    console.log(
+                        '$scope.isLegendSectionShowing: ',
+                        $scope.isLegendSectionShowing
+                    );
                 });
             },
         ],
@@ -633,6 +748,33 @@
             '$scope',
             function ($scope) {
                 $scope.getFillColor = (fillColor) => fillColor || '#000000';
+            },
+        ],
+    });
+
+    angularApp.component('rotateIcon', {
+        bindings: {
+            handleClick: '&',
+            width: '@',
+            height: '@',
+        },
+        template: `
+        <div class="rotate-icon" ng-style="iconStyle" ng-click="$ctrl.handleClick()">
+            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" x="0px" y="0px" viewBox="0 0 100 125" style="enable-background:new 0 0 100 100;" xml:space="preserve"><path d="M85.9,87c0,1.7-1.3,3-3,3H70.9c-1.7,0-3-1.3-3-3V75.1c0-1.7,1.3-3,3-3s3,1.3,3,3v5.3c9.3-7.3,14.9-18.6,14.9-30.6  C88.8,28.4,71.4,11,50,11c-1.7,0-3-1.3-3-3s1.3-3,3-3c24.7,0,44.8,20.1,44.8,44.8c0,13.3-6,25.8-15.9,34.2h4  C84.5,84,85.9,85.4,85.9,87z M50,89c-21.4,0-38.8-17.4-38.8-38.8c0-12,5.6-23.3,14.9-30.6v5.3c0,1.7,1.3,3,3,3s3-1.3,3-3V13  c0-1.7-1.3-3-3-3H17.1c-1.7,0-3,1.3-3,3s1.3,3,3,3h4c-10,8.4-15.9,20.9-15.9,34.2C5.2,74.9,25.3,95,50,95c1.7,0,3-1.3,3-3  S51.7,89,50,89z"/></svg>
+        </div>
+        `,
+        controller: [
+            '$scope',
+            function ($scope) {
+                angular.element(document).ready(function () {
+                    $scope.width = $scope.$ctrl.width || '1rem';
+                    $scope.height = $scope.$ctrl.height || '1rem';
+
+                    $scope.iconStyle = {
+                        width: $scope.width,
+                        height: $scope.height,
+                    };
+                });
             },
         ],
     });

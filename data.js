@@ -216,10 +216,11 @@ const POLARIS_CONSTANTS = {
                     {
                         hasChildren: true,
                         label: 'Class VIII',
+                        showConditionVariable: 'v_map_class_viii',
                         items: [
                             {
                                 label: 'Blood',
-                                showConditionVariable: 'v_map_class_viii',
+                                showConditionVariable: 'v_class_viii_blood',
                                 icon: {
                                     iconType: 'qlikVariable',
                                     imageUrlVariable: 'v_icon_Blood',
@@ -227,7 +228,7 @@ const POLARIS_CONSTANTS = {
                             },
                             {
                                 label: 'Medical Equipment',
-                                showConditionVariable: 'v_map_class_viii',
+                                showConditionVariable: 'v_class_viii_equip',
                                 icon: {
                                     iconType: 'qlikVariable',
                                     imageUrlVariable: 'v_icon_Med_Equip',
@@ -336,7 +337,6 @@ const POLARIS_CONSTANTS = {
                             },
                         ],
                     },
-
                     {
                         hasChildren: true,
                         label: 'Land Vehicles',
