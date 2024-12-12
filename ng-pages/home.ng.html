@@ -5,6 +5,9 @@
       id="home-page">
     <div class="polaris-map-sidebar"
          ng-show="isSidebarShowing">
+        <div class="clear-selections-button">
+            <button ng-click="polaris.clear()">CLEAR SELECTIONS</button>
+        </div>
         <div class="toggle-section">
             <div class="toggle-section-header"
                  ng-click="isPacomTogglesOpen = !isPacomTogglesOpen">
@@ -286,6 +289,22 @@
 
     #home-page .grid-box .body {
         flex: 1;
+    }
+
+    #home-page .clear-selections-button>button {
+        width: 100%;
+        background-color: #FFF;
+        border: none;
+        font-weight: bold;
+        padding: 0.25rem;
+        letter-spacing: 2px;
+
+        transition: background-color 0.25s ease-in-out;
+    }
+
+    #home-page .clear-selections-button>button:hover {
+        cursor: pointer;
+        background-color: var(--platinum);
     }
 
     #home-page .polaris-map-sidebar {
