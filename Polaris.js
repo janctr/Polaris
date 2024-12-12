@@ -213,7 +213,6 @@ require(['js/qlik'], function (qlik) {
             }
 
             function getVariable(varName, scope) {
-                console.log('getVariable called: ', varName, scope);
                 // Gets variable and sets the value in scope
                 self.app.variable.getContent(varName, function (reply) {
                     console.log(
@@ -674,7 +673,7 @@ require(['js/qlik'], function (qlik) {
                     objectId: 'YdCug',
                     isOpen: false,
                     onClose: function () {
-                        polaris.clearField('vessel');
+                        polaris.clear();
                     },
                 },
                 {
@@ -941,7 +940,7 @@ require(['js/qlik'], function (qlik) {
             $scope.getNiceColumnName = (columnName) =>
                 COLUMN_ALIAS[columnName] || columnName;
             $scope.search = function (searchStr) {
-                if (searchStr.length <= 3) {
+                if (searchStr.length < 1) {
                     return;
                 }
 

@@ -435,7 +435,7 @@
                     <h3 class="polaris-map-legend-title">Legend</h3>
                 </div>
                 
-                <ul class="legend-sections" ng-class="[{show: isOpen}, legendPosition]">
+                <ul class="legend-sections scrollbar" ng-class="[{show: isOpen}, legendPosition]">
                     <div class="actions">
                         <rotate-icon handle-click="rotateLegend(legendPosition)"></rotate-icon>
                         <div class="no-layer-selected">{{ isLegendSectionShowing() ? '' : 'NO LAYERS SELECTED' }}</div>
@@ -510,16 +510,9 @@
 
                 angular.element(document).ready(function () {
                     $scope.getVariable = (mapVariable, legendItems) => {
-                        console.log(
-                            'getmapvariable called: ',
-                            mapVariable,
-                            legendItems
-                        );
+                        // console.log('getmapvariable called: ', mapVariable, legendItems);
                         if (!mapVariable && legendItems) {
-                            console.log(
-                                'no mapvariable legendItems: ',
-                                legendItems
-                            );
+                            // console.log('no mapvariable legendItems: ',legendItems);
                             // This means it doesn't have a showConditionVariable
                             for (const item of legendItems) {
                                 if (
@@ -582,7 +575,6 @@
 
                     $scope.isLegendSectionShowing = () =>
                         MAP_LEGEND_SECTIONS.filter((legendSection) => {
-                            console.log('legendSection blah: ', legendSection);
                             if (legendSection.showConditionVariable) {
                                 return $scope.getVariable(
                                     legendSection.showConditionVariable
@@ -600,10 +592,7 @@
                             return false;
                         }).length;
 
-                    console.log(
-                        '$scope.isLegendSectionShowing: ',
-                        $scope.isLegendSectionShowing
-                    );
+                    // console.log('$scope.isLegendSectionShowing: ', $scope.isLegendSectionShowing);
                 });
             },
         ],
@@ -646,7 +635,7 @@
                 $scope.getVariable = (v) => $scope[v];
 
                 angular.element(document).ready(function () {
-                    console.log('$scope.$ctrl.icon:', $scope.$ctrl.icon);
+                    // console.log('$scope.$ctrl.icon:', $scope.$ctrl.icon);
                     polaris.getVariable(
                         $scope.$ctrl.icon.imageUrlVariable,
                         $scope
