@@ -17,6 +17,11 @@ const POLARIS_CONSTANTS = {
             label: 'Data Sources',
             classNames: ['link', 'separator'],
         },
+        {
+            href: '#/app-overview',
+            label: 'App Overview',
+            classNames: ['link', 'separator'],
+        },
     ],
     landingPageLinks: {
         niprJ4LandingPageLink:
@@ -859,7 +864,45 @@ const POLARIS_CONSTANTS = {
             return section;
         }),
     },
-    appSummaryPage: {
+    appOverviewPage: {
+        logos: {
+            notional: [
+                {
+                    title: 'Advana',
+                    url: 'https://qlik.advana.data.mil/content/BA_Sheet_Logos/ADVANA%20Logo.png',
+                },
+                {
+                    title: 'J4',
+                    url: 'https://qlik.advana.data.mil/content/CCMD%20USINDOPACOM/j4-logo.jpg',
+                },
+                {
+                    title: 'Department of Defense',
+                    url: 'https://qlik.advana.data.mil/content/Org_Logos/DoD%20App%20Logo.png',
+                },
+                {
+                    title: 'USINDOPACOM',
+                    url: 'https://qlik.advana.data.mil/content/Org_Logos/indopacom.png',
+                },
+            ],
+            sipr: [
+                {
+                    title: 'Advana',
+                    url: 'https://qlik.advana.data.smil.mil/content/BA_Sheet_Logos/ADVANA%20Logo.png',
+                },
+                {
+                    title: 'J4',
+                    url: 'https://qlik.advana.data.smil.mil/appcontent/21fe9c1f-814e-459d-9d98-dd22769a63aa/J4.jpg',
+                },
+                {
+                    title: 'Department of Defense',
+                    url: 'https://qlik.advana.data.smil.mil/content/Org_Logos/DoD%20App%20Logo.png',
+                },
+                {
+                    title: 'USINDOPACOM',
+                    url: 'https://qlik.advana.data.smil.mil/content/Org_Logos/indopacom.png',
+                },
+            ],
+        },
         CREDITS_SECTIONS: [
             {
                 label: 'Points of Contact',

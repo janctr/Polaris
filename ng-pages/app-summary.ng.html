@@ -1,61 +1,61 @@
 <main class="main"
       id="app-summary-page">
       <section class="hero-section">
-            <div>
-                  <h2>App Overview</h2>
+            <div class="column">
+                  <h2>App Summary</h2>
+                  <h3>POLARIS - Pacific Operations Logistics and Readiness Information System</h3>
                   <div class="app-summary">
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. In ac imperdiet dui, sit amet luctus
-                              enim. Fusce arcu ipsum, vulputate non arcu a, dictum lacinia metus. Mauris tempor cursus
-                              sapien, in feugiat est condimentum id. Sed varius dui tellus, eu efficitur augue dictum
-                              id. Vivamus quis finibus felis. Vestibulum scelerisque lectus a augue scelerisque
-                              scelerisque. Proin at nulla finibus, pulvinar velit sed, porta dolor. Donec in nunc
-                              viverra massa tincidunt dignissim eu vitae massa. Aenean venenatis dignissim lacus, ac
-                              blandit nisi varius non.
-
-                              Cras ac ex accumsan, dapibus erat vitae, consequat neque. Ut malesuada mollis nisl, non
-                              lobortis mauris. Fusce varius mauris ac nisi consectetur, malesuada ullamcorper purus
-                              interdum. Maecenas aliquet sagittis augue, id placerat urna sollicitudin at. Pellentesque
-                              feugiat mattis metus. Proin dictum justo vel enim hendrerit commodo. Donec sed ipsum
-                              metus. Phasellus ut pharetra lacus. Fusce eget lectus elementum, dictum arcu ut, bibendum
-                              mi. Nunc viverra laoreet mi ac venenatis. Etiam iaculis libero a ornare volutpat.
-                              Curabitur eget nulla et nibh porttitor dictum non eu sem. Nulla dictum, enim at posuere
-                              eleifend, mauris purus eleifend lacus, ut sollicitudin mauris arcu et sem. Phasellus sed
-                              tempor massa, posuere vehicula tellus.</p>
-                        <p>Ut sed dapibus risus, nec laoreet enim. Cras vulputate leo in lobortis vehicula. Donec
-                              semper, orci sed aliquet sagittis, diam mi rhoncus purus, ac aliquam dui ipsum vel nibh.
-                              Mauris dapibus auctor purus, id eleifend eros cursus a. Praesent justo sapien, consectetur
-                              nec lorem nec, tincidunt hendrerit tellus. In purus massa, molestie nec leo nec, maximus
-                              sodales tellus. Quisque eget faucibus nisi. Ut vestibulum suscipit sem ac malesuada. Sed
-                              at varius purus. Donec elit magna, vestibulum eget augue in, tincidunt volutpat sem. Duis
-                              aliquam maximus erat, eu consectetur odio congue in. In hac habitasse platea dictumst.
-
-                              Integer ut sodales lacus. Sed rhoncus rutrum euismod. Vivamus in lacinia nibh, ac cursus
-                              purus. Etiam volutpat scelerisque neque, a vehicula ante imperdiet sed. Duis aliquet
-                              viverra nulla ac fermentum. Vivamus placerat cursus erat sed cursus. Nunc nunc augue,
-                              laoreet at posuere pharetra, interdum sit amet massa. Praesent odio eros, interdum vel
-                              lectus nec, convallis molestie eros. Cras porttitor sagittis magna id dapibus. Sed
-                              convallis pellentesque tortor, sit amet laoreet arcu vehicula vitae. Maecenas vel eros ac
-                              nulla ultricies pretium. Maecenas ultrices tellus id volutpat fermentum. Quisque eget
-                              viverra nunc. Ut congue pellentesque nulla, at sollicitudin libero.
-
-                              Pellentesque et odio id velit vestibulum tempus. Proin quis elit sit amet mi vestibulum
-                              feugiat. Vestibulum finibus egestas justo, nec blandit massa. Donec id risus sit amet
-                              libero iaculis dignissim pharetra in eros. Ut consequat elit nulla, ac pellentesque est
-                              pretium sed. Etiam imperdiet, est eget venenatis egestas, justo lacus sollicitudin ante,
-                              vel congue metus massa eget libero.</p>
+                        <p>The goal of POLARIS is to provide the USINDOPACOM J4 an adaptable platform that
+                              provides
+                              visibility of logistics readiness, current operations, and future operations. The
+                              primary
+                              goals are to answer the operational logistics key visibility questions aligned to
+                              the 7
+                              functions of joint logistics. Our approach is to create a cohesive mesh of automated
+                              data
+                              with the capability of correcting/updating lagging data sets that are paired and
+                              tailored
+                              to the J4 Divisions and Branches according to their unique reporting requirements
+                              set by
+                              the J4 Director. By answering the Operational Logistics Key Visibility questions in
+                              a
+                              layered approach focusing on readines (APOD/SPOD status, Pre-positioned material,
+                              Asset
+                              Readiness, Classes of Supply, and Posture) with Current operations metrics
+                              (In-Transit-Visbility, Force Closure, and Logistics Current Operations. Once the
+                              here and
+                              now have been answered the application can focus on future operations through
+                              modeling &
+                              simulations against Operational requirements to generate sustainment plans provide
+                              planners and decision makers visibility across a fast, agile, and adaptable Joint
+                              Logistics Enterprise.</p>
                   </div>
+            </div>
+            <div class="column priority-focus-areas">
+                  <h3>Priority Focus Areas</h3>
+                  <ul>
+                        <li>Class III - Inventory, Warehousing, and Supply Chain</li>
+                        <li>Class V - Inventory, Warehousing, and Supply Chain</li>
+                        <li>Deployment & Distribution - Asset Visibility, APOD/SPODs, In-Transit-Visibility, and
+                              Logistics Operations</li>
+                        <li>Sustainment - Pre-positioned Materials</li>
+                  </ul>
+            </div>
 
-                  <div class="dates">
-                        <div><span>Data Last Reloaded: </span><time>{{ dateLastReloaded }}</time></div>
-                        <div><span>Last Modified: </span><time>{{ lastModified }}</time></div>
-                        <div><span>Published: </span><time>{{ published }}</time></div>
-                  </div>
+
+            <div class="dates">
+                  <div><span>Data Last Reloaded: </span><time>{{ dateLastReloaded }}</time></div>
+                  <div><span>Last Modified: </span><time>{{ lastModified }}</time></div>
+                  <div><span>Published: </span><time>{{ published }}</time></div>
+                  <div><span>Reload Cadence:</span><time> Hourly</time></div>
             </div>
       </section>
 
       <section class="logo-section">
             <div class="logo-container"
-                 ng-repeat="logo in ['1st logo', '2nd logo', '3rd logo', '4th logo']"></div>
+                 ng-repeat="logo in logos">
+                  <img ng-src="{{logo.url}}" />
+            </div>
       </section>
 
       <section class="credits-section">
@@ -70,7 +70,7 @@
       </section>
 
       <section class="glossary-change-log-section">
-
+            <!-- 
             <div class="glossary">
                   <h3>Glossary</h3>
                   <table>
@@ -87,7 +87,7 @@
                               </tr>
                         </tbody>
                   </table>
-            </div>
+            </div> -->
             <div class="change-log">
                   <h3>Change Log</h3>
                   <table>
@@ -117,6 +117,8 @@
 
       #app-summary-page>.hero-section {
             display: flex;
+            flex-direction: column;
+            flex-wrap: wrap;
             justify-content: center;
             align-items: center;
 
@@ -124,7 +126,30 @@
             padding-bottom: 2rem;
       }
 
-      #app-summary-page>.hero-section>div {}
+      #app-summary-page>.hero-section>.column {
+            width: 920px;
+            line-height: 1.25rem;
+      }
+
+      #app-summary-page>.hero-section>.column>h2 {
+            font-size: 2rem;
+      }
+
+      #app-summary-page>.hero-section>.column>h3 {
+            font-size: 1.25rem;
+      }
+
+      #app-summary-page>.hero-section>.priority-focus-areas {
+            margin-top: 1rem;
+      }
+
+      #app-summary-page>.hero-section>.priority-focus-areas>ul {
+            list-style: none;
+      }
+
+      #app-summary-page>.hero-section>.priority-focus-areas>li {
+            margin-left: 0.5rem;
+      }
 
       #app-summary-page>.hero-section>div>h2 {
             padding: 1rem;
@@ -134,14 +159,15 @@
       #app-summary-page>.hero-section>div>.app-summary {
             display: flex;
             gap: 2rem;
-
       }
 
       #app-summary-page>.hero-section>div>.app-summary>p {
             flex: 1;
+            margin-top: 0.5rem;
       }
 
       #app-summary-page .dates {
+            width: 100%;
             margin-top: 2rem;
             display: flex;
             justify-content: center;
@@ -177,6 +203,7 @@
             border-radius: 8px;
             box-shadow: var(--box-shadow-3);
             outline: none;
+            padding: 0.5rem;
       }
 
       #app-summary-page>.credits-section {
@@ -227,7 +254,9 @@
 
       #app-summary-page>.glossary-change-log-section>.glossary {}
 
-      #app-summary-page>.glossary-change-log-section>.change-log {}
+      #app-summary-page>.glossary-change-log-section>.change-log {
+            width: 920px;
+      }
 
       #app-summary-page>.glossary-change-log-section table {
             margin-top: 1rem;

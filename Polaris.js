@@ -55,11 +55,11 @@ require(['js/qlik'], function (qlik) {
             })
             .when('/app-overview', {
                 templateUrl: 'app-summary.ng.html',
-                controller: 'AppSummaryController',
+                controller: 'AppOverviewController',
             })
             .when('/app-overview-2', {
                 templateUrl: 'app-summary.ng.html',
-                controller: 'AppSummaryController',
+                controller: 'AppOverviewController',
             })
             .otherwise({
                 redirectTo: '/home',
@@ -1116,20 +1116,38 @@ require(['js/qlik'], function (qlik) {
         },
     ]);
 
-    angularApp.controller('AppSummaryController', [
+    angularApp.controller('AppOverviewController', [
         '$scope',
         'polaris',
-        'appSummaryPage',
-        function ($scope, polaris, appSummaryPage) {
-            const { CREDITS_SECTIONS } = appSummaryPage;
+        'appOverviewPage',
+        function ($scope, polaris, appOverviewPage) {
+            const { logos, CREDITS_SECTIONS } = appOverviewPage;
 
-            $scope.dateLastReloaded = '1/1/2024';
-            $scope.lastModified = '1/2/2024';
-            $scope.published = '1/3/2024';
+            $scope.dateLastReloaded = '';
+            $scope.lastModified = '';
+            $scope.published = '10/01/2024';
+            $scope.reloadCadence = 'Hourly';
 
             $scope.glossary = [];
             $scope.changeLog = [];
+            $scope.logos = polaris.isSipr ? logos.sipr : logos.notional;
 
+            // Get dateLastReloaded and lastModified
+            polaris.app.createGenericObject(
+                {
+                    dateLastReloaded: { qStringExpression: '=ReloadTime()' },
+                    lastModified: {
+                        qStringExpression:
+                            '=Max( Timestamp(Max_Change_Log_timestamp) )',
+                    },
+                },
+                function (reply) {
+                    $scope.dateLastReloaded = reply.dateLastReloaded;
+                    $scope.lastModified = reply.lastModified;
+                }
+            );
+
+            // Glossary
             polaris.createHypercube({
                 dimensions: ['Term', 'Definition'],
                 callback: function (reply) {
@@ -1146,6 +1164,7 @@ require(['js/qlik'], function (qlik) {
                 },
             });
 
+            // Change Log
             polaris.createHypercube({
                 dimensions: ['Version Number', 'Date', 'ChangeMade'],
                 callback: function (reply) {
