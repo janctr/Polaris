@@ -661,7 +661,10 @@ require(['js/qlik'], function (qlik) {
                     height: '200px',
                     isOpen: false,
                     onClose: function () {
-                        polaris.clearField('asset_id');
+                        polaris.clear();
+                        $scope.toggleVariable(
+                            'v_map_deploy_dist_aircraft_health'
+                        );
                     },
                 },
                 {
