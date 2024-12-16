@@ -25,7 +25,8 @@
                                     toggle="toggleVariable(toggle.varName)"
                                     label="{{toggle.title}}"
                                     id="{{toggle.label}}"
-                                    qlik-dropdown-id="{{toggle.qlikDropdownId}}">
+                                    qlik-dropdown-id="{{toggle.qlikDropdownId}}"
+                                    has-children="toggle.hasChildren">
                     </polaris-toggle>
                 </li>
                 <li ng-if="v_map_classes_of_supply"
@@ -40,7 +41,8 @@
                                             toggle="toggleVariable(toggle.varName)"
                                             label="{{toggle.title}}"
                                             id="{{toggle.label}}"
-                                            qlik-dropdown-id="{{toggle.qlikDropdownId}}">
+                                            qlik-dropdown-id="{{toggle.qlikDropdownId}}"
+                                            has-children="toggle.subToggles.length > 0">
                             </polaris-toggle>
 
                             <ul ng-if="toggle.subToggles && getVariable(toggle.varName)"
@@ -399,7 +401,7 @@
         position: absolute;
         bottom: 0.5rem;
         right: 0.5rem;
-        z-index: 2;
+        z-index: 1;
         border-radius: 8px;
         box-shadow: var(--box-shadow-2);
         overflow: hidden;

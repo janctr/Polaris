@@ -343,6 +343,11 @@ a:visited {
     align-items: center;
 }
 
+.polaris-toggle-title arrow-icon svg {
+    height: 0.75rem;
+    margin-right: 0.5rem;
+}
+
 .polaris-toggle-dropdown {
     flex: 1;
 }
@@ -454,5 +459,25 @@ polaris-modal {
 
 .polaris-modal-body {
     flex: 1;
+}
+/**************************************/
+
+/************arrow-icon****************/
+arrow-icon svg {
+}
+
+arrow-icon svg.down {
+}
+
+arrow-icon svg.up {
+    transform: rotate(180deg);
+}
+
+arrow-icon svg.left {
+    transform: rotate(90deg);
+}
+
+arrow-icon svg.right {
+    transform: rotate(270deg);
 }
 /**************************************/

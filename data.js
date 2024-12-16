@@ -54,6 +54,7 @@ const POLARIS_CONSTANTS = {
                     title: 'Classes of Supply',
                     label: 'classes-of-supply',
                     varName: 'v_map_classes_of_supply',
+                    hasChildren: true,
                 },
             ],
             classesOfSupplyToggles: [
@@ -68,6 +69,7 @@ const POLARIS_CONSTANTS = {
                     label: 'class-iii',
                     varName: 'v_map_class_iii',
                     qlikDropdownId: '',
+                    hasChildren: true,
                 },
                 {
                     title: 'Class IV',
@@ -85,6 +87,7 @@ const POLARIS_CONSTANTS = {
                     title: 'Class VIII',
                     label: 'class-viii',
                     varName: 'v_map_class_viii',
+                    hasChildren: true,
                     subToggles: [
                         {
                             title: 'Blood',

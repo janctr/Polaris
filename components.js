@@ -315,10 +315,14 @@
             label: '@',
             id: '@',
             qlikDropdownId: '@',
+            hasChildren: '<',
         },
         template: `
             <div class="polaris-toggle">
-                <h3 class="polaris-toggle-title">{{ $ctrl.label }}</h3>
+                <h3 class="polaris-toggle-title">
+                    <arrow-icon ng-if="$ctrl.hasChildren" direction="getDirection()"></arrow-icon>
+                    {{ $ctrl.label }}
+                </h3>
                 <div ng-if="$ctrl.qlikDropdownId.length" class="polaris-toggle-dropdown" id="{{$ctrl.id}}-dropdown"></div>
                 <label 
                     class="polaris-toggle-box" 
@@ -339,6 +343,9 @@
             'polaris',
             function ($scope, polaris) {
                 angular.element(document).ready(function () {
+                    $scope.getDirection = function () {
+                        return $scope.$ctrl.isChecked ? 'down' : 'right';
+                    };
                     polaris.insertObject({
                         label: $scope.$ctrl.label,
                         elementId: `${$scope.$ctrl.id}-dropdown`,
@@ -791,7 +798,7 @@
             direction: '<',
         },
         template: `
-        <svg ng-style="$ctrl.direction === 'up' ? { 'transform': 'rotate(180deg)'} : {}" fill="#000000" height="100%" width="100%" version="1.1" id="Layer_1"
+        <svg ng-class="$ctrl.direction" fill="#000000" height="100%" width="100%" version="1.1" id="Layer_1"
             xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
             viewBox="0 0 330 330" xml:space="preserve">
             <path id="XMLID_225_" d="M325.607,79.393c-5.857-5.857-15.355-5.858-21.213,0.001l-139.39,139.393L25.607,79.393
@@ -799,6 +806,34 @@
             s7.794-1.581,10.606-4.394l149.996-150C331.465,94.749,331.465,85.251,325.607,79.393z" />
         </svg>
         `,
+        controller: [
+            '$scope',
+            function ($scope) {
+                angular.element(document).ready(function () {
+                    $scope.getDirectionStyle = function (direction) {
+                        const directionStyle = {};
+                        switch (direction) {
+                            case 'up':
+                                $scope.directionStyle.transform =
+                                    'rotate(180deg)';
+                                break;
+                            case 'down':
+                                break;
+                            case 'right':
+                                $scope.directionStyle.transform =
+                                    'rotate(270deg)';
+                                break;
+                            case 'left':
+                                $scope.directionStyle.transform =
+                                    'rotate(90deg)';
+                                break;
+                        }
+
+                        return directionStyle;
+                    };
+                });
+            },
+        ],
     });
 
     angularApp.component('trashIcon', {
