@@ -320,7 +320,6 @@
         template: `
             <div class="polaris-toggle">
                 <h3 class="polaris-toggle-title">
-                    <arrow-icon ng-if="$ctrl.hasChildren" direction="getDirection()"></arrow-icon>
                     {{ $ctrl.label }}
                 </h3>
                 <div ng-if="$ctrl.qlikDropdownId.length" class="polaris-toggle-dropdown" id="{{$ctrl.id}}-dropdown"></div>
