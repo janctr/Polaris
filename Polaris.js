@@ -866,6 +866,19 @@ require(['js/qlik'], function (qlik) {
                 },
             });
 
+            // Secret column aliases
+            polaris.createHypercube({
+                dimensions: ['secretColumn', 'secretColumnAlias'],
+                callback: function (reply) {
+                    reply.qHyperCube.qDataPages[0].qMatrix.forEach((row) => {
+                        const secretColumn = row[0].qText;
+                        const secretColumnAlias = row[1].qText;
+
+                        COLUMN_ALIAS[secretColumn] = secretColumnAlias;
+                    });
+                },
+            });
+
             // Search bar functionality
             $scope.searchStr = '';
             $scope.searchState = SearchState.NOT_LOADING;
@@ -976,8 +989,9 @@ require(['js/qlik'], function (qlik) {
                 }
             };
 
-            $scope.getNiceColumnName = (columnName) =>
-                COLUMN_ALIAS[columnName] || columnName;
+            $scope.getNiceColumnName = (columnName) => {
+                return COLUMN_ALIAS[columnName] || columnName;
+            };
             $scope.search = function (searchStr) {
                 if (searchStr.length < 1) {
                     return;
