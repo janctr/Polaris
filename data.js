@@ -51,6 +51,11 @@ const POLARIS_CONSTANTS = {
                     qlikDropdownId: 'PvXr',
                 },
                 {
+                    title: 'TIMP',
+                    label: 'timp',
+                    varName: 'v_map_TIMP',
+                },
+                {
                     title: 'Classes of Supply',
                     label: 'classes-of-supply',
                     varName: 'v_map_classes_of_supply',
@@ -184,6 +189,36 @@ const POLARIS_CONSTANTS = {
                 },
             ],
         },
+        MAP_TOGGLE_DEFAULT_VALUES: [
+            { varName: 'v_map_usindopacom', defaultValue: 1 },
+            { varName: 'v_map_joa', defaultValue: 0 },
+            { varName: 'v_map_TIMP', defaultValue: 0 },
+            { varName: 'v_map_classes_of_supply', defaultValue: 0 },
+            { varName: 'v_map_class_i', defaultValue: 1 },
+            { varName: 'v_map_class_iii', defaultValue: 1 },
+            { varName: 'v_map_class_iv', defaultValue: 1 },
+            { varName: 'v_map_class_v', defaultValue: 1 },
+            { varName: 'v_map_class_viii', defaultValue: 1 },
+            { varName: 'v_class_viii_blood', defaultValue: 1 },
+            { varName: 'v_class_viii_equip', defaultValue: 1 },
+            {
+                varName: 'v_map_deploy_dist_vessel_health',
+                defaultValue: 0,
+            },
+            { varName: 'v_map_enemy_vessels', defaultValue: 0 },
+            {
+                varName: 'v_map_deploy_dist_aircraft_health',
+                defaultValue: 0,
+            },
+            { varName: 'v_map_aws', defaultValue: 0 },
+            { varName: 'v_map_epf', defaultValue: 0 },
+            { varName: 'v_map_land_vehicles', defaultValue: 0 },
+            { varName: 'v_map_seaports', defaultValue: 0 },
+            { varName: 'v_map_airports', defaultValue: 0 },
+            { varName: 'v_map_combat_engineers', defaultValue: 0 },
+            { varName: 'v_map_civil_engineers', defaultValue: 0 },
+            { varName: 'v_map_ocs_cities', defaultValue: 0 },
+        ],
         MAP_LEGEND_SECTIONS: [
             {
                 title: 'Classes of Supply',
@@ -243,6 +278,19 @@ const POLARIS_CONSTANTS = {
                                 },
                             },
                         ],
+                    },
+                ],
+            },
+            {
+                title: 'TIMP',
+                items: [
+                    {
+                        label: 'Projects',
+                        showConditionVariable: 'v_map_TIMP',
+                        icon: {
+                            iconType: 'hexagon',
+                            color: '#4477aa',
+                        },
                     },
                 ],
             },
@@ -967,6 +1015,7 @@ const POLARIS_CONSTANTS = {
         nbaTeam: 'NBA Team',
         mlsTeam: 'MLS Team',
         // SIPR
+        Clusters_ClusterID: 'Project Cluster', // TIMP
         dodaac_nomen_cli: 'Class I', // Class I
         plant_desc: 'Class III', // Class III
         dodaac_cliv: 'Class IV', // Class IV

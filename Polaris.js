@@ -437,8 +437,12 @@ require(['js/qlik'], function (qlik) {
         'homePage',
         'COLUMN_ALIAS',
         function ($scope, polaris, homePage, COLUMN_ALIAS) {
-            const { siprObjects, notionalAppObjects, HOME_PAGE_TOGGLES } =
-                homePage;
+            const {
+                siprObjects,
+                notionalAppObjects,
+                HOME_PAGE_TOGGLES,
+                MAP_TOGGLE_DEFAULT_VALUES,
+            } = homePage;
 
             $scope.polaris = polaris;
 
@@ -461,6 +465,7 @@ require(['js/qlik'], function (qlik) {
                 'v_class_viii_blood',
                 'v_class_viii_equip',
                 'v_map_class_ix',
+                'v_map_TIMP',
                 // PDDOC
                 'v_map_deploy_dist_vessel_health',
                 'v_map_enemy_vessels',
@@ -492,6 +497,16 @@ require(['js/qlik'], function (qlik) {
             $scope.getVariable = (varName) => {
                 return $scope[varName];
             };
+            $scope.resetToggles = function () {
+                for (const mapToggle of MAP_TOGGLE_DEFAULT_VALUES) {
+                    const { varName, defaultValue } = mapToggle;
+
+                    if ($scope[varName] !== defaultValue) {
+                        $scope.toggleVariable(varName);
+                    }
+                }
+            };
+
             $scope.getArrowDirection = (isOpen) => (isOpen ? 'up' : 'down');
 
             $scope.isPacomTogglesOpen = true;
@@ -583,6 +598,21 @@ require(['js/qlik'], function (qlik) {
                     },
                 },
                 // SIPR
+                {
+                    label: 'TIMP',
+                    fieldName: 'Clusters_ClusterID',
+                    customExpression:
+                        '=GetSelectedCount(Clusters_ClusterID) > 0',
+                    comparator: -1,
+                    varName: 'isTimpSelected',
+                    objectId: 'qKnWbs',
+                    position: 'bottom',
+                    height: '300px',
+                    isOpen: false,
+                    onClose: function () {
+                        polaris.clearField('Clusters_ClusterID');
+                    },
+                },
                 {
                     label: 'Class I',
                     fieldName: 'dodaac_nomen_cli',
@@ -734,7 +764,12 @@ require(['js/qlik'], function (qlik) {
 
             polaris.app.createGenericObject(genericObject, function (reply) {
                 for (const box of $scope.drilldownBoxes) {
-                    box.isOpen = Number(reply[box.varName]) === 1;
+                    if (box.comparator) {
+                        box.isOpen =
+                            Number(reply[box.varName]) === box.comparator;
+                    } else {
+                        box.isOpen = Number(reply[box.varName]) === 1;
+                    }
                 }
             });
 
@@ -842,6 +877,7 @@ require(['js/qlik'], function (qlik) {
                 'mlsTeam',
             ];
             $scope.siprSearchFields = [
+                'Clusters_ClusterID', // TIMP
                 'dodaac_nomen_cli', // Class I
                 'plant_desc', // Class III
                 //   'poi_name', // Class III

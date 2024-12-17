@@ -5,8 +5,9 @@
       id="home-page">
     <div class="polaris-map-sidebar"
          ng-show="isSidebarShowing">
-        <div class="clear-selections-button">
-            <button ng-click="polaris.clear()">CLEAR SELECTIONS</button>
+        <div class="map-actions">
+            <button ng-click="resetToggles()">RESET TOGGLES</button>
+            <button ng-click="polaris.clear()">CLEAR FILTERS</button>
         </div>
         <div class="toggle-section">
             <div class="toggle-section-header"
@@ -293,20 +294,27 @@
         flex: 1;
     }
 
-    #home-page .clear-selections-button>button {
+    #home-page .map-actions {
+        display: flex;
+        gap: 1px;
+    }
+
+    #home-page .map-actions>button {
         width: 100%;
-        background-color: #FFF;
+        background-color: var(--blue-2);
+        color: #FFF;
         border: none;
         font-weight: bold;
         padding: 0.25rem;
         letter-spacing: 2px;
 
         transition: background-color 0.25s ease-in-out;
+        margin-bottom: 1px;
     }
 
-    #home-page .clear-selections-button>button:hover {
+    #home-page .map-actions>button:hover {
         cursor: pointer;
-        background-color: var(--platinum);
+        background-color: var(--blue-3);
     }
 
     #home-page .polaris-map-sidebar {
