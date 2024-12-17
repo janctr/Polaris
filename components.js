@@ -485,6 +485,47 @@
             function ($scope, polaris, homePage) {
                 const { MAP_LEGEND_SECTIONS } = homePage;
 
+                // Get secret icons
+                polaris.createHypercube({
+                    dimensions: [
+                        'legendIconLabel',
+                        'legendIconUrlVariable',
+                        'showConditionVariable',
+                    ],
+                    callback: function (reply) {
+                        const secretIcons =
+                            reply.qHyperCube.qDataPages[0].qMatrix.map(
+                                (row) => {
+                                    const label = row[0].qText;
+                                    const imageUrlVariable = row[1].qText;
+                                    const showConditionVariable = row[2].qText;
+
+                                    const icon = {
+                                        label: label,
+                                        showConditionVariable:
+                                            showConditionVariable,
+                                        icon: {
+                                            iconType: 'qlikVariable',
+                                            imageUrlVariable: imageUrlVariable,
+                                        },
+                                    };
+
+                                    return icon;
+                                }
+                            );
+
+                        for (const icon of secretIcons) {
+                            // Insert
+                            $scope.legendSections
+                                .find(
+                                    (section) =>
+                                        section.title === 'Classes of Supply'
+                                )
+                                .items.push(icon);
+                        }
+                    },
+                });
+
                 $scope.polaris = polaris;
                 $scope.isOpen = false;
                 $scope.legendPosition = 'bottom-right';
