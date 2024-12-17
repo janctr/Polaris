@@ -940,7 +940,7 @@ require(['js/qlik'], function (qlik) {
 
                     enemy_vessel: 'v_map_enemy_vessels',
                     CUOPS_VESSEL: 'v_map_aws',
-                    '': 'v_map_epf',
+                    cuops_vessel: 'v_map_epf',
 
                     seaport: 'v_map_seaports',
                     Airport: 'v_map_airports',
