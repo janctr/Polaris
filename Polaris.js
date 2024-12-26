@@ -909,7 +909,41 @@ require(['js/qlik'], function (qlik) {
                 'asset_id', // Aircraft, Land Vehicles, Vessels
             ];
 
-            $scope.toggleVariableBySearchField = function (searchField) {
+            $scope.toggleVariableBySearchField = function (searchField, value) {
+                // Asset ID is a shared key among different layers
+                // Differentiate by asset_category
+                // if (searchField === 'asset_id') {
+                //     const layer = '';
+                //     let layerVariable = '';
+                //     const genericObjectKey = `asset_id:${value}`;
+
+                //     const genericObject = {};
+                //     genericObject[genericObjectKey] = {
+                //         qStringExpression: `={$<asset_id={'${value}'}>}asset_category`,
+                //     };
+                //     polaris.app.createGenericObject(
+                //         genericObject,
+                //         function (reply) {
+                //             console.log('toggleVariableBySearchField: ', reply);
+                //         }
+                //     );
+
+                //     switch (layer) {
+                //         case '':
+                //             layerVariable = 'v_map_deploy_dist_aircraft_health';
+                //             break;
+                //         case '':
+                //             layerVariable = 'v_map_land_vehicles';
+                //             break;
+                //         case '':
+                //             layerVariable = 'v_map_deploy_dist_vessel_health';
+                //             break;
+                //     }
+
+                //     $scope.toggleVariable(layerVariable);
+                //     return;
+                // }
+
                 const searchFieldToVariableMap = {
                     '': 'v_map_classes_of_supply',
                     '': 'v_map_class_i',
@@ -1202,7 +1236,7 @@ require(['js/qlik'], function (qlik) {
 
             // Glossary
             polaris.createHypercube({
-                dimensions: ['Term', 'Definition'],
+                dimensions: ['Term_Acronym_Summary', 'Definition_Summary'],
                 callback: function (reply) {
                     const changes = reply.qHyperCube.qDataPages[0].qMatrix.map(
                         (row) => {

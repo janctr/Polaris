@@ -730,7 +730,7 @@
             iconColor: '<',
         },
         template: `
-            <div class="shape-icon" ng-switch="$ctrl.iconType">
+            <div class="shape-icon" ng-switch="$ctrl.iconType" ng-style="$ctrl.iconType === 'timp-hexagon' && { 'width': '40px' }">
                 <div ng-switch-when="bubble" xmlns="http://www.w3.org/2000/svg">
                     <svg viewBox="0 0 100 100">
                         <circle cx="50" cy="50" r="30" fill="{{ $ctrl.iconColor }}" stroke="#7b7a78" stroke-width="3px"/>
@@ -744,6 +744,23 @@
                 <div ng-switch-when="hexagon">
                     <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
                         <polygon points="0,50 25,93.3 75,93.3 100,50 75,6.7 25,6.7" fill="{{ $ctrl.iconColor }}" stroke="#7b7a78" stroke-width="3px"/>
+                    </svg>
+                </div>
+                <div ng-switch-when="timp-hexagon">
+                    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Define the gradient -->
+                        <defs>
+                            <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="0%">
+                                <stop offset="0%" style="stop-color:#b01f3e;stop-opacity:1" />
+                                <stop offset="25%" style="stop-color:#f19767;stop-opacity:1" />
+                                <stop offset="50%" style="stop-color:#e7f4fc;stop-opacity:1" />
+                                <stop offset="75%" style="stop-color:#8bc4eb;stop-opacity:1" />
+                                <stop offset="100%" style="stop-color:#3d53a1;stop-opacity:1" />
+                            </linearGradient>
+                        </defs>
+
+                        <!-- Hexagon -->
+                        <polygon class="gradient" points="50,10 80,25 80,55 50,70 20,55 20,25" fill="url(#grad1)" />
                     </svg>
                 </div>
             </div>

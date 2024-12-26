@@ -282,13 +282,13 @@ const POLARIS_CONSTANTS = {
                 ],
             },
             {
-                title: 'TIMP',
+                title: 'TIMP - Projects',
                 items: [
                     {
-                        label: 'Projects',
+                        label: 'Priority Level',
                         showConditionVariable: 'v_map_TIMP',
                         icon: {
-                            iconType: 'hexagon',
+                            iconType: 'timp-hexagon',
                             color: '#4477aa',
                         },
                     },
