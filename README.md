@@ -6,7 +6,6 @@
 
 -   `Polaris.qext`
 -   `Polaris.html`
--   `app-module.js`
 -   `Polaris.js`
 -   `components.js`
 -   `data.js`
@@ -17,6 +16,7 @@
 -   `log-functions.ng.html`
 -   `classes-of-supply.ng.html`
 -   `data-sources.ng.html`
+-   `app-summary.ng.html`
 -   `advana.png`
 -   `advana_favicon.ico`
 
@@ -63,7 +63,7 @@ This mashup uses AngularJS. Here are the [docs](https://help.qlik.com/en-US/sens
 
 ##### Pages
 
--   `home.ng.html`, `log-functions.ng.html`, `classes-of-supply.ng.html` are the pages defined in the main JS file. They all have corresponding controllers that are defined in `Polaris.js`.
+-   `home.ng.html`, `log-functions.ng.html`, `classes-of-supply.ng.html`, `app-summary.ng.html` are the pages defined in the main JS file. They all have corresponding controllers that are defined in `Polaris.js`.
 
 #### Editing
 
