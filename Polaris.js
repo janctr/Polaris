@@ -629,7 +629,7 @@ require(['js/qlik'], function (qlik) {
                     label: 'Class III',
                     fieldName: 'plant_desc',
                     varName: 'isClass3Selected',
-                    objectId: 'RnwWt',
+                    objectIds: ['RnwWt', 'GFwjzC'],
                     isOpen: false,
                     onClose: function () {
                         polaris.clear();
