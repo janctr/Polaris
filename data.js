@@ -1008,6 +1008,29 @@ const POLARIS_CONSTANTS = {
         ],
     },
     /* Tells Qlik which columns to search for when using Qlik search. */
+    NIPR_MAP_SEARCH_FIELDS: ['org', 'soccerTeam', 'nbaTeam', 'mlsTeam'],
+    SIPR_MAP_SEARCH_FIELDS: [
+        'Clusters_ClusterID', // TIMP
+        'dodaac_nomen_cli', // Class I
+        'plant_desc', // Class III
+        //   'poi_name', // Class III
+        'dodaac_cliv', // Class IV
+        'base_name_muns', // Class V
+        'dodaac_blood', // Class VIII - Blood
+        'dodaac_equip', // Class VIII - Medical Equipment
+        'PRIMARY_DEPLOYED_DUTY_STATION_CITY', // OCS
+        'engineers.uic', // Combat/Civil Engineers
+        'Airport', // APODS
+        'seaport', // SPODS
+        'CUOPS_VESSEL', // AWS Vessels
+        'cuops_vessel', // EPF Vessels
+        //'tasked_flights.Airport', // Taskable Aircraft
+        'enemy_vessel', // Enemy Vessels
+        // 'asset_id', // Aircraft, Land Vehicles, Vessels
+        'sea_vessel_assets_id', // Vessels
+        'aircraft_assets_tail_number', // Aircraft
+        'land_asset_id', // Land Vehicles
+    ],
     COLUMN_ALIAS: {
         // NIPR
         org: 'Organization',
@@ -1020,15 +1043,61 @@ const POLARIS_CONSTANTS = {
         plant_desc: 'Class III', // Class III
         dodaac_cliv: 'Class IV', // Class IV
         base_name_muns: 'Class V', // Class V
-        PRIMARY_DEPLOYED_DUTY_STATION_CITY: 'OCS', // OCS
-        'engineers.uic': 'Engineers', // Combat/Civil Engineers
-        Airport: 'APOD', // APODS
-        seaport: 'SPOD', // SPODS
-        CUOPS_VESSEL: 'AWS Vessel', // AWS Vessels
-        cuops_vessel: 'EPF Vessel',
-        'tasked_flights.Airport': 'no_vis', // Taskable Aircraft
+
+        sea_vessel_assets_id: 'Vessel',
         enemy_vessel: 'Enemy Vessel', // Enemy Vessels
-        asset_id: 'Aircraft, Vessel, Land Vehicle ID', // Aircraft, Land Vehicles, Vessels
+        aircraft_assets_tail_number: 'Aircraft',
+        CUOPS_VESSEL: 'AWS Vessel', // AWS Vessels
+        cuops_vessel: 'EPF Vessel', // EPF Vessels
+        land_asset_id: 'Land Vehicle',
+
+        seaport: 'SPOD', // SPODS
+        Airport: 'APOD', // APODS
+
+        'engineers.uic': 'Engineers', // Combat/Civil Engineers
+
+        PRIMARY_DEPLOYED_DUTY_STATION_CITY: 'OCS', // OCS
+    },
+    COLUMN_MAP_VARIABLE_MAP: {
+        // TIMP
+        Clusters_ClusterID: 'v_map_TIMP',
+
+        // Class I
+        dodaac_nomen_cli: ['v_map_classes_of_supply', 'v_map_class_i'],
+        // Class III
+        plant_desc: ['v_map_classes_of_supply', 'v_map_class_iii'],
+        // Class IV
+        dodaac_cliv: ['v_map_classes_of_supply', 'v_map_class_iv'],
+        // Class V
+        base_name_muns: ['v_map_classes_of_supply', 'v_map_class_v'],
+
+        // Class VIII
+        dodaac_blood: [
+            'v_map_classes_of_supply',
+            'v_map_class_viii',
+            'v_class_viii_blood',
+        ],
+        dodaac_equip: [
+            'v_map_classes_of_supply',
+            'v_map_class_viii',
+            'v_class_viii_equip',
+        ],
+
+        sea_vessel_assets_id: 'v_map_deploy_dist_vessel_health', // Vessels
+        enemy_vessel: 'v_map_enemy_vessels', // Enemy Vessels
+        aircraft_assets_tail_number: 'v_map_deploy_dist_aircraft_health', // Aircraft
+        CUOPS_VESSEL: 'v_map_aws', // AWS
+        cuops_vessel: 'v_map_epf', // EPF
+        land_asset_id: 'v_map_land_vehicles', // Land Vehicles
+
+        seaport: 'v_map_seaports', // SPODS
+        Airport: 'v_map_airports', // APODS
+
+        // Combat/Civil Engineers
+        'engineers.uic': ['v_map_combat_engineers', 'v_map_civil_engineers'],
+
+        // OCS
+        PRIMARY_DEPLOYED_DUTY_STATION_CITY: 'v_map_ocs_cities',
     },
 };
 (function () {

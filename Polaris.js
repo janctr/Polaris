@@ -435,8 +435,19 @@ require(['js/qlik'], function (qlik) {
         '$scope',
         'polaris',
         'homePage',
+        'NIPR_MAP_SEARCH_FIELDS',
+        'SIPR_MAP_SEARCH_FIELDS',
         'COLUMN_ALIAS',
-        function ($scope, polaris, homePage, COLUMN_ALIAS) {
+        'COLUMN_MAP_VARIABLE_MAP',
+        function (
+            $scope,
+            polaris,
+            homePage,
+            NIPR_MAP_SEARCH_FIELDS,
+            SIPR_MAP_SEARCH_FIELDS,
+            COLUMN_ALIAS,
+            COLUMN_MAP_VARIABLE_MAP
+        ) {
             const {
                 siprObjects,
                 notionalAppObjects,
@@ -831,9 +842,9 @@ require(['js/qlik'], function (qlik) {
                     // Add these search fields to the search bar
                     for (const { fieldName } of secretMapBoxes) {
                         if (polaris.isSipr) {
-                            $scope.siprSearchFields.push(fieldName);
+                            SIPR_MAP_SEARCH_FIELDS.push(fieldName);
                         } else {
-                            $scope.niprSearchFields.push(fieldName);
+                            NIPR_MAP_SEARCH_FIELDS.push(fieldName);
                         }
                     }
 
@@ -866,15 +877,22 @@ require(['js/qlik'], function (qlik) {
                 },
             });
 
-            // Secret column aliases
+            // Secret column aliases and map variable
             polaris.createHypercube({
-                dimensions: ['secretColumn', 'secretColumnAlias'],
+                dimensions: [
+                    'secretColumn',
+                    'secretColumnAlias',
+                    'secretColumnMapVariable',
+                ],
                 callback: function (reply) {
                     reply.qHyperCube.qDataPages[0].qMatrix.forEach((row) => {
                         const secretColumn = row[0].qText;
                         const secretColumnAlias = row[1].qText;
+                        const secretColumnMapVariable = row[2].qText.split(' ');
 
                         COLUMN_ALIAS[secretColumn] = secretColumnAlias;
+                        COLUMN_MAP_VARIABLE_MAP[secretColumn] =
+                            secretColumnMapVariable;
                     });
                 },
             });
@@ -883,124 +901,9 @@ require(['js/qlik'], function (qlik) {
             $scope.searchStr = '';
             $scope.searchState = SearchState.NOT_LOADING;
             $scope.searchResults = [];
-            $scope.niprSearchFields = [
-                'org',
-                'soccerTeam',
-                'nbaTeam',
-                'mlsTeam',
-            ];
-            $scope.siprSearchFields = [
-                'Clusters_ClusterID', // TIMP
-                'dodaac_nomen_cli', // Class I
-                'plant_desc', // Class III
-                //   'poi_name', // Class III
-                'dodaac_cliv', // Class IV
-                'base_name_muns', // Class V
-                'dodaac_blood', // Class VIII - Blood
-                'dodaac_equip', // Class VIII - Medical Equipment
-                'PRIMARY_DEPLOYED_DUTY_STATION_CITY', // OCS
-                'engineers.uic', // Combat/Civil Engineers
-                'Airport', // APODS
-                'seaport', // SPODS
-                'CUOPS_VESSEL', // AWS Vessels
-                'cuops_vessel', // EPF Vessels
-                //'tasked_flights.Airport', // Taskable Aircraft
-                'enemy_vessel', // Enemy Vessels
-                'asset_id', // Aircraft, Land Vehicles, Vessels
-            ];
 
-            $scope.toggleVariableBySearchField = function (searchField, value) {
-                // Asset ID is a shared key among different layers
-                // Differentiate by asset_category
-                // if (searchField === 'asset_id') {
-                //     const layer = '';
-                //     let layerVariable = '';
-                //     const genericObjectKey = `asset_id:${value}`;
-
-                //     const genericObject = {};
-                //     genericObject[genericObjectKey] = {
-                //         qStringExpression: `={$<asset_id={'${value}'}>}asset_category`,
-                //     };
-                //     polaris.app.createGenericObject(
-                //         genericObject,
-                //         function (reply) {
-                //             console.log('toggleVariableBySearchField: ', reply);
-                //         }
-                //     );
-
-                //     switch (layer) {
-                //         case '':
-                //             layerVariable = 'v_map_deploy_dist_aircraft_health';
-                //             break;
-                //         case '':
-                //             layerVariable = 'v_map_land_vehicles';
-                //             break;
-                //         case '':
-                //             layerVariable = 'v_map_deploy_dist_vessel_health';
-                //             break;
-                //     }
-
-                //     $scope.toggleVariable(layerVariable);
-                //     return;
-                // }
-
-                const searchFieldToVariableMap = {
-                    '': 'v_map_classes_of_supply',
-                    '': 'v_map_class_i',
-                    // 'v_map_class_iii', TODO Figure out class 3
-                    '': 'v_map_class_iv',
-                    '': 'v_map_class_v',
-                    '': 'v_map_class_viii',
-                    '': 'v_class_viii_blood',
-                    '': 'v_class_viii_equip',
-
-                    // Classes of Supply
-                    dodaac_nomen_cli: [
-                        'v_map_classes_of_supply',
-                        'v_map_class_i',
-                    ],
-                    plant_desc: ['v_map_classes_of_supply', 'v_map_class_iii'],
-                    dodaac_cliv: ['v_map_classes_of_supply', 'v_map_class_iv'],
-                    base_name_muns: [
-                        'v_map_classes_of_supply',
-                        'v_map_class_v',
-                    ],
-
-                    dodaac_blood: [
-                        'v_map_classes_of_supply',
-                        'v_map_class_viii',
-                        'v_class_viii_blood',
-                    ],
-                    dodaac_equip: [
-                        'v_map_classes_of_supply',
-                        'v_map_class_viii',
-                        'v_class_viii_equip',
-                    ],
-
-                    // TODO: Do classified fields
-
-                    asset_id: [
-                        'v_map_deploy_dist_aircraft_health',
-                        'v_map_land_vehicles',
-                        'v_map_deploy_dist_vessel_health',
-                    ],
-
-                    enemy_vessel: 'v_map_enemy_vessels',
-                    CUOPS_VESSEL: 'v_map_aws',
-                    cuops_vessel: 'v_map_epf',
-
-                    seaport: 'v_map_seaports',
-                    Airport: 'v_map_airports',
-
-                    'engineers.uic': [
-                        'v_map_combat_engineers',
-                        'v_map_civil_engineers',
-                    ],
-
-                    PRIMARY_DEPLOYED_DUTY_STATION_CITY: 'v_map_ocs_cities',
-                };
-
-                const mapVariable = searchFieldToVariableMap[searchField];
+            $scope.toggleVariableBySearchField = function (searchField) {
+                const mapVariable = COLUMN_MAP_VARIABLE_MAP[searchField];
 
                 if (
                     typeof mapVariable === 'string' &&
@@ -1018,7 +921,7 @@ require(['js/qlik'], function (qlik) {
                     }
                 }
 
-                if (mapVariable && !scope.getVariable[mapVariable]) {
+                if (mapVariable && !$scope.getVariable[mapVariable]) {
                     $scope.toggleVariable(mapVariable);
                 }
             };
@@ -1035,16 +938,16 @@ require(['js/qlik'], function (qlik) {
                 console.log('searchState: ', $scope.searchState);
 
                 const searchFields = polaris.isSipr
-                    ? $scope.siprSearchFields
-                    : $scope.niprSearchFields;
+                    ? SIPR_MAP_SEARCH_FIELDS
+                    : NIPR_MAP_SEARCH_FIELDS;
 
                 console.log('Search within these fields: ', searchFields);
 
                 polaris
                     .search(searchStr, {
                         qSearchFields: polaris.isSipr
-                            ? $scope.siprSearchFields
-                            : $scope.niprSearchFields,
+                            ? SIPR_MAP_SEARCH_FIELDS
+                            : NIPR_MAP_SEARCH_FIELDS,
                         qContext: 'Cleared',
                     })
                     .then((results) => {
