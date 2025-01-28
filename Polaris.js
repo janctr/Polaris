@@ -492,6 +492,10 @@ require(['js/qlik'], function (qlik) {
                 'v_map_civil_engineers',
                 // Contractors
                 'v_map_ocs_cities',
+                // ABO
+                'v_map_abo',
+                'v_map_abo_steady',
+                'v_map_abo_taiwan',
             ];
 
             angular.element(document).ready(function () {
@@ -521,6 +525,7 @@ require(['js/qlik'], function (qlik) {
             $scope.getArrowDirection = (isOpen) => (isOpen ? 'up' : 'down');
 
             $scope.isPacomTogglesOpen = true;
+            $scope.isJlocTogglesOpen = false;
             $scope.isPddocTogglesOpen = false;
             $scope.isNodalHealthTogglesOpen = false;
             $scope.isEngineerTogglesOpen = false;
@@ -529,6 +534,8 @@ require(['js/qlik'], function (qlik) {
             $scope.pacomToggles = HOME_PAGE_TOGGLES.pacomToggles;
             $scope.classesOfSupplyToggles =
                 HOME_PAGE_TOGGLES.classesOfSupplyToggles;
+            $scope.jlocToggles = HOME_PAGE_TOGGLES.jlocToggles;
+            $scope.aboToggles = HOME_PAGE_TOGGLES.aboToggles;
             $scope.pddocToggles = HOME_PAGE_TOGGLES.pddocToggles;
             $scope.nodalHealthToggles = HOME_PAGE_TOGGLES.nodalHealthToggles;
             $scope.engineerUnitsToggles =

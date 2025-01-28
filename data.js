@@ -62,6 +62,26 @@ const POLARIS_CONSTANTS = {
                     hasChildren: true,
                 },
             ],
+            jlocToggles: [
+                {
+                    title: 'ABO',
+                    label: 'abo',
+                    varName: 'v_map_abo',
+                    hasChildren: true,
+                },
+            ],
+            aboToggles: [
+                {
+                    title: 'Steady State',
+                    label: 'steady-state',
+                    varName: 'v_map_abo_steady',
+                },
+                {
+                    title: 'Taiwan',
+                    label: 'taiwan',
+                    varName: 'v_map_abo_taiwan',
+                },
+            ],
             classesOfSupplyToggles: [
                 {
                     title: 'Class I',

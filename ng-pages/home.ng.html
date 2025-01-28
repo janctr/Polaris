@@ -65,6 +65,65 @@
                 </li>
             </ul>
         </div>
+
+        <div class="toggle-section">
+            <div class="toggle-section-header"
+                 ng-click="isJlocTogglesOpen = !isJlocTogglesOpen">
+                <h2>JLOC</h2>
+                <div class="toggle">
+                    <arrow-icon direction="getArrowDirection(isJlocTogglesOpen)"></arrow-icon>
+                </div>
+            </div>
+            <ul class="checkbox-group"
+                ng-if="isJlocTogglesOpen">
+                <!-- JLOC toggles -->
+                <li class="polaris-checkbox"
+                    ng-repeat="toggle in jlocToggles">
+                    <polaris-toggle is-checked="getVariable(toggle.varName)"
+                                    toggle="toggleVariable(toggle.varName)"
+                                    label="{{toggle.title}}"
+                                    id="{{toggle.label}}"
+                                    qlik-dropdown-id="{{toggle.qlikDropdownId}}">
+                    </polaris-toggle>
+                </li>
+                <!-- ABO subtoggles -->
+                <li ng-if="v_map_abo"
+                    style="list-style: none; padding-left: 1rem;">
+                    <ul>
+                        <li ng-repeat="toggle in aboToggles"
+                            class="polaris-checkbox {{toggle.label}}"
+                            ng-class="{'has-subtoggles': toggle.subToggles.length > 0}"
+                            style="list-style: none; padding-left: 1rem;">
+
+                            <polaris-toggle is-checked="getVariable(toggle.varName)"
+                                            toggle="toggleVariable(toggle.varName)"
+                                            label="{{toggle.title}}"
+                                            id="{{toggle.label}}"
+                                            qlik-dropdown-id="{{toggle.qlikDropdownId}}"
+                                            has-children="toggle.subToggles.length > 0">
+                            </polaris-toggle>
+
+                            <ul ng-if="toggle.subToggles && getVariable(toggle.varName)"
+                                class="subtoggles">
+                                <li class="polaris-checkbox"
+                                    style="list-style: none; padding-left: 1rem; padding-right: 0"
+                                    ng-repeat="subToggle in toggle.subToggles">
+
+                                    <polaris-toggle is-checked="getVariable(subToggle.varName)"
+                                                    toggle="toggleVariable(subToggle.varName)"
+                                                    label="{{subToggle.title}}"
+                                                    id="{{subToggle.label}}"
+                                                    qlik-dropdown-id="{{subToggle.qlikDropdownId}}">
+                                    </polaris-toggle>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+
+            </ul>
+        </div>
+
         <div class="toggle-section">
             <div class="toggle-section-header"
                  ng-click="isPddocTogglesOpen = !isPddocTogglesOpen">
