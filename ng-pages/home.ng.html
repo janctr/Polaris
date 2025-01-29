@@ -96,27 +96,13 @@
                             style="list-style: none; padding-left: 1rem;">
 
                             <polaris-toggle is-checked="getVariable(toggle.varName)"
-                                            toggle="toggleVariable(toggle.varName)"
+                                            toggle="toggleAboSubtoggle(toggle.varName)"
                                             label="{{toggle.title}}"
                                             id="{{toggle.label}}"
                                             qlik-dropdown-id="{{toggle.qlikDropdownId}}"
                                             has-children="toggle.subToggles.length > 0">
                             </polaris-toggle>
 
-                            <ul ng-if="toggle.subToggles && getVariable(toggle.varName)"
-                                class="subtoggles">
-                                <li class="polaris-checkbox"
-                                    style="list-style: none; padding-left: 1rem; padding-right: 0"
-                                    ng-repeat="subToggle in toggle.subToggles">
-
-                                    <polaris-toggle is-checked="getVariable(subToggle.varName)"
-                                                    toggle="toggleVariable(subToggle.varName)"
-                                                    label="{{subToggle.title}}"
-                                                    id="{{subToggle.label}}"
-                                                    qlik-dropdown-id="{{subToggle.qlikDropdownId}}">
-                                    </polaris-toggle>
-                                </li>
-                            </ul>
                         </li>
                     </ul>
                 </li>

@@ -588,6 +588,21 @@ require(['js/qlik'], function (qlik) {
                 },
             });
 
+            // Abo Subtoggles
+            $scope.toggleAboSubtoggle = function (varNameToToggle) {
+                // Untoggle other toggles if they're on
+                HOME_PAGE_TOGGLES.aboToggles
+                    .map((toggle) => toggle.varName)
+                    .filter((varName) => varName !== varNameToToggle)
+                    .forEach((varName) => {
+                        if ($scope.getVariable(varName)) {
+                            $scope.toggleVariable(varName);
+                        }
+                    });
+                // Toggle the correct toggle
+                $scope.toggleVariable(varNameToToggle);
+            };
+
             // Dynamic map drilldown boxes
             $scope.drilldownBoxes = [
                 // NIPR
