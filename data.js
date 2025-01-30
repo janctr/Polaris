@@ -315,6 +315,39 @@ const POLARIS_CONSTANTS = {
                 ],
             },
             {
+                title: 'JLOC',
+                showConditionVariable: 'v_map_abo',
+                items: [
+                    {
+                        hasChildren: true,
+                        label: 'ABO',
+                        showConditionVariable: 'v_map_abo',
+                        items: [
+                            {
+                                label: '',
+                                showConditionVariable: 'v_map_abo',
+                                icon: {
+                                    iconType: 'url',
+                                    imageUrl:
+                                        '/content/Global%20Library/abo_legend_mini.PNG',
+                                    isDimensionsUnrestricted: true,
+                                },
+                            },
+                            {
+                                label: '',
+                                showConditionVariable: 'v_map_abo',
+                                icon: {
+                                    iconType: 'url',
+                                    imageUrl:
+                                        '/content/Global%20Library/abo-legend-status.PNG',
+                                    isDimensionsUnrestricted: true,
+                                },
+                            },
+                        ],
+                    },
+                ],
+            },
+            {
                 title: 'PDDOC',
                 items: [
                     {

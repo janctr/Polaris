@@ -669,7 +669,7 @@
             icon: '<',
         },
         template: `
-            <div class="legend-icon" ng-switch="$ctrl.icon.iconType">
+            <div class="legend-icon" ng-switch="$ctrl.icon.iconType" ng-style="imageDimensionStyle">
                 <img ng-switch-when="qlikVariable" ng-src="{{ getVariable($ctrl.icon.imageUrlVariable) }}"/>
                 <img ng-switch-when="url" ng-src="{{ $ctrl.icon.imageUrl }}"/>
                 <shape-icon ng-switch-default icon-type="$ctrl.icon.iconType" icon-color="$ctrl.icon.color"></shape-icon>
@@ -682,7 +682,13 @@
                 $scope.getVariable = (v) => $scope[v];
 
                 angular.element(document).ready(function () {
-                    // console.log('$scope.$ctrl.icon:', $scope.$ctrl.icon);
+                    if ($scope.$ctrl.icon.isDimensionsUnrestricted) {
+                        $scope.imageDimensionStyle = {
+                            width: 'auto',
+                            height: 'auto',
+                        };
+                    }
+
                     polaris.getVariable(
                         $scope.$ctrl.icon.imageUrlVariable,
                         $scope
